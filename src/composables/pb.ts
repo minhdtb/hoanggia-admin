@@ -1,8 +1,16 @@
-import PocketBase from 'pocketbase'
+import PocketBase, {AsyncAuthStore} from 'pocketbase'
 
 const appConfig = useAppConfig()
-const pb = new PocketBase(appConfig.backend.url)
 
-export const usePb = () => {
+const store = new AsyncAuthStore({
+    save: async (serialized) => {
+        localStorage.setItem('pb', JSON.stringify(serialized))
+    },
+    initial: localStorage.getItem('pb') ?? '',
+});
+
+const pb = new PocketBase(appConfig.backend.url, store)
+
+export const usePb = (): PocketBase => {
     return pb
 }
