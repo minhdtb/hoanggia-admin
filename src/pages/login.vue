@@ -43,7 +43,7 @@ definePageMeta({
 });
 
 const authStore = useAuthStore();
-const {isError, errorMessage, authUser, loading} = storeToRefs(authStore);
+const {isError, errorMessage, loading} = storeToRefs(authStore);
 const showSnackbar = ref(false);
 
 const {handleSubmit, defineComponentBinds, isValidating, isSubmitting} = useForm({

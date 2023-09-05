@@ -11,6 +11,7 @@ export const useAuthStore = defineStore('authStore', () => {
             errorMessage.value = undefined;
             try {
                 await pb.admins.authWithPassword(email, password)
+                navigateTo('/')
             } catch (e) {
                 if (typeof e === 'string') {
                     errorMessage.value = e;
