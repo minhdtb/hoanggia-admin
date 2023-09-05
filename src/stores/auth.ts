@@ -21,6 +21,10 @@ export const useAuthStore = defineStore('authStore', () => {
             } finally {
                 loading.value = false;
             }
+        },
+        logout() {
+            pb.authStore.clear();
+            navigateTo('/login');
         }
     }
 

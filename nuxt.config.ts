@@ -5,7 +5,8 @@ export default defineNuxtConfig({
     ssr: false,
     srcDir: 'src',
     css: [
-        'vuetify/lib/styles/main.sass'
+        'vuetify/lib/styles/main.sass',
+        '@mdi/font/css/materialdesignicons.min.css',
     ],
     typescript: {
         strict: true,
