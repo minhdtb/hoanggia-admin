@@ -1,7 +1,7 @@
 <template>
   <h1>INDEX</h1>
 </template>
-<script lang="ts">
+<script setup lang="ts">
 definePageMeta({
   middleware: ['auth'],
 });
