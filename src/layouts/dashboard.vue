@@ -3,7 +3,7 @@
     <v-navigation-drawer permanent :rail="toggleNav" @click="toggleNav = false">
       <v-list nav>
         <v-list-item
-            prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
+            prepend-avatar="https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=admin"
             :title="(authUser as any)?.email"
             nav
         >
