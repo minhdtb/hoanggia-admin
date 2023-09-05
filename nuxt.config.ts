@@ -4,14 +4,14 @@ import {ModuleOptions, Nuxt} from '@nuxt/schema';
 export default defineNuxtConfig({
     ssr: false,
     srcDir: 'src',
-    css: [
-        'vuetify/lib/styles/main.sass',
-        '@mdi/font/css/materialdesignicons.min.css',
-    ],
     typescript: {
         strict: true,
         typeCheck: true,
     },
+    css: [
+        'vuetify/lib/styles/main.sass',
+        '@mdi/font/css/materialdesignicons.min.css',
+    ],
     pinia: {
         autoImports: ['defineStore', 'storeToRefs'],
     },
