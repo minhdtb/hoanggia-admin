@@ -1,6 +1,6 @@
 <template>
   <v-layout>
-    <v-navigation-drawer permanent :rail="toggleNav" @click="toggleNav = false">
+    <v-navigation-drawer permanent :rail="toggleNav" @click="toggleNav = false" color="green">
       <v-list nav>
         <v-list-item
             prepend-avatar="https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=admin"
@@ -59,7 +59,6 @@
 </template>
 
 <script setup lang="ts">
-import {MenuLink} from '~/utils/types';
 
 
 const authStore = useAuthStore();
@@ -72,25 +71,4 @@ const toggleNav = ref(false);
 const onLogout = () => {
   authStore.logout();
 };
-
-const dashboard: MenuLink[] = [
-  {
-    title: 'Người dùng',
-    children: [
-      {
-        title: 'Danh sách người dùng',
-      }
-    ]
-  }
-];
 </script>
-
-<style lang="scss" scoped>
-.menu::-webkit-scrollbar {
-  display: none;
-}
-
-.v-main_background {
-  background-color: #dfe6f3;
-}
-</style>
