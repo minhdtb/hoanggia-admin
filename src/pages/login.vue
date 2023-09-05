@@ -1,6 +1,6 @@
 <template>
   <v-layout>
-    <v-container class="text-body-2">
+    <v-container>
       <v-col cols="4">
         <v-card>
           <v-card-title>Đăng nhập vào admin</v-card-title>
