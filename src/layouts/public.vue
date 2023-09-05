@@ -1,7 +1,7 @@
 <template>
   <v-layout class="h-screen">
     <v-main>
-      <slot/>
+      <slot />
     </v-main>
   </v-layout>
 </template>

@@ -1,10 +1,9 @@
-<template>
-</template>
+<template></template>
 <script setup lang="ts">
 definePageMeta({
   layout: 'dashboard',
   middleware: ['auth'],
 });
 
-navigateTo('/customer/list')
+navigateTo('/customer/list');
 </script>

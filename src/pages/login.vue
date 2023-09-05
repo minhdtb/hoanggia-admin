@@ -11,8 +11,13 @@
               <v-text-field label="Mật khẩu" type="password" v-bind="password"></v-text-field>
             </v-card-item>
             <v-card-actions>
-              <v-btn class="w-100" color="info" variant="elevated" type="submit"
-                     :disabled="isValidating || isSubmitting">Đăng nhập
+              <v-btn
+                class="w-100"
+                color="info"
+                variant="elevated"
+                type="submit"
+                :disabled="isValidating || isSubmitting"
+                >Đăng nhập
               </v-btn>
             </v-card-actions>
           </v-form>
@@ -31,7 +36,7 @@
   </v-container>
 </template>
 <script setup lang="ts">
-import {SubmitEventPromise} from 'vuetify';
+import { SubmitEventPromise } from 'vuetify';
 import * as yup from 'yup';
 
 useHead({
@@ -43,15 +48,15 @@ definePageMeta({
 });
 
 const authStore = useAuthStore();
-const {isError, errorMessage, loading} = storeToRefs(authStore);
+const { isError, errorMessage, loading } = storeToRefs(authStore);
 const showSnackbar = ref(false);
 
-const {handleSubmit, defineComponentBinds, isValidating, isSubmitting} = useForm({
+const { handleSubmit, defineComponentBinds, isValidating, isSubmitting } = useForm({
   validationSchema: toTypedSchema(
-      yup.object().shape({
-        email: yup.string().required('Hãy nhập email'),
-        password: yup.string().required('Hãy nhập mật khẩu'),
-      }),
+    yup.object().shape({
+      email: yup.string().required('Hãy nhập email'),
+      password: yup.string().required('Hãy nhập mật khẩu'),
+    }),
   ),
 });
 
@@ -72,9 +77,9 @@ const onSubmit = (e: SubmitEventPromise) => {
 };
 
 watch(
-    () => authStore.isError,
-    () => {
-      showSnackbar.value = isError.value;
-    },
+  () => authStore.isError,
+  () => {
+    showSnackbar.value = isError.value;
+  },
 );
 </script>
