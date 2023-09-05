@@ -4,7 +4,7 @@
       <v-list nav>
         <v-list-item
             prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
-            title="John Leider"
+            :title="(authUser as any)?.email"
             nav
         >
           <template v-slot:append>
@@ -16,9 +16,23 @@
           </template>
         </v-list-item>
         <v-divider></v-divider>
-        <v-list-item prepend-icon="mdi-account" title="Khách hàng" value="inbox" :active="true"></v-list-item>
-        <v-list-item prepend-icon="mdi-account-hard-hat-outline" title="Tài xế" value="supervisors"></v-list-item>
-        <v-list-item prepend-icon="mdi-clock-start" title="Clock-in" value="clockin"></v-list-item>
+
+
+        <v-list-item prepend-icon="mdi-account" title="Khách hàng"
+                     to="/customer-list"></v-list-item>
+        <v-list-group>
+          <template v-slot:activator="{ props }">
+            <v-list-item
+                prepend-icon="mdi-account-hard-hat-outline"
+                v-bind="props"
+                title="Tài xế"
+            ></v-list-item>
+          </template>
+          <v-list-item title="Đang chờ duyệt"
+                       to="/driver-waiting"></v-list-item>
+          <v-list-item title="Danh sách" to="/driver-list"></v-list-item>
+        </v-list-group>
+        <v-list-item prepend-icon="mdi-clock-start" title="Cuốc xe" to="/booking-list"></v-list-item>
       </v-list>
       <template v-slot:append>
         <div class="pa-2">
@@ -39,6 +53,8 @@ import {MenuLink} from '~/utils/types';
 
 
 const authStore = useAuthStore();
+
+const {authUser} = storeToRefs(authStore);
 
 const toggleNav = ref(false);
 
