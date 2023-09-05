@@ -17,7 +17,7 @@
         </v-list-item>
         <v-divider></v-divider>
         <v-list-item prepend-icon="mdi-account" title="Khách hàng"
-                     to="/customer-list"></v-list-item>
+                     to="/customer/list"></v-list-item>
         <v-list-group>
           <template v-slot:activator="{ props }">
             <v-list-item
@@ -27,10 +27,10 @@
             ></v-list-item>
           </template>
           <v-list-item title="Đang chờ duyệt"
-                       to="/driver-waiting"></v-list-item>
-          <v-list-item title="Danh sách" to="/driver-list"></v-list-item>
+                       to="/driver/waiting"></v-list-item>
+          <v-list-item title="Danh sách" to="/driver/list"></v-list-item>
         </v-list-group>
-        <v-list-item prepend-icon="mdi-clock-start" title="Cuốc xe" to="/booking-list"></v-list-item>
+        <v-list-item prepend-icon="mdi-clock-start" title="Cuốc xe" to="/booking"></v-list-item>
         <v-list-group>
           <template v-slot:activator="{ props }">
             <v-list-item
@@ -40,8 +40,8 @@
             ></v-list-item>
           </template>
           <v-list-item title="Đang chờ duyệt"
-                       to="/driver-waiting"></v-list-item>
-          <v-list-item title="Danh sách" to="/driver-list"></v-list-item>
+                       to="/transaction/waiting"></v-list-item>
+          <v-list-item title="Danh sách" to="/transaction/list"></v-list-item>
         </v-list-group>
       </v-list>
       <template v-slot:append>
