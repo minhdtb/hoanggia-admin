@@ -7,5 +7,5 @@ export interface MenuLink {
 
 export interface ListOptions {
     limit?: number;
-    offset?: number;
+    page?: number;
 }
