@@ -30,7 +30,39 @@ export const useDriverStore = defineStore('driverStore', () => {
         }
         const res = await pb
           .collection('driver')
-          .getList(listOptions.value?.page, listOptions.value?.limit);
+            .getList(listOptions.value?.page, listOptions.value?.limit, {
+              filter: 'authStatus != "WaitingApproval"',
+              sort: '-created',
+            });
+        driverList.value = res.items.map((it) => {
+          if (it['avatar']) {
+            it['avatar'] = `${appConfig.backend.url}/api/files/driver/${it.id}/${it['avatar']}`;
+          }
+          return it;
+        });
+        total.value = res.totalItems;
+      } catch (err) {
+        if (typeof err === 'string') {
+          errorMessage.value = err;
+        } else if (err instanceof Error) {
+          errorMessage.value = err.message;
+        }
+      } finally {
+        loading.value = false;
+      }
+    },
+    async listWaiting(options?: ListOptions) {
+      try {
+        loading.value = true;
+        if (options) {
+          listOptions.value = options;
+        }
+        const res = await pb
+            .collection('driver')
+            .getList(listOptions.value?.page, listOptions.value?.limit, {
+              filter: 'authStatus = "WaitingApproval"',
+              sort: '-created',
+            });
         driverList.value = res.items.map((it) => {
           if (it['avatar']) {
             it['avatar'] = `${appConfig.backend.url}/api/files/driver/${it.id}/${it['avatar']}`;

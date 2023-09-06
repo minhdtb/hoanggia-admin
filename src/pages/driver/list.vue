@@ -17,10 +17,30 @@
         <v-img :src="item.raw.avatar"></v-img>
       </v-avatar>
     </template>
+    <template #item.authStatus="{ item }">
+      <v-chip :color="authStatusText(item.raw.authStatus)?.color"
+        >{{ authStatusText(item.raw.authStatus)?.text }}
+      </v-chip>
+    </template>
+    <template #item.driveStatus="{ item }">
+      <v-chip :color="driveStatusText(item.raw.driveStatus)?.color"
+        >{{ driveStatusText(item.raw.driveStatus)?.text }}
+      </v-chip>
+    </template>
+    <template #item.activeStatus="{ item }">
+      <v-chip :color="activeStatusText(item.raw.activeStatus)?.color"
+        >{{ activeStatusText(item.raw.activeStatus)?.text }}
+      </v-chip>
+    </template>
   </v-data-table-server>
 </template>
 <script setup lang="ts">
 import { useDriverStore } from '~/stores/driver';
+import { activeStatusText, authStatusText, driveStatusText } from '../../utils/helper';
+
+useHead({
+  title: `Hoang Gia Driver - Lái xe`,
+});
 
 definePageMeta({
   layout: 'dashboard',

@@ -40,7 +40,7 @@ import { SubmitEventPromise } from 'vuetify';
 import * as yup from 'yup';
 
 useHead({
-  title: `Login`,
+  title: `Hoang Gia Driver - Đăng nhập`,
 });
 
 definePageMeta({

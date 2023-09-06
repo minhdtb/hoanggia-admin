@@ -22,6 +22,10 @@
 <script setup lang="ts">
 import { useUserStore } from '~/stores/user';
 
+useHead({
+  title: `Hoang Gia Driver - Khách hàng`,
+});
+
 definePageMeta({
   layout: 'dashboard',
   middleware: ['auth'],

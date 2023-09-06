@@ -26,7 +26,7 @@
             <v-list-item
               prepend-icon="mdi-account-hard-hat-outline"
               v-bind="props"
-              title="Tài xế"
+              title="Lái xe"
             ></v-list-item>
           </template>
           <v-list-item title="Đang chờ duyệt" to="/driver/waiting"></v-list-item>
