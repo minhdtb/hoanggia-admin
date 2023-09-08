@@ -75,6 +75,6 @@ const handleLoadItems = async (options: any) => {
 };
 
 const handleClickRow = (_: Event, { item }: any) => {
-  navigateTo(`driver/${item.raw.id}`);
+  navigateTo(`${item.raw.id}`);
 };
 </script>

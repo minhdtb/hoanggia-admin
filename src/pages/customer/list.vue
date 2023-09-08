@@ -17,6 +17,9 @@
         <v-img :src="item.raw.avatar"></v-img>
       </v-avatar>
     </template>
+    <template #item.created="{ item }">
+      {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
+    </template>
   </v-data-table-server>
 </template>
 <script setup lang="ts">
@@ -41,6 +44,7 @@ const headers = [
   { title: 'Số điện thoại', key: 'phone' },
   { title: 'Email', key: 'user_email' },
   { title: 'Địa chỉ', key: 'address' },
+  { title: 'Ngày tạo', key: 'created' },
 ];
 
 const itemsPerPage = ref(10);

@@ -22,21 +22,14 @@
         >{{ authStatusText(item.raw.authStatus)?.text }}
       </v-chip>
     </template>
-    <template #item.driveStatus="{ item }">
-      <v-chip :color="driveStatusText(item.raw.driveStatus)?.color"
-        >{{ driveStatusText(item.raw.driveStatus)?.text }}
-      </v-chip>
-    </template>
-    <template #item.activeStatus="{ item }">
-      <v-chip :color="activeStatusText(item.raw.activeStatus)?.color"
-        >{{ activeStatusText(item.raw.activeStatus)?.text }}
-      </v-chip>
+    <template #item.created="{ item }">
+      {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
     </template>
   </v-data-table-server>
 </template>
 <script setup lang="ts">
 import { useDriverStore } from '~/stores/driver';
-import { activeStatusText, authStatusText, driveStatusText } from '~/utils/helper';
+import { authStatusText } from '~/utils/helper';
 
 useHead({
   title: `Hoang Gia Driver - Lái xe`,
@@ -57,6 +50,7 @@ const headers = [
   { title: 'Số điện thoại', key: 'phone' },
   { title: 'Email', key: 'driver_email' },
   { title: 'Trạng thái', key: 'authStatus' },
+  { title: 'Ngày tạo', key: 'created' },
 ];
 
 const itemsPerPage = ref(10);
@@ -69,6 +63,6 @@ const handleLoadItems = async (options: any) => {
 };
 
 const handleClickRow = (_: Event, { item }: any) => {
-  navigateTo(`driver/${item.raw.id}`);
+  navigateTo(`${item.raw.id}`);
 };
 </script>
