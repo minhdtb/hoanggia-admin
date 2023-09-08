@@ -57,8 +57,6 @@ const headers = [
   { title: 'Số điện thoại', key: 'phone' },
   { title: 'Email', key: 'driver_email' },
   { title: 'Trạng thái', key: 'authStatus' },
-  { title: 'Sẵn sàng', key: 'driveStatus' },
-  { title: 'Hoạt động', key: 'activeStatus' },
 ];
 
 const itemsPerPage = ref(10);

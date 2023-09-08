@@ -32,6 +32,9 @@
         >{{ activeStatusText(item.raw.activeStatus)?.text }}
       </v-chip>
     </template>
+    <template #item.created="{ item }">
+      {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
+    </template>
   </v-data-table-server>
 </template>
 <script setup lang="ts">
@@ -59,6 +62,7 @@ const headers = [
   { title: 'Trạng thái', key: 'authStatus' },
   { title: 'Sẵn sàng', key: 'driveStatus' },
   { title: 'Hoạt động', key: 'activeStatus' },
+  { title: 'Ngày tạo', key: 'created' },
 ];
 
 const itemsPerPage = ref(10);
