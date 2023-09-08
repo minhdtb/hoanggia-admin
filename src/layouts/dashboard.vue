@@ -32,7 +32,11 @@
           <v-list-item title="Đang chờ duyệt" to="/driver/waiting"></v-list-item>
           <v-list-item title="Danh sách" to="/driver/list"></v-list-item>
         </v-list-group>
-        <v-list-item prepend-icon="mdi-clock-start" title="Cuốc xe" to="/booking"></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-clock-start"
+          title="Cuốc xe"
+          to="/booking/list"
+        ></v-list-item>
         <v-list-group>
           <template v-slot:activator="{ props }">
             <v-list-item
