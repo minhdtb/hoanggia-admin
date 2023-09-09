@@ -5,7 +5,9 @@ export interface User {
   name?: string;
   phone?: string;
   user_email?: string;
+  address?: string;
   avatar?: string;
+  created?: string;
 }
 
 export const useUserStore = defineStore('userStore', () => {
@@ -29,14 +31,32 @@ export const useUserStore = defineStore('userStore', () => {
         }
         const res = await pb
           .collection('user')
-          .getList(listOptions.value?.page, listOptions.value?.limit);
+          .getList<User>(listOptions.value?.page, listOptions.value?.limit);
         userList.value = res.items.map((it) => {
-          if (it['avatar']) {
-            it['avatar'] = `${appConfig.backend.url}/api/files/user/${it.id}/${it['avatar']}`;
+          if (it.avatar) {
+            it.avatar = `${appConfig.backend.url}/api/files/user/${it.id}/${it.avatar}`;
           }
           return it;
         });
         total.value = res.totalItems;
+      } catch (err) {
+        if (typeof err === 'string') {
+          errorMessage.value = err;
+        } else if (err instanceof Error) {
+          errorMessage.value = err.message;
+        }
+      } finally {
+        loading.value = false;
+      }
+    },
+    async getUserById(id: string) {
+      try {
+        loading.value = true;
+        const res = await pb.collection('user').getOne<User>(id);
+        if (res) {
+          res.avatar = `${appConfig.backend.url}/api/files/user/${res.id}/${res.avatar}`;
+        }
+        current.value = res;
       } catch (err) {
         if (typeof err === 'string') {
           errorMessage.value = err;
