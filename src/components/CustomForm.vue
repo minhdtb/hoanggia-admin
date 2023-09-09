@@ -1,0 +1,21 @@
+<template>
+  <v-form v-bind="$attrs">
+    <v-card :loading="loading">
+      <v-card-title primary-title>{{ props.title }}</v-card-title>
+      <v-divider />
+      <v-container>
+        <slot name="content"></slot>
+      </v-container>
+      <v-divider />
+      <v-card-actions>
+        <slot name="actions"></slot>
+      </v-card-actions>
+    </v-card>
+  </v-form>
+</template>
+<script setup lang="ts">
+const props = defineProps<{
+  title?: string;
+  loading?: boolean;
+}>();
+</script>
