@@ -32,6 +32,15 @@ export const useDriverStore = defineStore('driverStore', () => {
   const driverList = ref<Driver[]>([]);
   const total = ref<number>(0);
   const current = ref<Driver | undefined>(undefined);
+  const success = ref(false);
+
+  watch(success, (value) => {
+    if (value) {
+      setTimeout(() => {
+        success.value = false;
+      }, 2000);
+    }
+  });
 
   const actions = {
     async list(options?: ListOptions) {
@@ -96,7 +105,9 @@ export const useDriverStore = defineStore('driverStore', () => {
       try {
         loading.value = true;
         await pb.collection('driver').update(id, driver);
+        success.value = true;
       } catch (err) {
+        success.value = false;
         if (typeof err === 'string') {
           errorMessage.value = err;
         } else if (err instanceof Error) {
@@ -138,6 +149,7 @@ export const useDriverStore = defineStore('driverStore', () => {
     total,
     listOptions,
     current,
+    success,
     errorMessage,
     ...actions,
   };

@@ -36,6 +36,10 @@
       {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
     </template>
   </v-data-table-server>
+  <v-snackbar v-model="success" color="green" multi-line>
+    <v-icon icon="mdi-check-circle-outline"></v-icon>
+    Cập nhật thành công
+  </v-snackbar>
 </template>
 <script setup lang="ts">
 import { useDriverStore } from '~/stores/driver';
@@ -51,7 +55,7 @@ definePageMeta({
 });
 
 const driverStore = useDriverStore();
-const { driverList, loading, total } = storeToRefs(driverStore);
+const { driverList, loading, total, success } = storeToRefs(driverStore);
 
 const headers = [
   { title: '#', key: 'index' },
