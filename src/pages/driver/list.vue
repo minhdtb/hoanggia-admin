@@ -58,7 +58,7 @@ const headers = [
   { title: 'Ảnh', key: 'avatar' },
   { title: 'Họ tên', key: 'name' },
   { title: 'Số điện thoại', key: 'phone' },
-  { title: 'Email', key: 'driver_email' },
+  { title: 'Email', key: 'user_email' },
   { title: 'Trạng thái', key: 'authStatus' },
   { title: 'Sẵn sàng', key: 'driveStatus' },
   { title: 'Hoạt động', key: 'activeStatus' },

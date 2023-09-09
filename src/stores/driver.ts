@@ -80,6 +80,21 @@ export const useDriverStore = defineStore('driverStore', () => {
         loading.value = false;
       }
     },
+    async updateDriver(id: string, driver: Driver) {},
+    async getDriverById(id: string) {
+      try {
+        loading.value = true;
+        current.value = await pb.collection('driver').getOne(id);
+      } catch (err) {
+        if (typeof err === 'string') {
+          errorMessage.value = err;
+        } else if (err instanceof Error) {
+          errorMessage.value = err.message;
+        }
+      } finally {
+        loading.value = false;
+      }
+    },
   };
 
   return {
