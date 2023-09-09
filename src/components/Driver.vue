@@ -67,21 +67,62 @@
         </v-col>
       </v-row>
       <v-dialog v-model="showImages">
-        <v-carousel color="white">
-          <v-carousel-item :lazy-src="current?.nidFront" :src="current?.nidFront"></v-carousel-item>
-          <v-carousel-item :lazy-src="current?.nidBack" :src="current?.nidBack"></v-carousel-item>
-          <v-carousel-item
-            :lazy-src="current?.driverLicenseFront"
-            :src="current?.driverLicenseFront"
-          ></v-carousel-item>
-          <v-carousel-item
-            :lazy-src="current?.driverLicenseBack"
-            :src="current?.driverLicenseBack"
-          ></v-carousel-item>
-          <v-carousel-item
-            :lazy-src="current?.judicialRecord"
-            :src="current?.judicialRecord"
-          ></v-carousel-item>
+        <v-carousel cycle color="white" height="700px">
+          <v-carousel-item>
+            <v-sheet height="100%">
+              <v-img :src="current?.nidFront">
+                <template v-slot:placeholder>
+                  <div class="d-flex align-center justify-center fill-height">
+                    <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
+                  </div>
+                </template>
+              </v-img>
+            </v-sheet>
+          </v-carousel-item>
+          <v-carousel-item>
+            <v-sheet height="100%">
+              <v-img :src="current?.nidBack">
+                <template v-slot:placeholder>
+                  <div class="d-flex align-center justify-center fill-height">
+                    <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
+                  </div>
+                </template>
+              </v-img>
+            </v-sheet>
+          </v-carousel-item>
+          <v-carousel-item>
+            <v-sheet height="100%">
+              <v-img :src="current?.driverLicenseFront">
+                <template v-slot:placeholder>
+                  <div class="d-flex align-center justify-center fill-height">
+                    <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
+                  </div>
+                </template>
+              </v-img>
+            </v-sheet>
+          </v-carousel-item>
+          <v-carousel-item>
+            <v-sheet height="100%">
+              <v-img :src="current?.driverLicenseBack">
+                <template v-slot:placeholder>
+                  <div class="d-flex align-center justify-center fill-height">
+                    <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
+                  </div>
+                </template>
+              </v-img>
+            </v-sheet>
+          </v-carousel-item>
+          <v-carousel-item>
+            <v-sheet height="100%">
+              <v-img :src="current?.judicialRecord">
+                <template v-slot:placeholder>
+                  <div class="d-flex align-center justify-center fill-height">
+                    <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
+                  </div>
+                </template>
+              </v-img>
+            </v-sheet>
+          </v-carousel-item>
         </v-carousel>
       </v-dialog>
     </template>
