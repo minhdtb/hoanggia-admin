@@ -7,17 +7,22 @@ export function authStatusText(status: string): { text: string; color: string } 
       };
     case 'WaitingApproval':
       return {
-        text: 'Chờ duyệt',
+        text: 'Đang chờ duyệt',
         color: 'blue',
       };
     case 'Approved':
       return {
-        text: 'Chấp nhận',
+        text: 'Đã duyệt',
         color: 'green',
       };
     case 'Rejected':
       return {
         text: 'Từ chối',
+        color: 'red',
+      };
+    case 'Blocked':
+      return {
+        text: 'Đã bị khóa',
         color: 'red',
       };
   }
@@ -42,7 +47,7 @@ export function activeStatusText(status: string): { text: string; color: string 
   switch (status) {
     case 'Active':
       return {
-        text: 'Hoạt động',
+        text: 'Đang hoạt động',
         color: 'green',
       };
     case 'Inactive':

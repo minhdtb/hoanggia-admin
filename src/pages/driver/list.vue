@@ -62,7 +62,7 @@ const headers = [
   { title: 'Trạng thái', key: 'authStatus' },
   { title: 'Sẵn sàng', key: 'driveStatus' },
   { title: 'Hoạt động', key: 'activeStatus' },
-  { title: 'Ngày tạo', key: 'created' },
+  { title: 'Ngày đăng ký', key: 'created' },
 ];
 
 const itemsPerPage = ref(10);
