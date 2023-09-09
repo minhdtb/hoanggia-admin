@@ -4,6 +4,10 @@
 <script setup lang="ts">
 const items = [
   {
+    name: 'Đăng ký',
+    value: 'Pending',
+  },
+  {
     name: 'Đang chờ duyệt',
     value: 'WaitingApproval',
   },

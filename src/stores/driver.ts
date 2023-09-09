@@ -105,6 +105,9 @@ export const useDriverStore = defineStore('driverStore', () => {
       try {
         loading.value = true;
         current.value = await pb.collection('driver').getOne(id);
+        if (current.value && current.value.avatar) {
+          current.value.avatar = `${appConfig.backend.url}/api/files/driver/${current.value.id}/${current.value.avatar}`;
+        }
       } catch (err) {
         if (typeof err === 'string') {
           errorMessage.value = err;

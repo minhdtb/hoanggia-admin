@@ -4,27 +4,41 @@
       <v-row>
         <v-col>
           <custom-form-field label="Họ tên">
-            <v-text-field v-bind="name" readonly></v-text-field>
+            <v-text-field v-bind="name" disabled></v-text-field>
           </custom-form-field>
           <custom-form-field label="Số điện thoại">
-            <v-text-field v-bind="phone" readonly></v-text-field>
+            <v-text-field v-bind="phone" disabled></v-text-field>
           </custom-form-field>
           <custom-form-field label="Email">
-            <v-text-field v-bind="email" readonly></v-text-field>
+            <v-text-field v-bind="email" disabled></v-text-field>
+          </custom-form-field>
+          <custom-form-field label="Địa chỉ">
+            <v-text-field v-bind="address" disabled></v-text-field>
           </custom-form-field>
           <custom-form-field label="Trạng thái">
             <driver-status-select v-bind="authStatus"></driver-status-select>
           </custom-form-field>
         </v-col>
         <v-col>
-          <custom-form-field label="Địa chỉ">
-            <v-text-field v-bind="address" readonly></v-text-field>
+          <custom-form-field label="Avatar">
+            <div>
+              <v-avatar size="x-large">
+                <v-img :src="current?.avatar"></v-img>
+              </v-avatar>
+            </div>
           </custom-form-field>
           <custom-form-field label="Ngày đăng ký">
             <div class="pa-1">{{ $moment(current?.created).format('DD/MM/YYYY HH:mm') }}</div>
           </custom-form-field>
           <custom-form-field label="Tọa độ hiện tại">
-            <div class="pa-1">{{ current?.lat }} , {{ current?.lon }}</div>
+            <div>
+              <a
+                target="_blank"
+                :href="`https://www.google.com/search?q=${current?.lat},${current?.lon}`"
+                class="pa-1"
+                >{{ current?.lat }} , {{ current?.lon }}</a
+              >
+            </div>
           </custom-form-field>
           <custom-form-field label="Trạng thái phục vụ">
             <div class="pa-1">
@@ -43,6 +57,7 @@
           <custom-form-field label="Tài khoản">
             <div>{{ new Intl.NumberFormat('vi-VN').format(current?.balance ?? 0) }} VNĐ</div>
           </custom-form-field>
+          <v-spacer></v-spacer>
         </v-col>
       </v-row>
     </template>
