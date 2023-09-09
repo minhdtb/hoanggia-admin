@@ -7,6 +7,11 @@ export interface Driver {
   address?: string;
   user_email?: string;
   avatar?: string;
+  nidFront?: string;
+  nidBack?: string;
+  driverLicenseFront?: string;
+  driverLicenseBack?: string;
+  judicialRecord?: string;
   authStatus?: string;
   driveStatus?: string;
   activeStatus?: string;
@@ -66,13 +71,13 @@ export const useDriverStore = defineStore('driverStore', () => {
         }
         const res = await pb
           .collection('driver')
-          .getList(listOptions.value?.page, listOptions.value?.limit, {
+          .getList<Driver>(listOptions.value?.page, listOptions.value?.limit, {
             filter: 'authStatus = "WaitingApproval"',
             sort: '-created',
           });
         driverList.value = res.items.map((it) => {
-          if (it['avatar']) {
-            it['avatar'] = `${appConfig.backend.url}/api/files/driver/${it.id}/${it['avatar']}`;
+          if (it.avatar) {
+            it.avatar = `${appConfig.backend.url}/api/files/driver/${it.id}/${it.avatar}`;
           }
           return it;
         });
@@ -104,10 +109,16 @@ export const useDriverStore = defineStore('driverStore', () => {
     async getDriverById(id: string) {
       try {
         loading.value = true;
-        current.value = await pb.collection('driver').getOne(id);
-        if (current.value && current.value.avatar) {
-          current.value.avatar = `${appConfig.backend.url}/api/files/driver/${current.value.id}/${current.value.avatar}`;
+        const res = await pb.collection('driver').getOne<Driver>(id);
+        if (res) {
+          res.avatar = `${appConfig.backend.url}/api/files/driver/${res.id}/${res.avatar}`;
+          res.nidFront = `${appConfig.backend.url}/api/files/driver/${res.id}/${res.nidFront}`;
+          res.nidBack = `${appConfig.backend.url}/api/files/driver/${res.id}/${res.nidBack}`;
+          res.driverLicenseFront = `${appConfig.backend.url}/api/files/driver/${res.id}/${res.driverLicenseFront}`;
+          res.driverLicenseBack = `${appConfig.backend.url}/api/files/driver/${res.id}/${res.driverLicenseBack}`;
+          res.judicialRecord = `${appConfig.backend.url}/api/files/driver/${res.id}/${res.judicialRecord}`;
         }
+        current.value = res;
       } catch (err) {
         if (typeof err === 'string') {
           errorMessage.value = err;

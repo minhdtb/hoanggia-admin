@@ -1,6 +1,6 @@
 <template>
   <v-layout>
-    <v-navigation-drawer permanent :rail="toggleNav" @click="toggleNav = false" color="green">
+    <v-navigation-drawer permanent :rail="toggleNav" @click="toggleNav = false" color="blue">
       <v-list nav>
         <v-list-item
           prepend-avatar="https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=admin"

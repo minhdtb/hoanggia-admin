@@ -8,7 +8,9 @@
       </v-container>
       <v-divider />
       <v-card-actions>
-        <slot name="actions"></slot>
+        <div class="pa-2">
+          <slot name="actions"></slot>
+        </div>
       </v-card-actions>
     </v-card>
   </v-form>

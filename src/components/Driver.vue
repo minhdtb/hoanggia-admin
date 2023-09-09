@@ -57,14 +57,38 @@
           <custom-form-field label="Tài khoản">
             <div>{{ new Intl.NumberFormat('vi-VN').format(current?.balance ?? 0) }} VNĐ</div>
           </custom-form-field>
-          <v-spacer></v-spacer>
+          <div class="pt-14">
+            <v-btn class="mr-2" variant="elevated" color="blue" @click="handleShowImages"
+              >Xem hồ sơ
+            </v-btn>
+            <v-btn class="mr-2" variant="elevated" color="orange">Xem lịch sử</v-btn>
+            <v-btn variant="elevated" color="red">Nạp tiền</v-btn>
+          </div>
         </v-col>
       </v-row>
+      <v-dialog v-model="showImages">
+        <v-carousel color="white">
+          <v-carousel-item :lazy-src="current?.nidFront" :src="current?.nidFront"></v-carousel-item>
+          <v-carousel-item :lazy-src="current?.nidBack" :src="current?.nidBack"></v-carousel-item>
+          <v-carousel-item
+            :lazy-src="current?.driverLicenseFront"
+            :src="current?.driverLicenseFront"
+          ></v-carousel-item>
+          <v-carousel-item
+            :lazy-src="current?.driverLicenseBack"
+            :src="current?.driverLicenseBack"
+          ></v-carousel-item>
+          <v-carousel-item
+            :lazy-src="current?.judicialRecord"
+            :src="current?.judicialRecord"
+          ></v-carousel-item>
+        </v-carousel>
+      </v-dialog>
     </template>
     <template #actions>
-      <v-btn variant="outlined" @click="emit('onClose')">Quay lại</v-btn>
-      <v-btn variant="outlined" color="blue" type="submit" :disabled="isValidating || isSubmitting">
-        Chấp nhận
+      <v-btn variant="elevated" @click="emit('onClose')">Quay lại</v-btn>
+      <v-btn variant="elevated" color="blue" type="submit" :disabled="isValidating || isSubmitting">
+        Lưu
       </v-btn>
     </template>
   </custom-form>
@@ -85,6 +109,8 @@ const props = defineProps<{
 
 const driverStore = useDriverStore();
 const { current } = storeToRefs(driverStore);
+
+const showImages = ref(false);
 
 const { handleSubmit, defineComponentBinds, isValidating, isSubmitting, setFieldValue } = useForm({
   validationSchema: toTypedSchema(
@@ -131,5 +157,9 @@ const onSubmit = (e: SubmitEventPromise) => {
     await driverStore.updateDriver(props.id, values);
     emit('onClose');
   })();
+};
+
+const handleShowImages = async () => {
+  showImages.value = true;
 };
 </script>
