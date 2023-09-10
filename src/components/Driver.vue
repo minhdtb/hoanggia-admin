@@ -61,7 +61,9 @@
             <v-btn class="mr-2" variant="elevated" color="blue" @click="handleShowImages"
               >Xem hồ sơ
             </v-btn>
-            <v-btn class="mr-2" variant="elevated" color="orange">Xem lịch sử</v-btn>
+            <v-btn class="mr-2" variant="elevated" color="orange" @click="handleShowHistory"
+              >Xem lịch sử
+            </v-btn>
             <v-btn variant="elevated" color="red">Nạp tiền</v-btn>
           </div>
         </v-col>
@@ -133,6 +135,9 @@
       </v-btn>
     </template>
   </custom-form>
+  <v-dialog v-model="showHistory">
+    <history :id="props.id" @on-close="showHistory = false"></history>
+  </v-dialog>
 </template>
 <script setup lang="ts">
 import * as yup from 'yup';
@@ -152,6 +157,7 @@ const driverStore = useDriverStore();
 const { current } = storeToRefs(driverStore);
 
 const showImages = ref(false);
+const showHistory = ref(false);
 
 const { handleSubmit, defineComponentBinds, isValidating, isSubmitting, setFieldValue } = useForm({
   validationSchema: toTypedSchema(
@@ -202,5 +208,9 @@ const onSubmit = (e: SubmitEventPromise) => {
 
 const handleShowImages = async () => {
   showImages.value = true;
+};
+
+const handleShowHistory = async () => {
+  showHistory.value = true;
 };
 </script>

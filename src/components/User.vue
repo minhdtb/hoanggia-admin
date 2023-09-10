@@ -37,6 +37,9 @@
       <v-btn variant="elevated" @click="emit('onClose')">Quay lại</v-btn>
     </template>
   </custom-form>
+  <v-dialog v-model="showHistory">
+    <history :id="props.id" @on-close="showHistory = false"></history>
+  </v-dialog>
 </template>
 <script setup lang="ts">
 import * as yup from 'yup';
@@ -55,6 +58,7 @@ const userStore = useUserStore();
 const { current } = storeToRefs(userStore);
 
 const showImages = ref(false);
+const showHistory = ref(false);
 
 const { handleSubmit, defineComponentBinds, isValidating, isSubmitting, setFieldValue } = useForm({
   validationSchema: toTypedSchema(

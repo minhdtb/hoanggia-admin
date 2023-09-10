@@ -3,9 +3,9 @@
     <v-card :loading="loading">
       <v-card-title primary-title>{{ props.title }}</v-card-title>
       <v-divider />
-      <v-container>
+      <div class="pa-2">
         <slot name="content"></slot>
-      </v-container>
+      </div>
       <v-divider />
       <v-card-actions>
         <div class="pa-2">
