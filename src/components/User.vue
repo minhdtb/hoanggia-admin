@@ -28,7 +28,9 @@
             <div class="pa-1">{{ $moment(current?.created).format('DD/MM/YYYY HH:mm') }}</div>
           </custom-form-field>
           <div class="pt-14">
-            <v-btn class="mr-2" variant="elevated" color="orange">Xem lịch sử</v-btn>
+            <v-btn class="mr-2" variant="elevated" color="orange" @click="handleShowHistory"
+              >Xem lịch sử
+            </v-btn>
           </div>
         </v-col>
       </v-row>
@@ -107,5 +109,9 @@ const onSubmit = (e: SubmitEventPromise) => {
 
 const handleShowImages = async () => {
   showImages.value = true;
+};
+
+const handleShowHistory = async () => {
+  showHistory.value = true;
 };
 </script>
