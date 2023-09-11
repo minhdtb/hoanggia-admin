@@ -33,6 +33,7 @@ export const useHistoryStore = defineStore('historyStore', () => {
     async list(id: string, options?: ListOptions) {
       try {
         loading.value = true;
+        historyList.value = [];
         if (options) {
           listOptions.value = options;
         }

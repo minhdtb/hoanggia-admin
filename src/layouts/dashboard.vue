@@ -21,33 +21,39 @@
           title="Khách hàng"
           to="/customer/list"
         ></v-list-item>
-        <v-list-group>
-          <template v-slot:activator="{ props }">
-            <v-list-item
-              prepend-icon="mdi-account-hard-hat-outline"
-              v-bind="props"
-              title="Lái xe"
-            ></v-list-item>
-          </template>
-          <v-list-item title="Đang chờ duyệt" to="/driver/waiting"></v-list-item>
-          <v-list-item title="Danh sách" to="/driver/list"></v-list-item>
-        </v-list-group>
         <v-list-item
           prepend-icon="mdi-clock-start"
           title="Cuốc xe"
           to="/booking/list"
         ></v-list-item>
-        <v-list-group>
-          <template v-slot:activator="{ props }">
-            <v-list-item
-              prepend-icon="mdi-account-hard-hat-outline"
-              v-bind="props"
-              title="Giao dịch"
-            ></v-list-item>
-          </template>
-          <v-list-item title="Đang chờ duyệt" to="/transaction/waiting"></v-list-item>
-          <v-list-item title="Danh sách" to="/transaction/list"></v-list-item>
-        </v-list-group>
+      </v-list>
+      <v-divider></v-divider>
+      <v-list>
+        <v-list-subheader class="text-white">Lái xe</v-list-subheader>
+        <v-list-item
+          prepend-icon="mdi-account-tie-hat"
+          title="Đang chờ duyệt"
+          to="/driver/waiting"
+        ></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-account-tie-hat"
+          title="Danh sách lái xe"
+          to="/driver/list"
+        ></v-list-item>
+      </v-list>
+      <v-divider></v-divider>
+      <v-list>
+        <v-list-subheader class="text-white">Giao dịch</v-list-subheader>
+        <v-list-item
+          prepend-icon="mdi-cash"
+          title="Đang chờ duyệt"
+          to="/transaction/waiting"
+        ></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-cash-check"
+          title="Danh sách giao dịch"
+          to="/transaction/list"
+        ></v-list-item>
       </v-list>
       <template v-slot:append>
         <div class="pa-2">

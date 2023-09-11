@@ -26,6 +26,7 @@ export const useUserStore = defineStore('userStore', () => {
     async list(options?: ListOptions) {
       try {
         loading.value = true;
+        userList.value = [];
         if (options) {
           listOptions.value = options;
         }

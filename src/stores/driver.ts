@@ -46,6 +46,7 @@ export const useDriverStore = defineStore('driverStore', () => {
     async list(options?: ListOptions) {
       try {
         loading.value = true;
+        driverList.value = [];
         if (options) {
           listOptions.value = options;
         }
@@ -75,6 +76,7 @@ export const useDriverStore = defineStore('driverStore', () => {
     async listWaiting(options?: ListOptions) {
       try {
         loading.value = true;
+        driverList.value = [];
         if (options) {
           listOptions.value = options;
         }
