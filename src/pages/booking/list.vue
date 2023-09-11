@@ -7,7 +7,6 @@
     :items-length="total"
     hover
     @update:options="handleLoadItems"
-    @click:row="handleClickRow"
   >
     <template #item.index="{ index }">
       {{ index + 1 }}
@@ -35,6 +34,9 @@
     </template>
     <template #item.created="{ item }">
       {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
+    </template>
+    <template #item.action="{ item }">
+      <v-btn variant="elevated" icon="mdi-eye" size="small" color="blue"></v-btn>
     </template>
   </v-data-table-server>
 </template>
@@ -64,6 +66,7 @@ const headers = [
   { title: 'Cước phí', key: 'fee' },
   { title: 'Trạng thái', key: 'status' },
   { title: 'Ngày tạo', key: 'created' },
+  { title: 'Hành động', key: 'action' },
 ];
 
 const itemsPerPage = ref(10);
