@@ -67,12 +67,16 @@ const handleLoadItems = async (options: any) => {
 };
 
 const handleAccept = async (id: string) => {
-  await transactionStore.approve(id);
-  await transactionStore.listWaiting();
+  if (confirm('Bạn chắc chắn muốn duyệt giao dịch này?')) {
+    await transactionStore.approve(id);
+    await transactionStore.listWaiting();
+  }
 };
 
 const handleReject = async (id: string) => {
-  await transactionStore.reject(id);
-  await transactionStore.listWaiting();
+  if (confirm('Bạn chắc chắn muốn từ chối giao dịch này?')) {
+    await transactionStore.reject(id);
+    await transactionStore.listWaiting();
+  }
 };
 </script>
