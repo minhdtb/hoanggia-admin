@@ -11,6 +11,19 @@
     <template #item.index="{ index }">
       {{ index + 1 }}
     </template>
+    <template #item.creator="{ item }">
+      <a
+        v-if="item.raw.expand && item.raw.expand?.creator"
+        :href="`/driver/${item.raw.expand?.creator?.id}`"
+        >{{ item.raw.expand?.creator ? item.raw.expand.creator.name : '' }}</a
+      >
+      <span v-else>Admin</span>
+    </template>
+    <template #item.driver="{ item }">
+      <a v-if="item.raw.expand" :href="`/driver/${item.raw.expand?.driver?.id}`">{{
+        item.raw.expand?.driver ? item.raw.expand.driver.name : ''
+      }}</a>
+    </template>
     <template #item.created="{ item }">
       {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
     </template>
