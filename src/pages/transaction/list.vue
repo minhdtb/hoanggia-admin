@@ -22,8 +22,8 @@
         >{{ transStatusText(item.raw.status)?.text }}
       </v-chip>
     </template>
-    <template #item.action="{}">
-      <v-btn variant="elevated" color="red">Xóa</v-btn>
+    <template #item.action="{ item }">
+      <v-btn variant="elevated" color="red" @click="handleDelete(item.raw.id)">Xóa</v-btn>
     </template>
   </v-data-table-server>
 </template>
@@ -61,5 +61,12 @@ const handleLoadItems = async (options: any) => {
     limit: options.itemsPerPage,
     page: options.page,
   });
+};
+
+const handleDelete = async (id: string) => {
+  if (confirm('Bạn chắc chắn muốn xóa giao dịch này?')) {
+    await transactionStore.delete(id);
+    await transactionStore.list();
+  }
 };
 </script>
