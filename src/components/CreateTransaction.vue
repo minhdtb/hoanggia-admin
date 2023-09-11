@@ -1,5 +1,5 @@
 <template>
-  <custom-form title="Nạp tiền vào tài khoản" @submit="onSubmit">
+  <custom-form title="Nạp tiền vào tài khoản" @submit="onSubmit" :loading="loading">
     <template #content>
       <custom-form-field label="Số tiền (VNĐ)">
         <v-text-field v-bind="amount" type="number" />
@@ -42,6 +42,7 @@ const validateConfig = (state: any) => ({
 const amount = defineComponentBinds('amount', validateConfig);
 
 const transactionStore = useTransactionStore();
+const { loading } = storeToRefs(transactionStore);
 
 const onSubmit = (e: SubmitEventPromise) => {
   e.preventDefault();
