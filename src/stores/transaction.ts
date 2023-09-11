@@ -113,7 +113,7 @@ export const useTransactionStore = defineStore('transactionStore', () => {
       try {
         errorMessage.value = '';
         loading.value = true;
-        await pb.send('/approve-transaction', {
+        await pb.send<Transaction>('/approve-transaction', {
           method: 'POST',
           body: {
             id,
