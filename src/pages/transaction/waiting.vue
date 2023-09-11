@@ -26,7 +26,7 @@
       <v-btn variant="elevated" color="blue" class="mr-2" @click="handleAccept(item.raw.id)"
         >Duyệt
       </v-btn>
-      <v-btn variant="elevated" color="red">Từ chối</v-btn>
+      <v-btn variant="elevated" color="red" @click="handleReject(item.raw.id)">Từ chối</v-btn>
     </template>
   </v-data-table-server>
 </template>
@@ -68,6 +68,11 @@ const handleLoadItems = async (options: any) => {
 
 const handleAccept = async (id: string) => {
   await transactionStore.approve(id);
+  await transactionStore.listWaiting();
+};
+
+const handleReject = async (id: string) => {
+  await transactionStore.reject(id);
   await transactionStore.listWaiting();
 };
 </script>
