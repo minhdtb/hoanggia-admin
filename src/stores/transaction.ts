@@ -23,6 +23,15 @@ export const useTransactionStore = defineStore('transactionStore', () => {
   const transactionList = ref<Transaction[]>([]);
   const total = ref<number>(0);
   const current = ref<Transaction | undefined>(undefined);
+  const createTransactionSuccess = ref(false);
+
+  watch(createTransactionSuccess, (value) => {
+    if (value) {
+      setTimeout(() => {
+        createTransactionSuccess.value = false;
+      }, 2000);
+    }
+  });
 
   const actions = {
     async list(options?: ListOptions) {
@@ -88,12 +97,14 @@ export const useTransactionStore = defineStore('transactionStore', () => {
             amount: input.amount,
           },
         });
+        createTransactionSuccess.value = true;
       } catch (err) {
         if (typeof err === 'string') {
           errorMessage.value = err;
         } else if (err instanceof Error) {
           errorMessage.value = err.message;
         }
+        createTransactionSuccess.value = false;
       } finally {
         loading.value = false;
       }
@@ -160,6 +171,7 @@ export const useTransactionStore = defineStore('transactionStore', () => {
     listOptions,
     current,
     errorMessage,
+    createTransactionSuccess,
     ...actions,
   };
 });

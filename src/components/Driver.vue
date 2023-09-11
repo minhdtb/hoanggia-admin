@@ -144,12 +144,17 @@
       @on-close="showAddBalance = false"
     ></create-transaction>
   </v-dialog>
+  <v-snackbar v-model="createTransactionSuccess" color="green" multi-line>
+    <v-icon icon="mdi-check-circle-outline"></v-icon>
+    Tạo giao dịch nạp tiền thành công
+  </v-snackbar>
 </template>
 <script setup lang="ts">
 import * as yup from 'yup';
 import { SubmitEventPromise } from 'vuetify';
 import { useDriverStore } from '~/stores/driver';
 import { activeStatusText, driveStatusText } from '~/utils/helper';
+import { useTransactionStore } from '~/stores/transaction';
 
 const emit = defineEmits<{
   (eventName: 'onClose'): void;
@@ -161,6 +166,8 @@ const props = defineProps<{
 
 const driverStore = useDriverStore();
 const { current } = storeToRefs(driverStore);
+const transactionStore = useTransactionStore();
+const { createTransactionSuccess } = storeToRefs(transactionStore);
 
 const showImages = ref(false);
 const showHistory = ref(false);
