@@ -77,12 +77,16 @@ export const useTransactionStore = defineStore('transactionStore', () => {
         loading.value = false;
       }
     },
-    async getTransactionById(id: string) {
+    async createTransaction(input: { driverId: string; amount: number }) {
       try {
+        errorMessage.value = '';
         loading.value = true;
-        current.value = await pb.collection('transaction').getOne<Transaction>(id, {
-          expand: 'driver',
-          sort: '-created',
+        await pb.send('/create-transaction', {
+          method: 'POST',
+          body: {
+            driverId: input.driverId,
+            amount: input.amount,
+          },
         });
       } catch (err) {
         if (typeof err === 'string') {

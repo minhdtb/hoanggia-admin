@@ -64,7 +64,7 @@
             <v-btn class="mr-2" variant="elevated" color="orange" @click="handleShowHistory"
               >Xem lịch sử
             </v-btn>
-            <v-btn variant="elevated" color="red">Nạp tiền</v-btn>
+            <v-btn variant="elevated" color="red" @click="handleAddBalance">Nạp tiền</v-btn>
           </div>
         </v-col>
       </v-row>
@@ -138,6 +138,12 @@
   <v-dialog v-model="showHistory">
     <history :id="props.id" @on-close="showHistory = false"></history>
   </v-dialog>
+  <v-dialog v-model="showAddBalance" width="300">
+    <create-transaction
+      :driver-id="props.id"
+      @on-close="showAddBalance = false"
+    ></create-transaction>
+  </v-dialog>
 </template>
 <script setup lang="ts">
 import * as yup from 'yup';
@@ -158,6 +164,7 @@ const { current } = storeToRefs(driverStore);
 
 const showImages = ref(false);
 const showHistory = ref(false);
+const showAddBalance = ref(false);
 
 const { handleSubmit, defineComponentBinds, isValidating, isSubmitting, setFieldValue } = useForm({
   validationSchema: toTypedSchema(
@@ -212,5 +219,9 @@ const handleShowImages = async () => {
 
 const handleShowHistory = async () => {
   showHistory.value = true;
+};
+
+const handleAddBalance = async () => {
+  showAddBalance.value = true;
 };
 </script>
