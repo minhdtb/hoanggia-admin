@@ -31,7 +31,9 @@ export const useUserStore = defineStore('userStore', () => {
         }
         const res = await pb
           .collection('user')
-          .getList<User>(listOptions.value?.page, listOptions.value?.limit);
+          .getList<User>(listOptions.value?.page, listOptions.value?.limit, {
+            sort: '-created',
+          });
         userList.value = res.items.map((it) => {
           if (it.avatar) {
             it.avatar = `${appConfig.backend.url}/api/files/user/${it.id}/${it.avatar}`;

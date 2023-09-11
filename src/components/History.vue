@@ -14,10 +14,12 @@
           {{ index + 1 }}
         </template>
         <template #item.user="{ item }">
-          <a :href="`/customer/${item.raw.expand?.user.id}`">{{ item.raw.expand?.user.name }}</a>
+          <a :href="`/customer/${item.raw.expand?.user?.id}`">{{ item.raw.expand?.user?.name }}</a>
         </template>
         <template #item.driver="{ item }">
-          <a :href="`/driver/${item.raw.expand?.driver.id}`">{{ item.raw.expand?.driver.name }}</a>
+          <a :href="`/driver/${item.raw.expand?.driver?.id}`">{{
+            item.raw.expand?.driver?.name
+          }}</a>
         </template>
         <template #item.from="{ item }">
           {{ item.raw.from.formatted_address }}
@@ -36,6 +38,14 @@
         </template>
         <template #item.distance="{ item }">
           {{ item.raw.distance.text }}
+        </template>
+        <template #item.fee="{ item }">
+          {{ new Intl.NumberFormat('vi-VN').format(item.raw.fee ?? 0) }}
+        </template>
+        <template #item.status="{ item }">
+          <v-chip :color="item.raw.status == 'Finished' ? 'green' : 'red'">
+            {{ item.raw.status == 'Finished' ? 'Hoàn thành' : 'Đã hủy' }}
+          </v-chip>
         </template>
       </v-data-table-server>
     </template>
@@ -66,6 +76,7 @@ const headers = [
   { title: 'Thời gian đặt', key: 'bookingDate' },
   { title: 'Cước phí', key: 'fee' },
   { title: 'Quãng đường', key: 'distance' },
+  { title: 'Trạng thái', key: 'status' },
   { title: 'Ngày tạo', key: 'created' },
 ];
 
