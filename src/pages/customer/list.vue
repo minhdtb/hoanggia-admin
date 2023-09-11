@@ -14,7 +14,7 @@
     </template>
     <template #item.avatar="{ item }">
       <v-avatar>
-        <v-img :src="item.raw.avatar"></v-img>
+        <v-img :src="item.raw.avatar" cover></v-img>
       </v-avatar>
     </template>
     <template #item.created="{ item }">

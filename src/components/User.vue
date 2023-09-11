@@ -20,7 +20,7 @@
           <custom-form-field label="Avatar">
             <div>
               <v-avatar size="x-large">
-                <v-img :src="current?.avatar"></v-img>
+                <v-img :src="current?.avatar" cover></v-img>
               </v-avatar>
             </div>
           </custom-form-field>
