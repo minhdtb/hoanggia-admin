@@ -44,7 +44,7 @@ export const useTransactionStore = defineStore('transactionStore', () => {
         const res = await pb
           .collection('transaction')
           .getList<Transaction>(listOptions.value?.page, listOptions.value?.limit, {
-            expand: 'driver',
+            expand: 'driver,creator',
             filter: 'status != "Pending"',
             sort: '-created',
           });
@@ -70,7 +70,7 @@ export const useTransactionStore = defineStore('transactionStore', () => {
         const res = await pb
           .collection('transaction')
           .getList<Transaction>(listOptions.value?.page, listOptions.value?.limit, {
-            expand: 'driver',
+            expand: 'driver,creator',
             filter: 'status = "Pending"',
             sort: '-created',
           });
