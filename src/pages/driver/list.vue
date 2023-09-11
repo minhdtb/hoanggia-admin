@@ -32,6 +32,9 @@
         >{{ activeStatusText(item.raw.activeStatus)?.text }}
       </v-chip>
     </template>
+    <template #item.balance="{ item }">
+      {{ new Intl.NumberFormat('vi-VN').format(item.raw.balance ?? 0) }}
+    </template>
     <template #item.created="{ item }">
       {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
     </template>
@@ -62,7 +65,7 @@ const headers = [
   { title: 'Ảnh', key: 'avatar' },
   { title: 'Họ tên', key: 'name' },
   { title: 'Số điện thoại', key: 'phone' },
-  { title: 'Email', key: 'user_email' },
+  { title: 'Tài khoản', key: 'balance' },
   { title: 'Trạng thái', key: 'authStatus' },
   { title: 'Sẵn sàng', key: 'driveStatus' },
   { title: 'Hoạt động', key: 'activeStatus' },

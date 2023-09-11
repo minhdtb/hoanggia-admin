@@ -1,8 +1,8 @@
 <template>
   <custom-form title="Nạp tiền vào tài khoản" @submit="onSubmit" :loading="loading">
     <template #content>
-      <custom-form-field label="Số tiền (VNĐ)">
-        <v-text-field v-bind="amount" type="number" />
+      <custom-form-field label="Số tiền">
+        <v-text-field v-bind="amount" type="number" suffix=" VNĐ" />
       </custom-form-field>
     </template>
     <template #actions>

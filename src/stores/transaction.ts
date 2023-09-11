@@ -98,6 +98,26 @@ export const useTransactionStore = defineStore('transactionStore', () => {
         loading.value = false;
       }
     },
+    async approve(id: string) {
+      try {
+        errorMessage.value = '';
+        loading.value = true;
+        await pb.send('/approve-transaction', {
+          method: 'POST',
+          body: {
+            id,
+          },
+        });
+      } catch (err) {
+        if (typeof err === 'string') {
+          errorMessage.value = err;
+        } else if (err instanceof Error) {
+          errorMessage.value = err.message;
+        }
+      } finally {
+        loading.value = false;
+      }
+    },
   };
 
   return {

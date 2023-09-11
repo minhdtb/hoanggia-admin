@@ -14,10 +14,25 @@
     <template #item.created="{ item }">
       {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
     </template>
+    <template #item.amount="{ item }">
+      {{ new Intl.NumberFormat('vi-VN').format(item.raw.amount ?? 0) }}
+    </template>
+    <template #item.status="{ item }">
+      <v-chip :color="transStatusText(item.raw.status)?.color"
+        >{{ transStatusText(item.raw.status)?.text }}
+      </v-chip>
+    </template>
+    <template #item.action="{ item }">
+      <v-btn variant="elevated" color="blue" class="mr-2" @click="handleAccept(item.raw.id)"
+        >Duyệt
+      </v-btn>
+      <v-btn variant="elevated" color="red">Từ chối</v-btn>
+    </template>
   </v-data-table-server>
 </template>
 <script setup lang="ts">
 import { useTransactionStore } from '~/stores/transaction';
+import { transStatusText } from '~/utils/helper';
 
 useHead({
   title: `Hoang Gia Driver - Giao dịch`,
@@ -49,5 +64,10 @@ const handleLoadItems = async (options: any) => {
     limit: options.itemsPerPage,
     page: options.page,
   });
+};
+
+const handleAccept = async (id: string) => {
+  await transactionStore.approve(id);
+  await transactionStore.listWaiting();
 };
 </script>

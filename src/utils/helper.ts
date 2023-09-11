@@ -57,3 +57,23 @@ export function activeStatusText(status: string): { text: string; color: string 
       };
   }
 }
+
+export function transStatusText(status: string): { text: string; color: string } | undefined {
+  switch (status) {
+    case 'Pending':
+      return {
+        text: 'Đang chờ duyệt',
+        color: 'gray',
+      };
+    case 'Approved':
+      return {
+        text: 'Đã duyệt',
+        color: 'green',
+      };
+    case 'Rejected':
+      return {
+        text: 'Từ chối',
+        color: 'red',
+      };
+  }
+}
