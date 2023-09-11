@@ -56,7 +56,7 @@ export const useUserStore = defineStore('userStore', () => {
       try {
         loading.value = true;
         const res = await pb.collection('user').getOne<User>(id);
-        if (res) {
+        if (res && res.avatar) {
           res.avatar = `${appConfig.backend.url}/api/files/user/${res.id}/${res.avatar}`;
         }
         current.value = res;

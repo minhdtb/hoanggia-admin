@@ -52,13 +52,13 @@ export const useDriverStore = defineStore('driverStore', () => {
         }
         const res = await pb
           .collection('driver')
-          .getList(listOptions.value?.page, listOptions.value?.limit, {
+          .getList<Driver>(listOptions.value?.page, listOptions.value?.limit, {
             filter: 'authStatus != "WaitingApproval"',
             sort: '-created',
           });
         driverList.value = res.items.map((it) => {
-          if (it['avatar']) {
-            it['avatar'] = `${appConfig.backend.url}/api/files/driver/${it.id}/${it['avatar']}`;
+          if (it.avatar) {
+            it.avatar = `${appConfig.backend.url}/api/files/driver/${it.id}/${it.avatar}`;
           }
           return it;
         });
@@ -124,12 +124,24 @@ export const useDriverStore = defineStore('driverStore', () => {
         loading.value = true;
         const res = await pb.collection('driver').getOne<Driver>(id);
         if (res) {
-          res.avatar = `${appConfig.backend.url}/api/files/driver/${res.id}/${res.avatar}`;
-          res.nidFront = `${appConfig.backend.url}/api/files/driver/${res.id}/${res.nidFront}`;
-          res.nidBack = `${appConfig.backend.url}/api/files/driver/${res.id}/${res.nidBack}`;
-          res.driverLicenseFront = `${appConfig.backend.url}/api/files/driver/${res.id}/${res.driverLicenseFront}`;
-          res.driverLicenseBack = `${appConfig.backend.url}/api/files/driver/${res.id}/${res.driverLicenseBack}`;
-          res.judicialRecord = `${appConfig.backend.url}/api/files/driver/${res.id}/${res.judicialRecord}`;
+          if (res.avatar) {
+            res.avatar = `${appConfig.backend.url}/api/files/driver/${res.id}/${res.avatar}`;
+          }
+          if (res.nidFront) {
+            res.nidFront = `${appConfig.backend.url}/api/files/driver/${res.id}/${res.nidFront}`;
+          }
+          if (res.nidBack) {
+            res.nidBack = `${appConfig.backend.url}/api/files/driver/${res.id}/${res.nidBack}`;
+          }
+          if (res.driverLicenseFront) {
+            res.driverLicenseFront = `${appConfig.backend.url}/api/files/driver/${res.id}/${res.driverLicenseFront}`;
+          }
+          if (res.driverLicenseBack) {
+            res.driverLicenseBack = `${appConfig.backend.url}/api/files/driver/${res.id}/${res.driverLicenseBack}`;
+          }
+          if (res.judicialRecord) {
+            res.judicialRecord = `${appConfig.backend.url}/api/files/driver/${res.id}/${res.judicialRecord}`;
+          }
         }
         current.value = res;
       } catch (err) {

@@ -22,8 +22,9 @@
         <v-col>
           <custom-form-field label="Avatar">
             <div>
-              <v-avatar size="x-large">
-                <v-img :src="current?.avatar" cover></v-img>
+              <v-avatar size="x-large" color="blue">
+                <v-img v-if="current?.avatar" :src="current?.avatar" cover></v-img>
+                <v-icon v-else icon="mdi-account-tie-hat" class="text-white"></v-icon>
               </v-avatar>
             </div>
           </custom-form-field>
