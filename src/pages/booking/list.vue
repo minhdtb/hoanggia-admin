@@ -36,7 +36,13 @@
       {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
     </template>
     <template #item.action="{ item }">
-      <v-btn variant="elevated" icon="mdi-eye" size="small" color="blue"></v-btn>
+      <v-btn
+        v-if="item.raw.status === 'Manual'"
+        variant="elevated"
+        icon="mdi-eye"
+        size="small"
+        color="blue"
+      ></v-btn>
     </template>
   </v-data-table-server>
 </template>
