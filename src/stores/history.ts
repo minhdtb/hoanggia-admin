@@ -42,6 +42,7 @@ export const useHistoryStore = defineStore('historyStore', () => {
           .getList<History>(listOptions.value?.page, listOptions.value?.limit, {
             filter: `user = "${id}" || driver = "${id}"`,
             expand: 'user,driver',
+            sort: '-created',
           });
         historyList.value = res.items;
         total.value = res.totalItems;
