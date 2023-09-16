@@ -136,7 +136,7 @@
       </v-btn>
     </template>
   </custom-form>
-  <v-dialog v-model="showHistory">
+  <v-dialog v-model="showHistory" scrollable>
     <history :id="props.id" @on-close="showHistory = false"></history>
   </v-dialog>
   <v-dialog v-model="showAddBalance" width="300">
