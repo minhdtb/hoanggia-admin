@@ -1,10 +1,18 @@
 <template>
+  <v-text-field
+    v-model="search"
+    hide-details
+    placeholder="Tìm kiếm (Họ tên, Số điện thoại) ..."
+    class="ma-2"
+    density="compact"
+  ></v-text-field>
   <v-data-table-server
     v-model:items-per-page="itemsPerPage"
     :headers="headers"
     :items="driverList"
     :loading="loading"
     :items-length="total"
+    :search="search"
     hover
     @update:options="handleLoadItems"
     @click:row="handleClickRow"
@@ -74,12 +82,16 @@ const headers = [
 ];
 
 const itemsPerPage = ref(10);
+const search = ref('');
 
 const handleLoadItems = async (options: any) => {
-  await driverStore.list({
-    limit: options.itemsPerPage,
-    page: options.page,
-  });
+  await driverStore.list(
+    {
+      limit: options.itemsPerPage,
+      page: options.page,
+    },
+    search.value,
+  );
 };
 
 const handleClickRow = (_: Event, { item }: any) => {
