@@ -42,13 +42,12 @@
         icon="mdi-eye"
         size="small"
         color="blue"
+        @click="handleClickRow(item.raw)"
       ></v-btn>
     </template>
   </v-data-table-server>
 </template>
 <script setup lang="ts">
-import { useBookingStore } from '~/stores/booking';
-
 useHead({
   title: `Hoang Gia Driver - Khách hàng`,
 });
@@ -84,7 +83,7 @@ const handleLoadItems = async (options: any) => {
   });
 };
 
-const handleClickRow = (_: Event, { item }: any) => {
-  navigateTo(`${item.raw.id}`);
+const handleClickRow = (item: any) => {
+  navigateTo(`${item.id}`);
 };
 </script>

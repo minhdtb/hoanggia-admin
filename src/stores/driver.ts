@@ -30,6 +30,7 @@ export const useDriverStore = defineStore('driverStore', () => {
   const isError = computed(() => errorMessage.value !== undefined);
   const listOptions = ref<ListOptions | undefined>(undefined);
   const driverList = ref<Driver[]>([]);
+  const availableList = ref<Driver[]>([]);
   const total = ref<number>(0);
   const current = ref<Driver | undefined>(undefined);
   const success = ref(false);
@@ -43,6 +44,23 @@ export const useDriverStore = defineStore('driverStore', () => {
   });
 
   const actions = {
+    async listAvailable() {
+      try {
+        const res = await pb.send('/get-all-available-driver', {
+          method: 'POST',
+          body: {
+            name: 'm',
+          },
+        });
+        availableList.value = res.list;
+      } catch (err) {
+        if (typeof err === 'string') {
+          errorMessage.value = err;
+        } else if (err instanceof Error) {
+          errorMessage.value = err.message;
+        }
+      }
+    },
     async list(options?: ListOptions, search?: string) {
       try {
         loading.value = true;
