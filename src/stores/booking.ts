@@ -24,6 +24,7 @@ export const useBookingStore = defineStore('bookingStore', () => {
   const pb = usePb();
 
   const loading = ref(false);
+  const canceling = ref(false);
   const errorMessage = ref<string | undefined>(undefined);
   const isError = computed(() => errorMessage.value !== undefined);
   const listOptions = ref<ListOptions | undefined>(undefined);
@@ -66,10 +67,38 @@ export const useBookingStore = defineStore('bookingStore', () => {
         loading.value = false;
       }
     },
+    async cancel(id: string) {
+      try {
+        canceling.value = true;
+        if (id) {
+          await pb.send('/cancel-booking', {
+            method: 'POST',
+            body: {
+              bookingId: id,
+            },
+          });
+          await new Promise((resolve, reject) => {
+            setTimeout(async () => {
+              await this.list(listOptions.value);
+              resolve(null);
+            }, 2000);
+          });
+        }
+      } catch (err) {
+        if (typeof err === 'string') {
+          errorMessage.value = err;
+        } else if (err instanceof Error) {
+          errorMessage.value = err.message;
+        }
+      } finally {
+        canceling.value = false;
+      }
+    },
   };
 
   return {
     loading,
+    canceling,
     isError,
     bookingList,
     total,

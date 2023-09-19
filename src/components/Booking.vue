@@ -1,9 +1,9 @@
 <template>
-  <custom-form title="Điều phối cuốc xe bằng tay" @submit="onSubmit">
+  <custom-form title="Cuốc xe" @submit="onSubmit">
     <template #content>
       <v-row>
         <v-col>
-          <custom-form-field label="Chọn lái xe">
+          <custom-form-field label="Lái xe">
             <v-text-field
               v-bind="name"
               readonly

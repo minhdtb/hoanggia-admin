@@ -36,18 +36,31 @@
       {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
     </template>
     <template #item.action="{ item }">
-      <v-btn
-        v-if="item.raw.status === 'Manual'"
-        variant="elevated"
-        icon="mdi-eye"
-        size="small"
-        color="blue"
-        @click="handleClickRow(item.raw)"
-      ></v-btn>
+      <v-row>
+        <v-btn
+          class="mr-2"
+          v-if="item.raw.status === 'Manual'"
+          variant="elevated"
+          icon="mdi-eye"
+          size="small"
+          color="blue"
+          @click="handleClickRow(item.raw)"
+        ></v-btn>
+        <v-btn
+          variant="elevated"
+          icon="mdi-close"
+          size="small"
+          color="red"
+          @click="handleCancel(item.raw)"
+        ></v-btn>
+      </v-row>
     </template>
   </v-data-table-server>
+  <v-overlay v-model="canceling"></v-overlay>
 </template>
 <script setup lang="ts">
+import { Booking } from '~/stores/booking';
+
 useHead({
   title: `Hoang Gia Driver - Khách hàng`,
 });
@@ -58,7 +71,7 @@ definePageMeta({
 });
 
 const bookingStore = useBookingStore();
-const { bookingList, loading, total } = storeToRefs(bookingStore);
+const { bookingList, loading, canceling, total } = storeToRefs(bookingStore);
 
 const headers = [
   { title: '#', key: 'index' },
@@ -85,5 +98,11 @@ const handleLoadItems = async (options: any) => {
 
 const handleClickRow = (item: any) => {
   navigateTo(`${item.id}`);
+};
+
+const handleCancel = async (item: Booking) => {
+  if (confirm('Bạn chắc chắn muốn hủy cuốc xe này?')) {
+    await bookingStore.cancel(item.id ?? '');
+  }
 };
 </script>
