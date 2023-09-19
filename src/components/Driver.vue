@@ -153,7 +153,6 @@
 <script setup lang="ts">
 import * as yup from 'yup';
 import { SubmitEventPromise } from 'vuetify';
-import { useDriverStore } from '~/stores/driver';
 import { activeStatusText, driveStatusText } from '~/utils/helper';
 import { useTransactionStore } from '~/stores/transaction';
 

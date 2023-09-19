@@ -1,5 +1,5 @@
 <template>
-  <custom-form title="Cuốc xe" @submit="onSubmit">
+  <custom-form title="Xử lý cuốc xe bằng tay" @submit="onSubmit">
     <template #content>
       <v-row>
         <v-col>
@@ -25,10 +25,15 @@
       </v-btn>
     </template>
   </custom-form>
+  <v-dialog v-model="showAvailable" width="700">
+    <driver-available-list @onAccept="handleAccept"></driver-available-list>
+  </v-dialog>
 </template>
 <script setup lang="ts">
 import * as yup from 'yup';
 import { SubmitEventPromise } from 'vuetify';
+import DriverAvailableList from '~/components/DriverAvailableList.vue';
+import { Driver } from '~/stores/driver';
 
 const emit = defineEmits<{
   (eventName: 'onClose'): void;
@@ -39,6 +44,8 @@ const props = defineProps<{
 }>();
 
 const bookingStore = useBookingStore();
+
+const showAvailable = ref(false);
 
 const { handleSubmit, defineComponentBinds, isValidating, isSubmitting, setFieldValue } = useForm({
   validationSchema: toTypedSchema(
@@ -66,6 +73,11 @@ const onSubmit = (e: SubmitEventPromise) => {
 };
 
 const onAdd = () => {
-  console.log('add');
+  showAvailable.value = true;
+};
+
+const handleAccept = (item: Driver) => {
+  setFieldValue('name', `${item.name} (${item.id})`);
+  showAvailable.value = false;
 };
 </script>
