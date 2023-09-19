@@ -17,14 +17,15 @@
         </v-list-item>
         <v-divider></v-divider>
         <v-list-item
-          prepend-icon="mdi-account"
-          title="Khách hàng"
-          to="/customer/list"
-        ></v-list-item>
-        <v-list-item
           prepend-icon="mdi-clock-start"
           title="Cuốc xe"
           to="/booking/list"
+        ></v-list-item>
+        <v-list-item prepend-icon="mdi-cog" title="Cài đặt" to="/setting"></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-account"
+          title="Khách hàng"
+          to="/customer/list"
         ></v-list-item>
       </v-list>
       <v-divider></v-divider>

@@ -1,9 +1,11 @@
 <template></template>
-<script setup lang="ts">
+<script lang="ts" setup>
+useHead({
+  title: `Hoang Gia Driver - Cài đặt`,
+});
+
 definePageMeta({
   layout: 'dashboard',
   middleware: ['auth'],
 });
-
-navigateTo('/booking/list');
 </script>
