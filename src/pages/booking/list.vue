@@ -56,7 +56,9 @@
       </v-row>
     </template>
   </v-data-table-server>
-  <v-overlay v-model="canceling"></v-overlay>
+  <v-overlay v-model="canceling">
+    <v-progress-circular color="primary" indeterminate size="32"></v-progress-circular>
+  </v-overlay>
 </template>
 <script setup lang="ts">
 import { Booking } from '~/stores/booking';

@@ -4,6 +4,7 @@
       <v-row>
         <v-col>
           <custom-form-field label="Lái xe">
+            <v-text-field v-bind="driverId" readonly class="d-none"></v-text-field>
             <v-text-field
               v-bind="name"
               readonly
@@ -50,6 +51,7 @@ const showAvailable = ref(false);
 const { handleSubmit, defineComponentBinds, isValidating, isSubmitting, setFieldValue } = useForm({
   validationSchema: toTypedSchema(
     yup.object().shape({
+      driverId: yup.string().required('Hãy chọn lái xe'),
       name: yup.string().required('Hãy chọn lái xe'),
       fee: yup.number().required('Hãy nhập số tiền'),
     }),
@@ -62,12 +64,14 @@ const validateConfig = (state: any) => ({
   },
 });
 
+const driverId = defineComponentBinds('driverId', validateConfig);
 const name = defineComponentBinds('name', validateConfig);
 const fee = defineComponentBinds('fee', validateConfig);
 
 const onSubmit = (e: SubmitEventPromise) => {
   e.preventDefault();
   handleSubmit(async (values) => {
+    await bookingStore.manualAssignDriver(props.id, values.driverId, values.fee);
     emit('onClose');
   })();
 };
@@ -78,6 +82,7 @@ const onAdd = () => {
 
 const handleAccept = (item: Driver) => {
   setFieldValue('name', `${item.name} (${item.id})`);
+  setFieldValue('driverId', item.id);
   showAvailable.value = false;
 };
 </script>

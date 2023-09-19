@@ -94,6 +94,27 @@ export const useBookingStore = defineStore('bookingStore', () => {
         canceling.value = false;
       }
     },
+    async manualAssignDriver(bookingId: string, driverId: string, fee: number) {
+      try {
+        loading.value = true;
+        await pb.send('/manual-assign-driver', {
+          method: 'POST',
+          body: {
+            bookingId,
+            driverId,
+            fee,
+          },
+        });
+      } catch (err) {
+        if (typeof err === 'string') {
+          errorMessage.value = err;
+        } else if (err instanceof Error) {
+          errorMessage.value = err.message;
+        }
+      } finally {
+        loading.value = false;
+      }
+    },
   };
 
   return {
