@@ -60,6 +60,9 @@
       <v-btn variant="elevated" color="blue" @click="handleSubmit">Chấp nhận</v-btn>
     </template>
   </custom-form>
+  <v-overlay contained v-model="loading" class="align-center justify-center">
+    <v-progress-circular color="blue" indeterminate size="32"></v-progress-circular>
+  </v-overlay>
 </template>
 <script setup lang="ts">
 import { activeStatusText, authStatusText, driveStatusText } from '~/utils/helper';

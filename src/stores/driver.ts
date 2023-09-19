@@ -46,6 +46,7 @@ export const useDriverStore = defineStore('driverStore', () => {
   const actions = {
     async listAvailable(name: string) {
       try {
+        loading.value = true;
         const res = await pb.send('/get-all-available-driver', {
           method: 'POST',
           body: {
@@ -64,6 +65,8 @@ export const useDriverStore = defineStore('driverStore', () => {
         } else if (err instanceof Error) {
           errorMessage.value = err.message;
         }
+      } finally {
+        loading.value = false;
       }
     },
     async list(options?: ListOptions, search?: string) {
