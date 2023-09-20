@@ -12,11 +12,11 @@
           <slot name="actions"></slot>
         </div>
       </v-card-actions>
+      <v-overlay v-model="showLoading" contained class="align-center justify-center" persistent>
+        <v-progress-circular color="blue" indeterminate size="32"></v-progress-circular>
+      </v-overlay>
     </v-card>
   </v-form>
-  <v-overlay v-model="showLoading" contained class="align-center justify-center" persistent>
-    <v-progress-circular color="blue" indeterminate size="32"></v-progress-circular>
-  </v-overlay>
 </template>
 <script setup lang="ts">
 const showLoading = ref(false);
