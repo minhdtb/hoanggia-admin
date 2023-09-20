@@ -24,7 +24,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-overlay contained class="align-center justify-center" v-model="loading">
+    <v-overlay persistent contained class="align-center justify-center" v-model="loading">
       <v-progress-circular indeterminate size="32" width="2"></v-progress-circular>
     </v-overlay>
     <v-snackbar v-model="showSnackbar">

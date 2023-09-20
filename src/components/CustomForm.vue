@@ -1,6 +1,6 @@
 <template>
   <v-form v-bind="$attrs">
-    <v-card :loading="loading">
+    <v-card>
       <v-card-title primary-title>{{ props.title }}</v-card-title>
       <v-divider />
       <div class="pa-2">
@@ -14,10 +14,22 @@
       </v-card-actions>
     </v-card>
   </v-form>
+  <v-overlay v-model="showLoading" contained class="align-center justify-center" persistent>
+    <v-progress-circular color="blue" indeterminate size="32"></v-progress-circular>
+  </v-overlay>
 </template>
 <script setup lang="ts">
+const showLoading = ref(false);
+
 const props = defineProps<{
   title?: string;
   loading?: boolean;
 }>();
+
+watch(
+  () => props.loading,
+  () => {
+    showLoading.value = props.loading;
+  },
+);
 </script>

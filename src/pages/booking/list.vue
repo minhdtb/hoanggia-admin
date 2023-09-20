@@ -56,7 +56,7 @@
       </v-row>
     </template>
   </v-data-table-server>
-  <v-overlay v-model="canceling" class="align-center justify-center">
+  <v-overlay persistent v-model="canceling" class="align-center justify-center">
     <v-progress-circular color="blue" indeterminate size="32"></v-progress-circular>
   </v-overlay>
 </template>
