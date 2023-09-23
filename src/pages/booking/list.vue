@@ -64,7 +64,7 @@
 import { Booking } from '~/stores/booking';
 
 useHead({
-  title: `Hoang Gia Driver - Khách hàng`,
+  title: `Hoang Gia Driver - Cuốc xe`,
 });
 
 definePageMeta({
