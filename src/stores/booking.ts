@@ -29,7 +29,9 @@ export const useBookingStore = defineStore('bookingStore', () => {
   const isError = computed(() => errorMessage.value !== undefined);
   const listOptions = ref<ListOptions | undefined>(undefined);
   const bookingList = ref<Booking[]>([]);
+  const bookingHistoryList = ref<Booking[]>([]);
   const total = ref<number>(0);
+  const historyTotal = ref<number>(0);
   const current = ref<Booking | undefined>(undefined);
   const updateBookingSuccess = ref(false);
 
@@ -57,6 +59,32 @@ export const useBookingStore = defineStore('bookingStore', () => {
           });
         bookingList.value = res.items;
         total.value = res.totalItems;
+      } catch (err) {
+        if (typeof err === 'string') {
+          errorMessage.value = err;
+        } else if (err instanceof Error) {
+          errorMessage.value = err.message;
+        }
+      } finally {
+        loading.value = false;
+      }
+    },
+    async listHistory(options?: ListOptions, search?: string) {
+      try {
+        loading.value = true;
+        bookingHistoryList.value = [];
+        if (options) {
+          listOptions.value = options;
+        }
+        const res = await pb
+          .collection('booking_history')
+          .getList<Booking>(listOptions.value?.page, listOptions.value?.limit, {
+            filter: `id ~ "${search ?? ''}" || user.name ~ "${search ?? ''}"`,
+            expand: 'user,driver',
+            sort: '-created',
+          });
+        bookingHistoryList.value = res.items;
+        historyTotal.value = res.totalItems;
       } catch (err) {
         if (typeof err === 'string') {
           errorMessage.value = err;
@@ -122,11 +150,13 @@ export const useBookingStore = defineStore('bookingStore', () => {
     canceling,
     isError,
     bookingList,
+    bookingHistoryList,
     total,
+    historyTotal,
     listOptions,
     current,
     errorMessage,
-    createBookingSuccess: updateBookingSuccess,
+    updateBookingSuccess,
     ...actions,
   };
 });

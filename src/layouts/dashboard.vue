@@ -15,20 +15,22 @@
             ></v-btn>
           </template>
         </v-list-item>
-        <v-divider></v-divider>
+      </v-list>
+      <v-list>
+        <v-list-subheader class="text-white">Cuốc xe</v-list-subheader>
         <v-list-item
-          prepend-icon="mdi-clock-start"
-          title="Cuốc xe"
+          prepend-icon="mdi-ray-start-arrow"
+          title="Đang hoạt động"
           to="/booking/list"
         ></v-list-item>
-        <v-list-item prepend-icon="mdi-cog" title="Cài đặt" to="/setting"></v-list-item>
         <v-list-item
-          prepend-icon="mdi-account"
-          title="Khách hàng"
-          to="/customer/list"
+          prepend-icon="mdi-clock-start"
+          title="Lịch sử"
+          to="/booking/history"
         ></v-list-item>
       </v-list>
       <v-divider></v-divider>
+
       <v-list>
         <v-list-subheader class="text-white">Lái xe</v-list-subheader>
         <v-list-item
@@ -55,6 +57,15 @@
           title="Danh sách giao dịch"
           to="/transaction/list"
         ></v-list-item>
+      </v-list>
+      <v-divider></v-divider>
+      <v-list>
+        <v-list-item
+          prepend-icon="mdi-account"
+          title="Khách hàng"
+          to="/customer/list"
+        ></v-list-item>
+        <v-list-item prepend-icon="mdi-cog" title="Cài đặt" to="/setting"></v-list-item>
       </v-list>
       <template v-slot:append>
         <div class="pa-2">
