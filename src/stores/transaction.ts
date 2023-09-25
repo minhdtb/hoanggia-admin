@@ -113,7 +113,7 @@ export const useTransactionStore = defineStore('transactionStore', () => {
       try {
         errorMessage.value = '';
         loading.value = true;
-        await pb.send<Transaction>('/approve-transaction', {
+        await pb.send('/approve-transaction', {
           method: 'POST',
           body: {
             id,
@@ -133,8 +133,11 @@ export const useTransactionStore = defineStore('transactionStore', () => {
       try {
         errorMessage.value = '';
         loading.value = true;
-        await pb.collection('transaction').update(id, {
-          status: 'Rejected',
+        await pb.send('/reject-transaction', {
+          method: 'POST',
+          body: {
+            id,
+          },
         });
       } catch (err) {
         if (typeof err === 'string') {
