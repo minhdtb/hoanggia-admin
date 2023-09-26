@@ -7,7 +7,8 @@
     density="compact"
   ></v-text-field>
   <v-data-table-server
-    v-model:items-per-page="itemsPerPage"
+    v-model:page="pagination.page"
+    v-model:items-per-page="pagination.itemsPerPage"
     :headers="headers"
     :items="bookingHistoryList"
     :loading="loading"
@@ -17,7 +18,7 @@
     @update:options="handleLoadItems"
   >
     <template #item.index="{ index }">
-      {{ index + 1 }}
+      {{ index + (pagination.page - 1) * pagination.itemsPerPage + 1 }}
     </template>
     <template #item.user="{ item }">
       <a :href="`/customer/${item.raw.expand?.user?.id}`">{{ item.raw.expand?.user?.name }}</a>
@@ -62,6 +63,7 @@ const bookingStore = useBookingStore();
 const { bookingHistoryList, loading, canceling, historyTotal } = storeToRefs(bookingStore);
 
 const headers = [
+  { title: '#', key: 'index' },
   { title: 'Mã cuốc xe', key: 'id' },
   { title: 'Khách hàng', key: 'user' },
   { title: 'Lái xe', key: 'driver' },
@@ -74,7 +76,10 @@ const headers = [
   { title: 'Ngày tạo', key: 'created' },
 ];
 
-const itemsPerPage = ref(10);
+const pagination = ref({
+  page: 1,
+  itemsPerPage: 10,
+});
 const search = ref('');
 
 const handleLoadItems = async (options: any) => {

@@ -1,6 +1,7 @@
 <template>
   <v-data-table-server
-    v-model:items-per-page="itemsPerPage"
+    v-model:page="pagination.page"
+    v-model:items-per-page="pagination.itemsPerPage"
     :headers="headers"
     :items="driverList"
     :loading="loading"
@@ -10,7 +11,7 @@
     @click:row="handleClickRow"
   >
     <template #item.index="{ index }">
-      {{ index + 1 }}
+      {{ index + (pagination.page - 1) * pagination.itemsPerPage + 1 }}
     </template>
     <template #item.avatar="{ item }">
       <v-avatar color="blue">
@@ -58,7 +59,10 @@ const headers = [
   { title: 'Ngày tạo', key: 'created' },
 ];
 
-const itemsPerPage = ref(10);
+const pagination = ref({
+  page: 1,
+  itemsPerPage: 10,
+});
 
 const handleLoadItems = async (options: any) => {
   await driverStore.listWaiting({

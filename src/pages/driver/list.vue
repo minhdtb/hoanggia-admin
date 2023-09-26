@@ -7,7 +7,8 @@
     density="compact"
   ></v-text-field>
   <v-data-table-server
-    v-model:items-per-page="itemsPerPage"
+    v-model:page="pagination.page"
+    v-model:itemsPerPage.sync="pagination.itemsPerPage"
     :headers="headers"
     :items="driverList"
     :loading="loading"
@@ -18,7 +19,7 @@
     @click:row="handleClickRow"
   >
     <template #item.index="{ index }">
-      {{ index + 1 }}
+      {{ index + (pagination.page - 1) * pagination.itemsPerPage + 1 }}
     </template>
     <template #item.avatar="{ item }">
       <v-avatar color="blue">
@@ -68,6 +69,10 @@ definePageMeta({
 
 const driverStore = useDriverStore();
 const { driverList, loading, total, success } = storeToRefs(driverStore);
+const pagination = ref({
+  page: 1,
+  itemsPerPage: 10,
+});
 
 const headers = [
   { title: '#', key: 'index' },
@@ -81,7 +86,6 @@ const headers = [
   { title: 'Ngày đăng ký', key: 'created' },
 ];
 
-const itemsPerPage = ref(10);
 const search = ref('');
 
 const handleLoadItems = async (options: any) => {

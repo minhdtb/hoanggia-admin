@@ -1,6 +1,7 @@
 <template>
   <v-data-table-server
-    v-model:items-per-page="itemsPerPage"
+    v-model:page="pagination.page"
+    v-model:items-per-page="pagination.itemsPerPage"
     :headers="headers"
     :items="bookingList"
     :loading="loading"
@@ -9,7 +10,7 @@
     @update:options="handleLoadItems"
   >
     <template #item.index="{ index }">
-      {{ index + 1 }}
+      {{ index + (pagination.page - 1) * pagination.itemsPerPage + 1 }}
     </template>
     <template #item.user="{ item }">
       <a :href="`/customer/${item.raw.expand?.user?.id}`">{{ item.raw.expand?.user?.name }}</a>
@@ -89,7 +90,10 @@ const headers = [
   { title: 'Hành động', key: 'action' },
 ];
 
-const itemsPerPage = ref(10);
+const pagination = ref({
+  page: 1,
+  itemsPerPage: 10,
+});
 
 const handleLoadItems = async (options: any) => {
   await bookingStore.list({

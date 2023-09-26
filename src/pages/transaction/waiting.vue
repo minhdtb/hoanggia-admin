@@ -1,6 +1,7 @@
 <template>
   <v-data-table-server
-    v-model:items-per-page="itemsPerPage"
+    v-model:page="pagination.page"
+    v-model:items-per-page="pagination.itemsPerPage"
     :headers="headers"
     :items="transactionList"
     :loading="loading"
@@ -9,7 +10,7 @@
     @update:options="handleLoadItems"
   >
     <template #item.index="{ index }">
-      {{ index + 1 }}
+      {{ index + (pagination.page - 1) * pagination.itemsPerPage + 1 }}
     </template>
     <template #item.created="{ item }">
       {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
@@ -70,7 +71,10 @@ const headers = [
   { title: 'Hành động', key: 'action' },
 ];
 
-const itemsPerPage = ref(10);
+const pagination = ref({
+  page: 1,
+  itemsPerPage: 10,
+});
 
 const handleLoadItems = async (options: any) => {
   await transactionStore.listWaiting({
