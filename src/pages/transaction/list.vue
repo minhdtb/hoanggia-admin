@@ -6,7 +6,7 @@
     <v-col cols="2">
       <v-text-field type="date" v-model="to"></v-text-field>
     </v-col>
-    <v-btn>Xuất Exel</v-btn>
+    <v-btn @click="handleExport">Xuất Exel</v-btn>
   </v-row>
   <v-data-table-server
     v-model:page="pagination.page"
@@ -113,5 +113,9 @@ const handleDelete = async (id: string) => {
     await transactionStore.delete(id);
     await transactionStore.list();
   }
+};
+
+const handleExport = async () => {
+  await transactionStore.exportExcel(from.value, to.value);
 };
 </script>

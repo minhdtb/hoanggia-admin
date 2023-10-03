@@ -16,6 +16,7 @@ export interface Transaction {
 
 export const useTransactionStore = defineStore('transactionStore', () => {
   const pb = usePb();
+  const appConfig = useAppConfig();
 
   const loading = ref(false);
   const errorMessage = ref<string | undefined>(undefined);
@@ -162,6 +163,34 @@ export const useTransactionStore = defineStore('transactionStore', () => {
         errorMessage.value = '';
         loading.value = true;
         await pb.collection('transaction').delete(id);
+      } catch (err) {
+        if (typeof err === 'string') {
+          errorMessage.value = err;
+        } else if (err instanceof Error) {
+          errorMessage.value = err.message;
+        }
+      } finally {
+        loading.value = false;
+      }
+    },
+    async exportExcel(from: string, to: string) {
+      try {
+        errorMessage.value = '';
+        loading.value = true;
+        const data = await useFetch(`${appConfig.backend.url}/export-excel`, {
+          method: 'POST',
+          headers: {
+            Authorization: 'Bearer ' + pb.authStore.token,
+          },
+          body: {
+            from,
+            to,
+          },
+        });
+        let link = document.createElement('a');
+        link.href = window.URL.createObjectURL(data.data.value as Blob);
+        link.download = 'export.xlsx';
+        link.click();
       } catch (err) {
         if (typeof err === 'string') {
           errorMessage.value = err;
