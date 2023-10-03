@@ -2,6 +2,7 @@ import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import { VDataTable, VDataTableServer } from 'vuetify/labs/VDataTable';
+import { VDatePicker } from 'vuetify/labs/VDatePicker';
 import { vi } from 'vuetify/locale';
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -11,6 +12,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       ...components,
       VDataTable,
       VDataTableServer,
+      VDatePicker,
     },
     locale: {
       locale: 'vi',

@@ -1,5 +1,6 @@
 import { ListOptions } from '~/utils/types';
 import { Driver } from '~/stores/driver';
+import moment from 'moment';
 
 export interface Transaction {
   id?: string;
@@ -34,18 +35,25 @@ export const useTransactionStore = defineStore('transactionStore', () => {
   });
 
   const actions = {
-    async list(options?: ListOptions) {
+    async list(options?: ListOptions, from?: string, to?: string) {
       try {
         loading.value = true;
         transactionList.value = [];
         if (options) {
           listOptions.value = options;
         }
+        let filter = 'status != "Pending"';
+        if (from) {
+          filter += ` && created >= "${from}" `;
+        }
+        if (to) {
+          filter += ` && created <= "${moment(to).add(1, 'days').format('YYYY-MM-DD')}" `;
+        }
         const res = await pb
           .collection('transaction')
           .getList<Transaction>(listOptions.value?.page, listOptions.value?.limit, {
             expand: 'driver,creator',
-            filter: 'status != "Pending"',
+            filter: filter,
             sort: '-created',
           });
         transactionList.value = res.items;

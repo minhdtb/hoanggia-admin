@@ -1,4 +1,13 @@
 <template>
+  <v-row class="align-center">
+    <v-col cols="2">
+      <v-text-field type="date" v-model="from"></v-text-field>
+    </v-col>
+    <v-col cols="2">
+      <v-text-field type="date" v-model="to"></v-text-field>
+    </v-col>
+    <v-btn>Xuất Exel</v-btn>
+  </v-row>
   <v-data-table-server
     v-model:page="pagination.page"
     v-model:items-per-page="pagination.itemsPerPage"
@@ -57,6 +66,9 @@ definePageMeta({
 const transactionStore = useTransactionStore();
 const { transactionList, loading, total } = storeToRefs(transactionStore);
 
+const from = ref();
+const to = ref();
+
 const headers = [
   { title: '#', key: 'index' },
   { title: 'Người tạo lệnh', key: 'creator' },
@@ -73,11 +85,27 @@ const pagination = ref({
   itemsPerPage: 10,
 });
 
+watch(from, () => {
+  if (from.value && to.value) {
+    transactionStore.list(undefined, from.value, to.value);
+  }
+});
+
+watch(to, () => {
+  if (from.value && to.value) {
+    transactionStore.list(undefined, from.value, to.value);
+  }
+});
+
 const handleLoadItems = async (options: any) => {
-  await transactionStore.list({
-    limit: options.itemsPerPage,
-    page: options.page,
-  });
+  await transactionStore.list(
+    {
+      limit: options.itemsPerPage,
+      page: options.page,
+    },
+    from.value,
+    to.value,
+  );
 };
 
 const handleDelete = async (id: string) => {
