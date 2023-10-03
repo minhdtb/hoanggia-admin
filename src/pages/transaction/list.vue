@@ -1,10 +1,10 @@
 <template>
   <v-row class="align-center">
     <v-col cols="2">
-      <v-text-field type="date" v-model="from"></v-text-field>
+      <v-text-field type="date" v-model="from" clearable></v-text-field>
     </v-col>
     <v-col cols="2">
-      <v-text-field type="date" v-model="to"></v-text-field>
+      <v-text-field type="date" v-model="to" clearable></v-text-field>
     </v-col>
     <v-btn @click="handleExport">Xuất Exel</v-btn>
   </v-row>
@@ -86,15 +86,11 @@ const pagination = ref({
 });
 
 watch(from, () => {
-  if (from.value && to.value) {
-    transactionStore.list(undefined, from.value, to.value);
-  }
+  transactionStore.list(undefined, from.value, to.value);
 });
 
 watch(to, () => {
-  if (from.value && to.value) {
-    transactionStore.list(undefined, from.value, to.value);
-  }
+  transactionStore.list(undefined, from.value, to.value);
 });
 
 const handleLoadItems = async (options: any) => {
