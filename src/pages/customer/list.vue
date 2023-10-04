@@ -2,11 +2,16 @@
   <v-data-table-server
     v-model:page="pagination.page"
     v-model:items-per-page="pagination.itemsPerPage"
+    hover
     :headers="headers"
     :items="userList"
     :loading="loading"
     :items-length="total"
-    hover
+    :items-per-page-options="[
+      { value: 10, title: '10' },
+      { value: 20, title: '20' },
+      { value: 30, title: '30' },
+    ]"
     @update:options="handleLoadItems"
     @click:row="handleClickRow"
   >

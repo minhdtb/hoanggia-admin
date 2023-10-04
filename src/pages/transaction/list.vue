@@ -16,6 +16,11 @@
     :loading="loading"
     :items-length="total"
     hover
+    :items-per-page-options="[
+      { value: 10, title: '10' },
+      { value: 20, title: '20' },
+      { value: 30, title: '30' },
+    ]"
     @update:options="handleLoadItems"
   >
     <template #item.index="{ index }">
