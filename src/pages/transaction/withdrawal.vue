@@ -109,7 +109,7 @@ const handleLoadItems = async (options: any) => {
 const handleDelete = async (id: string) => {
   if (confirm('Bạn chắc chắn muốn xóa giao dịch này?')) {
     await transactionStore.delete(id);
-    await transactionStore.listDeposit();
+    await transactionStore.listWithdrawal();
   }
 };
 
