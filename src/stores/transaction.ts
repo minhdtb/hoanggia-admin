@@ -43,7 +43,7 @@ export const useTransactionStore = defineStore('transactionStore', () => {
         if (options) {
           listOptions.value = options;
         }
-        let filter = 'status != "Pending" && type="Deposit"';
+        let filter = 'status != "Pending" && type = "Deposit"';
         if (from) {
           filter += ` && created >= "${from}" `;
         }
