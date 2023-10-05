@@ -36,14 +36,47 @@ export const useTransactionStore = defineStore('transactionStore', () => {
   });
 
   const actions = {
-    async list(options?: ListOptions, from?: string, to?: string) {
+    async listDeposit(options?: ListOptions, from?: string, to?: string) {
       try {
         loading.value = true;
         transactionList.value = [];
         if (options) {
           listOptions.value = options;
         }
-        let filter = 'status != "Pending"';
+        let filter = 'status != "Pending" && type="Deposit"';
+        if (from) {
+          filter += ` && created >= "${from}" `;
+        }
+        if (to) {
+          filter += ` && created <= "${moment(to).add(1, 'days').format('YYYY-MM-DD')}" `;
+        }
+        const res = await pb
+          .collection('transaction')
+          .getList<Transaction>(listOptions.value?.page, listOptions.value?.limit, {
+            expand: 'driver,creator',
+            filter: filter,
+            sort: '-created',
+          });
+        transactionList.value = res.items;
+        total.value = res.totalItems;
+      } catch (err) {
+        if (typeof err === 'string') {
+          errorMessage.value = err;
+        } else if (err instanceof Error) {
+          errorMessage.value = err.message;
+        }
+      } finally {
+        loading.value = false;
+      }
+    },
+    async listWithdrawal(options?: ListOptions, from?: string, to?: string) {
+      try {
+        loading.value = true;
+        transactionList.value = [];
+        if (options) {
+          listOptions.value = options;
+        }
+        let filter = 'status != "Pending" && type="Withdrawal"';
         if (from) {
           filter += ` && created >= "${from}" `;
         }
@@ -173,7 +206,7 @@ export const useTransactionStore = defineStore('transactionStore', () => {
         loading.value = false;
       }
     },
-    async exportExcel(from: string, to: string) {
+    async exportExcel(from: string, to: string, type: string) {
       try {
         errorMessage.value = '';
         loading.value = true;

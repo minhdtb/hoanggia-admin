@@ -43,11 +43,18 @@
       {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
     </template>
     <template #item.amount="{ item }">
-      {{ new Intl.NumberFormat('vi-VN').format(item.raw.amount ?? 0) }}
+      <span class="text-red font-weight-bold">
+        -{{ new Intl.NumberFormat('vi-VN').format(item.raw.amount ?? 0) }}
+      </span>
     </template>
     <template #item.status="{ item }">
       <v-chip :color="transStatusText(item.raw.status)?.color"
         >{{ transStatusText(item.raw.status)?.text }}
+      </v-chip>
+    </template>
+    <template #item.type="{ item }">
+      <v-chip :color="transTypeText(item.raw.type)?.color"
+        >{{ transTypeText(item.raw.type)?.text }}
       </v-chip>
     </template>
     <template #item.action="{ item }">
@@ -57,7 +64,7 @@
 </template>
 <script setup lang="ts">
 import { useTransactionStore } from '~/stores/transaction';
-import { transStatusText } from '~/utils/helper';
+import { transStatusText, transTypeText } from '~/utils/helper';
 
 useHead({
   title: `Hoang Gia Driver - Giao dịch`,
@@ -76,11 +83,8 @@ const to = ref();
 
 const headers = [
   { title: '#', key: 'index' },
-  { title: 'Người tạo lệnh', key: 'creator' },
-  { title: 'Người thụ hưởng', key: 'driver' },
-  { title: 'Mã chuyển khoản', key: 'code' },
+  { title: 'Lái xe', key: 'driver' },
   { title: 'Số tiền', key: 'amount' },
-  { title: 'Trạng thái', key: 'status' },
   { title: 'Ngày tạo', key: 'created' },
   { title: 'Hành động', key: 'action' },
 ];
@@ -91,15 +95,15 @@ const pagination = ref({
 });
 
 watch(from, () => {
-  transactionStore.list(undefined, from.value, to.value);
+  transactionStore.listWithdrawal(undefined, from.value, to.value);
 });
 
 watch(to, () => {
-  transactionStore.list(undefined, from.value, to.value);
+  transactionStore.listWithdrawal(undefined, from.value, to.value);
 });
 
 const handleLoadItems = async (options: any) => {
-  await transactionStore.list(
+  await transactionStore.listWithdrawal(
     {
       limit: options.itemsPerPage,
       page: options.page,
@@ -112,11 +116,11 @@ const handleLoadItems = async (options: any) => {
 const handleDelete = async (id: string) => {
   if (confirm('Bạn chắc chắn muốn xóa giao dịch này?')) {
     await transactionStore.delete(id);
-    await transactionStore.list();
+    await transactionStore.listDeposit();
   }
 };
 
 const handleExport = async () => {
-  await transactionStore.exportExcel(from.value, to.value);
+  await transactionStore.exportExcel(from.value, to.value, 'Withdrawal');
 };
 </script>

@@ -54,8 +54,13 @@
         ></v-list-item>
         <v-list-item
           prepend-icon="mdi-cash-check"
-          title="Danh sách giao dịch"
-          to="/transaction/list"
+          title="Nạp tiền"
+          to="/transaction/deposit"
+        ></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-cash-check"
+          title="Khấu trừ"
+          to="/transaction/withdrawal"
         ></v-list-item>
       </v-list>
       <v-divider></v-divider>

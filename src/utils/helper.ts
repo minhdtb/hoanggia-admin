@@ -68,12 +68,27 @@ export function transStatusText(status: string): { text: string; color: string }
     case 'Approved':
       return {
         text: 'Đã duyệt',
-        color: 'green',
+        color: 'blue',
       };
     case 'Rejected':
       return {
         text: 'Từ chối',
         color: 'red',
+      };
+  }
+}
+
+export function transTypeText(status: string): { text: string; color: string } | undefined {
+  switch (status) {
+    case 'Withdrawal':
+      return {
+        text: 'Khấu trừ',
+        color: 'red',
+      };
+    case 'Deposit':
+      return {
+        text: 'Nạp tiền',
+        color: 'blue',
       };
   }
 }
