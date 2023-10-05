@@ -218,6 +218,7 @@ export const useTransactionStore = defineStore('transactionStore', () => {
           body: {
             from,
             to,
+            type,
           },
         });
         let link = document.createElement('a');
