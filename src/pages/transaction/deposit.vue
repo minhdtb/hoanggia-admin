@@ -43,7 +43,7 @@
       {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
     </template>
     <template #item.amount="{ item }">
-      <span class="text-green font-weight-bold">
+      <span class="text-green">
         +{{ new Intl.NumberFormat('vi-VN').format(item.raw.amount ?? 0) }}
       </span>
     </template>
