@@ -1,5 +1,5 @@
 <template>
-  <custom-form title="Chọn lái xe">
+  <custom-form title="Chọn lái xe đủ điều kiện">
     <template #content>
       <v-text-field
         v-model="search"
@@ -8,13 +8,15 @@
         class="ma-2"
         density="compact"
       ></v-text-field>
-      <div class="d-flex overflow-auto" style="height: 300px">
+      <div class="d-flex overflow-auto">
         <v-data-table-server
           :headers="headers"
           :items="driverAvailableList"
           :loading="loading"
           :search="search"
-          :items-length="0"
+          :items-length="total"
+          v-model:page="pagination.page"
+          v-model:items-per-page="pagination.itemsPerPage"
           select-strategy="single"
           return-object
           show-select
@@ -52,7 +54,6 @@
           <template #item.created="{ item }">
             {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
           </template>
-          <template #bottom></template>
         </v-data-table-server>
       </div>
     </template>
@@ -82,7 +83,7 @@ const emit = defineEmits<{
 }>();
 
 const driverStore = useDriverStore();
-const { driverAvailableList, loading } = storeToRefs(driverStore);
+const { driverAvailableList, loading, total } = storeToRefs(driverStore);
 
 const selected = ref([]);
 
@@ -96,8 +97,16 @@ const headers = [
 
 const search = ref('');
 
-const handleLoadItems = async () => {
-  await driverStore.listAvailable(search.value);
+const pagination = ref({
+  page: 1,
+  itemsPerPage: 10,
+});
+
+const handleLoadItems = async (options: any) => {
+  await driverStore.listAvailable(search.value, {
+    limit: options.itemsPerPage,
+    page: options.page,
+  });
 };
 
 const handleSubmit = () => {

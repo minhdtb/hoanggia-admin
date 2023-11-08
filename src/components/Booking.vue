@@ -9,6 +9,7 @@
               v-bind="name"
               readonly
               append-icon="mdi-plus"
+              @click="onAdd"
               @click:append="onAdd"
             ></v-text-field>
           </custom-form-field>
@@ -26,7 +27,7 @@
       </v-btn>
     </template>
   </custom-form>
-  <v-dialog v-model="showAvailable" width="700">
+  <v-dialog v-model="showAvailable" width="900">
     <driver-available-list @onAccept="handleAccept"></driver-available-list>
   </v-dialog>
 </template>

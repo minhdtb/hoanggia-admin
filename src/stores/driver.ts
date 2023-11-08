@@ -44,13 +44,15 @@ export const useDriverStore = defineStore('driverStore', () => {
   });
 
   const actions = {
-    async listAvailable(name: string) {
+    async listAvailable(name: string, options?: ListOptions) {
       try {
         loading.value = true;
         const res = await pb.send('/get-all-available-driver', {
           method: 'POST',
           body: {
             name: name,
+            page: options?.page,
+            limit: options?.limit,
           },
         });
         driverAvailableList.value = res.list.map((it: any) => {
@@ -59,6 +61,7 @@ export const useDriverStore = defineStore('driverStore', () => {
           }
           return it;
         });
+        total.value = res.total;
       } catch (err) {
         if (typeof err === 'string') {
           errorMessage.value = err;
