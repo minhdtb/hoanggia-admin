@@ -70,7 +70,7 @@
         </v-col>
       </v-row>
       <v-dialog v-model="showImages">
-        <v-carousel cycle color="white" height="700px">
+        <v-carousel color="white" height="700px">
           <v-carousel-item>
             <v-sheet height="100%">
               <v-img :src="current?.nidFront">
