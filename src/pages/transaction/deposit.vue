@@ -52,14 +52,12 @@
         >{{ transStatusText(item.raw.status)?.text }}
       </v-chip>
     </template>
-    <template #item.action="{ item }">
-      <v-btn variant="elevated" color="red" @click="handleDelete(item.raw.id)">Xóa</v-btn>
-    </template>
+    <template #item.action="{ item }"></template>
   </v-data-table-server>
 </template>
 <script setup lang="ts">
 import { useTransactionStore } from '~/stores/transaction';
-import { transStatusText, transTypeText } from '~/utils/helper';
+import { transStatusText } from '~/utils/helper';
 
 useHead({
   title: `Hoang Gia Driver - Giao dịch`,
@@ -84,7 +82,6 @@ const headers = [
   { title: 'Số tiền', key: 'amount' },
   { title: 'Trạng thái', key: 'status' },
   { title: 'Ngày tạo', key: 'created' },
-  { title: 'Hành động', key: 'action' },
 ];
 
 const pagination = ref({

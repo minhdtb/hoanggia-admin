@@ -4,6 +4,9 @@
       <v-col cols="md-4">
         <v-card class="pa-4">
           <v-form @submit="onSubmit">
+            <v-card-title class="text-center font-weight-bold text-uppercase"
+              >Lái xe hoàng gia
+            </v-card-title>
             <v-card-item>
               <v-text-field label="Email" type="text" v-bind="email"></v-text-field>
             </v-card-item>

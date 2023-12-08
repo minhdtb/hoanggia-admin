@@ -49,9 +49,7 @@
         >{{ transTypeText(item.raw.type)?.text }}
       </v-chip>
     </template>
-    <template #item.action="{ item }">
-      <v-btn variant="elevated" color="red" @click="handleDelete(item.raw.id)">Xóa</v-btn>
-    </template>
+    <template #item.action="{ item }"></template>
   </v-data-table-server>
 </template>
 <script setup lang="ts">
@@ -79,7 +77,6 @@ const headers = [
   { title: 'Mã cuốc xe', key: 'bookingId' },
   { title: 'Số tiền', key: 'amount' },
   { title: 'Ngày tạo', key: 'created' },
-  { title: 'Hành động', key: 'action' },
 ];
 
 const pagination = ref({
