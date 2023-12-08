@@ -1,6 +1,6 @@
 <template>
   <v-layout>
-    <v-navigation-drawer permanent :rail="toggleNav" @click="toggleNav = false" color="blue">
+    <v-navigation-drawer permanent :rail="toggleNav" @click="toggleNav = false" color="green">
       <v-list nav>
         <v-list-item
           prepend-avatar="https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=admin"
@@ -30,7 +30,11 @@
         ></v-list-item>
       </v-list>
       <v-divider></v-divider>
-
+      <v-list>
+        <v-list-subheader class="text-white">Khách hàng</v-list-subheader>
+        <v-list-item prepend-icon="mdi-account" title="Danh sách" to="/customer/list"></v-list-item>
+      </v-list>
+      <v-divider></v-divider>
       <v-list>
         <v-list-subheader class="text-white">Lái xe</v-list-subheader>
         <v-list-item
@@ -65,11 +69,6 @@
       </v-list>
       <v-divider></v-divider>
       <v-list>
-        <v-list-item
-          prepend-icon="mdi-account"
-          title="Khách hàng"
-          to="/customer/list"
-        ></v-list-item>
         <v-list-item prepend-icon="mdi-cog" title="Cài đặt" to="/setting"></v-list-item>
       </v-list>
       <template v-slot:append>
