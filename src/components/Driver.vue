@@ -65,7 +65,6 @@
             <v-btn class="mr-2" variant="elevated" color="orange" @click="handleShowHistory"
               >Xem lịch sử
             </v-btn>
-            <v-btn variant="elevated" color="red" @click="handleAddBalance">Nạp tiền</v-btn>
           </div>
         </v-col>
       </v-row>
