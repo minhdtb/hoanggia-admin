@@ -82,9 +82,7 @@ export const useDriverStore = defineStore('driverStore', () => {
         const res = await pb
           .collection('driver')
           .getList<Driver>(listOptions.value?.page, listOptions.value?.limit, {
-            filter: `authStatus != "WaitingApproval" && (name ~ "${search ?? ''}" || phone ~ "${
-              search ?? ''
-            }")`,
+            filter: `name ~ "${search ?? ''}" || phone ~ "${search ?? ''}"`,
             sort: '-created',
           });
         driverList.value = res.items.map((it) => {
