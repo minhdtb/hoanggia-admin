@@ -32,7 +32,11 @@
       <v-divider></v-divider>
       <v-list>
         <v-list-subheader class="text-white">Khách hàng</v-list-subheader>
-        <v-list-item prepend-icon="mdi-account" title="Danh sách" to="/customer/list"></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-account"
+          title="Danh sách KH"
+          to="/customer/list"
+        ></v-list-item>
       </v-list>
       <v-divider></v-divider>
       <v-list>
@@ -47,6 +51,16 @@
           title="Danh sách lái xe"
           to="/driver/list"
         ></v-list-item>
+      </v-list>
+      <v-divider></v-divider>
+      <v-list>
+        <v-list-subheader class="text-white">Khuyến mại</v-list-subheader>
+        <v-list-item
+          prepend-icon="mdi-ticket"
+          title="Danh sách KM"
+          to="/discount/list"
+        ></v-list-item>
+        <v-list-item prepend-icon="mdi-ticket" title="Đã sử dụng" to="/discount/use"></v-list-item>
       </v-list>
       <v-divider></v-divider>
       <v-list>

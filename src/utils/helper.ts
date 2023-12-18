@@ -92,3 +92,18 @@ export function transTypeText(status: string): { text: string; color: string } |
       };
   }
 }
+
+export function discountStatusText(status: string): { text: string; color: string } | undefined {
+  switch (status) {
+    case 'Active':
+      return {
+        text: 'Đang hoạt động',
+        color: 'green',
+      };
+    case 'Inactive':
+      return {
+        text: 'Tạm dừng',
+        color: 'gray',
+      };
+  }
+}
