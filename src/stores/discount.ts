@@ -13,6 +13,7 @@ export type Discount = {
   content?: string;
   discount?: number;
   discountType?: string;
+  userType?: string;
   type?: string;
   status?: string;
   created?: string;

@@ -81,7 +81,7 @@ const headers = [
   { title: 'Ưu đãi', key: 'discount' },
   { title: 'Từ ngày', key: 'validStart' },
   { title: 'Đến ngày', key: 'validEnd' },
-  { title: 'Người dùng', key: 'type' },
+  { title: 'Người dùng', key: 'userType' },
   { title: 'Trạng thái', key: 'status' },
   { title: 'Ngày tạo', key: 'created' },
 ];

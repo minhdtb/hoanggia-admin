@@ -12,7 +12,7 @@
           <custom-form-field label="Giảm giá">
             <div class="d-flex">
               <v-text-field type="number" v-bind="discount"></v-text-field>
-              <discount-type-select v-bind="discountType"></discount-type-select>
+              <discount-discount-type-select v-bind="discountType"></discount-discount-type-select>
             </div>
           </custom-form-field>
           <custom-form-field label="Trạng thái">
@@ -37,7 +37,7 @@
             </custom-form-field>
           </div>
           <custom-form-field label="Loại người dùng">
-            <discount-user-type-select v-bind="type"></discount-user-type-select>
+            <discount-user-type-select v-bind="userType"></discount-user-type-select>
           </custom-form-field>
         </v-col>
       </v-row>
@@ -82,7 +82,7 @@ const { handleSubmit, defineComponentBinds, isValidating, isSubmitting, setField
       count: yup.number().typeError('Hãy nhập số lượng').required('Hãy nhâp số lượng'),
       discount: yup.number().typeError('Hãy nhập giảm giá').required('Hãy nhập giảm giá'),
       discountType: yup.string().required('Hãy chọn loại giảm giá'),
-      type: yup.string().required('Hãy chọn loại khuyến mại'),
+      userType: yup.string().required('Hãy chọn loại người dùng'),
       dateStart: yup.string().required('Hãy nhập ngày bắt đầu'),
       timeStart: yup.string().required('Hãy nhập thời gian bắt đầu'),
       dateEnd: yup.string().required('Hãy nhập ngày kết thúc'),
@@ -107,7 +107,7 @@ const title = defineComponentBinds('title', validateConfig);
 const count = defineComponentBinds('count', validateConfig);
 const discount = defineComponentBinds('discount', validateConfig);
 const discountType = defineComponentBinds('discountType', validateConfig);
-const type = defineComponentBinds('type', validateConfig);
+const userType = defineComponentBinds('userType', validateConfig);
 const dateStart = defineComponentBinds('dateStart', validateConfig);
 const timeStart = defineComponentBinds('timeStart', validateConfig);
 const dateEnd = defineComponentBinds('dateEnd', validateConfig);
@@ -126,6 +126,7 @@ const onSubmit = (e: SubmitEventPromise) => {
       validEnd: moment(`${values.dateEnd} ${values.timeEnd}`, 'YYYY-MM-DD HH:mm')
         .set('seconds', 0)
         .toDate(),
+      type: 'Fixed',
     };
     await discountStore.create(discount);
     emit('onClose');
