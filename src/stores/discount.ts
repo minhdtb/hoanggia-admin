@@ -61,6 +61,7 @@ export const useDiscountStore = defineStore('discountStore', () => {
         const res = await pb
           .collection('discount')
           .getList<Discount>(listOptions.value?.page, listOptions.value?.limit, {
+            filter: 'type = "Fixed"',
             expand: 'user',
             sort: '-created',
           });
