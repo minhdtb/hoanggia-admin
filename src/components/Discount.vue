@@ -44,7 +44,12 @@
     </template>
     <template #actions>
       <v-btn variant="elevated" @click="emit('onClose')">Quay lại</v-btn>
-      <v-btn variant="elevated" color="blue" type="submit" :disabled="isValidating || isSubmitting"
+      <v-btn
+        v-if="current?.type !== 'Unlimited'"
+        variant="elevated"
+        color="blue"
+        type="submit"
+        :disabled="isValidating || isSubmitting"
         >Lưu
       </v-btn>
     </template>
@@ -68,9 +73,6 @@ const props = defineProps<{
 const discountStore = useDiscountStore();
 const { current } = storeToRefs(discountStore);
 
-const showImages = ref(false);
-const showHistory = ref(false);
-
 const { handleSubmit, defineComponentBinds, isValidating, isSubmitting, setFieldValue } = useForm({
   validationSchema: toTypedSchema(
     yup.object().shape({
@@ -80,10 +82,10 @@ const { handleSubmit, defineComponentBinds, isValidating, isSubmitting, setField
       discount: yup.number().typeError('Hãy nhập giảm giá').required('Hãy nhập giảm giá'),
       discountType: yup.string().required('Hãy chọn loại giảm giá'),
       userType: yup.string().required('Hãy chọn loại người dùng'),
-      dateStart: yup.string().required('Hãy nhập ngày bắt đầu'),
-      timeStart: yup.string().required('Hãy nhập thời gian bắt đầu'),
-      dateEnd: yup.string().required('Hãy nhập ngày kết thúc'),
-      timeEnd: yup.string().required('Hãy nhập thời gian kết thúc'),
+      dateStart: yup.string(),
+      timeStart: yup.string(),
+      dateEnd: yup.string(),
+      timeEnd: yup.string(),
       userId: yup.string(),
       status: yup.string().required('Hãy chọn trạng thái'),
     }),
@@ -123,10 +125,22 @@ watch(
     setFieldValue('userType', current.value?.userType);
     setFieldValue('status', current.value?.status);
     setFieldValue('status', current.value?.status);
-    setFieldValue('dateStart', moment(current.value?.validStart).format('DD/MM/YYYY'));
-    setFieldValue('timeStart', moment(current.value?.validStart).format('HH:mm'));
-    setFieldValue('dateEnd', moment(current.value?.validEnd).format('DD/MM/YYYY'));
-    setFieldValue('timeEnd', moment(current.value?.validEnd).format('HH:mm'));
+    setFieldValue(
+      'dateStart',
+      current.value?.validStart ? moment(current.value?.validStart).format('DD/MM/YYYY') : '',
+    );
+    setFieldValue(
+      'timeStart',
+      current.value?.validStart ? moment(current.value?.validStart).format('HH:mm') : '',
+    );
+    setFieldValue(
+      'dateEnd',
+      current.value?.validEnd ? moment(current.value?.validEnd).format('DD/MM/YYYY') : '',
+    );
+    setFieldValue(
+      'timeEnd',
+      current.value?.validEnd ? moment(current.value?.validEnd).format('HH:mm') : '',
+    );
   },
 );
 
