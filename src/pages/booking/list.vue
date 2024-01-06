@@ -90,6 +90,7 @@ const headers = [
   { title: 'Thời gian đón', key: 'pickupDate' },
   { title: 'Quãng đường', key: 'distance' },
   { title: 'Cước phí', key: 'fee' },
+  { title: 'Khuyến mại', key: 'discount' },
   { title: 'Trạng thái', key: 'status' },
   { title: 'Ngày tạo', key: 'created' },
   { title: 'Hành động', key: 'action' },
