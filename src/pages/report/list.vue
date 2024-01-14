@@ -42,7 +42,7 @@
         </v-chip>
       </template>
     </v-data-table-server>
-    <v-dialog v-model="showCreate" width="800">
+    <v-dialog v-model="showCreate" width="600">
       <report-new @on-close="handleHideCreate"></report-new>
     </v-dialog>
   </v-container>

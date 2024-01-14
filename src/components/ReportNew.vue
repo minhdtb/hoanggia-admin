@@ -65,7 +65,7 @@ const onSubmit = (e: SubmitEventPromise) => {
       ...values,
       from: moment(values.from).toDate(),
       to: moment(values.to).toDate(),
-      type: 'Waiting',
+      status: 'Waiting',
     };
     await reportStore.create(report);
     emit('onClose');
