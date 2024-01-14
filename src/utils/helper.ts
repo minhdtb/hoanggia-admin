@@ -125,6 +125,11 @@ export function reportStatusText(status: string): { text: string; color: string 
         text: 'Hoàn thành',
         color: 'green',
       };
+    case 'Failed':
+      return {
+        text: 'Lỗi',
+        color: 'red',
+      };
   }
 }
 
