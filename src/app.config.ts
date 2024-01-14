@@ -1,5 +1,5 @@
 export default defineAppConfig({
   backend: {
-    url: 'http://localhost:8090',
+    url: 'https://laixehoanggia.top',
   },
 });
