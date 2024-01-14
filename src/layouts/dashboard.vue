@@ -83,6 +83,15 @@
       </v-list>
       <v-divider></v-divider>
       <v-list>
+        <v-list-subheader class="text-white">Báo cáo</v-list-subheader>
+        <v-list-item
+            prepend-icon="mdi-table"
+            title="Danh sách"
+            to="/report/list"
+        ></v-list-item>
+      </v-list>
+      <v-divider></v-divider>
+      <v-list>
         <v-list-item prepend-icon="mdi-cog" title="Cài đặt" to="/setting"></v-list-item>
       </v-list>
       <template v-slot:append>

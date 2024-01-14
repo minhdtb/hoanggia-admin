@@ -107,3 +107,23 @@ export function discountStatusText(status: string): { text: string; color: strin
       };
   }
 }
+
+export function reportStatusText(status: string): { text: string; color: string } | undefined {
+  switch (status) {
+    case 'Waiting':
+      return {
+        text: 'Đang chờ',
+        color: 'gray',
+      };
+    case 'Doing':
+      return {
+        text: 'Đang xử lý',
+        color: 'blue',
+      };
+    case 'Finished':
+      return {
+        text: 'Hoàn thành',
+        color: 'green',
+      };
+  }
+}
