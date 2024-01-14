@@ -32,7 +32,9 @@
         {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
       </template>
       <template #item.type="{ item }">
-        <span v-if="item.raw.type === 'All'">Tất cả</span>
+        <v-chip :color="reportTypeText(item.raw.type)?.color"
+        >{{ reportTypeText(item.raw.type)?.text }}
+        </v-chip>
       </template>
       <template #item.status="{ item }">
         <v-chip :color="reportStatusText(item.raw.status)?.color"
@@ -46,7 +48,7 @@
   </v-container>
 </template>
 <script setup lang="ts">
-import {reportStatusText} from "~/utils/helper";
+import {reportStatusText, reportTypeText} from "~/utils/helper";
 import {useReportStore} from "~/stores/report";
 
 useHead({

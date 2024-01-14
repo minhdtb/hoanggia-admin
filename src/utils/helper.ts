@@ -127,3 +127,23 @@ export function reportStatusText(status: string): { text: string; color: string 
       };
   }
 }
+
+export function reportTypeText(status: number): { text: string; color: string } | undefined {
+  switch (status) {
+    case 0:
+      return {
+        text: 'Báo cáo tài chính',
+        color: 'red',
+      };
+    case 1:
+      return {
+        text: 'Báo cáo lái xe',
+        color: 'green',
+      };
+    case 2:
+      return {
+        text: 'Báo cáo khách hàng',
+        color: 'blue',
+      };
+  }
+}
