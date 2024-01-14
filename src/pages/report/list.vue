@@ -17,7 +17,6 @@
       { value: 30, title: '30' },
     ]"
       @update:options="handleLoadItems"
-      @click:row="handleClickRow"
     >
       <template #item.index="{ index }">
         {{ index + (pagination.page - 1) * pagination.itemsPerPage + 1 }}
@@ -41,6 +40,11 @@
         >{{ reportStatusText(item.raw.status)?.text }}
         </v-chip>
       </template>
+      <template #item.link="{ item }">
+        <a v-if="item.raw.link" href="#" @click.prevent="downloadFile(item.raw)">
+          Link
+        </a>
+      </template>
     </v-data-table-server>
     <v-dialog v-model="showCreate" width="600">
       <report-new @on-close="handleHideCreate"></report-new>
@@ -61,6 +65,8 @@ definePageMeta({
 });
 
 const reportStore = useReportStore();
+const appConfig = useAppConfig();
+
 const {reportList, loading, total} = storeToRefs(reportStore);
 
 const showCreate = ref(false);
@@ -87,10 +93,6 @@ const handleLoadItems = async (options: any) => {
   });
 };
 
-const handleClickRow = (_: Event, {item}: any) => {
-  navigateTo(`${item.raw.id}`);
-};
-
 const handleShowCreate = async () => {
   showCreate.value = true;
 };
@@ -99,5 +101,15 @@ const handleHideCreate = async () => {
   await reportStore.list(pagination.value);
   showCreate.value = false;
 };
+
+const downloadFile = async (item: any) => {
+  const url = `${appConfig.backend.url}/api/files/report/${item.id}/${item.link}`;
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = item.name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
 
 </script>
