@@ -41,8 +41,11 @@ const reportStore = useReportStore();
 const {handleSubmit, defineComponentBinds, isValidating, isSubmitting, setFieldValue} = useForm({
   validationSchema: toTypedSchema(
     yup.object().shape({
-      from: yup.string().required('Hãy nhập ngày bắt đầu'),
-      to: yup.string().required('Hãy nhập ngày kết thúc'),
+      from: yup.date().required('Hãy nhập ngày bắt đầu'),
+      to: yup.date().required('Hãy nhập ngày kết thúc').min(
+        yup.ref('from'),
+        "Ngày kết thúc phải lớn hơn ngày bắt đầu"
+      ),
       type: yup.string().required('Hãy chọn loại báo cáo'),
     }),
   )
@@ -63,10 +66,11 @@ const onSubmit = (e: SubmitEventPromise) => {
   handleSubmit(async (values) => {
     const report: Report = {
       ...values,
-      from: moment(values.from).toDate(),
-      to: moment(values.to).toDate(),
+      from: moment(values.from, 'YYYY-MM-DD').toDate(),
+      to: moment(values.to, 'YYYY-MM-DD').toDate(),
       status: 'Waiting',
     };
+
     await reportStore.create(report);
     emit('onClose');
   })();

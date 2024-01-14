@@ -23,10 +23,10 @@
         {{ index + (pagination.page - 1) * pagination.itemsPerPage + 1 }}
       </template>
       <template #item.from="{ item }">
-        {{ $moment(item.raw.validStart).format('DD/MM/YYYY HH:mm') }}
+        {{ $moment(item.raw.from).format('DD/MM/YYYY') }}
       </template>
       <template #item.to="{ item }">
-        {{ $moment(item.raw.validEnd).format('DD/MM/YYYY HH:mm') }}
+        {{ $moment(item.raw.to).format('DD/MM/YYYY') }}
       </template>
       <template #item.created="{ item }">
         {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
