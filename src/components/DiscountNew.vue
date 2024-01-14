@@ -48,18 +48,6 @@
       </v-btn>
     </template>
   </custom-form>
-  <v-dialog>
-    <v-date-picker color="primary"></v-date-picker>
-  </v-dialog>
-  <v-dialog>
-    <v-date-picker color="primary"></v-date-picker>
-  </v-dialog>
-  <v-dialog>
-    <v-date-picker color="primary"></v-date-picker>
-  </v-dialog>
-  <v-dialog>
-    <v-date-picker color="primary"></v-date-picker>
-  </v-dialog>
 </template>
 <script setup lang="ts">
 import * as yup from 'yup';
