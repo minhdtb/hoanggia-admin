@@ -4,7 +4,7 @@ export type Report = {
   id?: string;
   from?: Date;
   to?: Date;
-  type?: string;
+  type?: number;
   status?: string;
   link?: string;
   created?: string;

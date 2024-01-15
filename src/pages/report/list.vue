@@ -22,10 +22,12 @@
         {{ index + (pagination.page - 1) * pagination.itemsPerPage + 1 }}
       </template>
       <template #item.from="{ item }">
-        {{ $moment(item.raw.from).format('DD/MM/YYYY') }}
+        <span v-if="item.raw.from">{{ $moment(item.raw.from).format('DD/MM/YYYY') }}</span>
+        <span v-else>N/A</span>
       </template>
       <template #item.to="{ item }">
-        {{ $moment(item.raw.to).format('DD/MM/YYYY') }}
+        <span v-if="item.raw.to">{{ $moment(item.raw.to).format('DD/MM/YYYY') }}</span>
+        <span v-else>N/A</span>
       </template>
       <template #item.created="{ item }">
         {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
