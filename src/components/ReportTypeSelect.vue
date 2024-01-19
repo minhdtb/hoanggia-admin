@@ -12,7 +12,7 @@ const items = [
     value: 1,
   },
   {
-    name: 'Báo cáo người dùng',
+    name: 'Báo cáo khách hàng',
     value: 2,
   },
 ];
