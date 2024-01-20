@@ -47,6 +47,9 @@
           Link
         </a>
       </template>
+      <template #item.action="{ item }">
+        <v-btn variant="elevated" color="red" @click="handleDelete(item.raw.id)">Xóa</v-btn>
+      </template>
     </v-data-table-server>
     <v-dialog v-model="showCreate" width="600">
       <report-new @on-close="handleHideCreate"></report-new>
@@ -81,6 +84,7 @@ const headers = [
   {title: 'Trạng thái', key: 'status'},
   {title: 'Tải về', key: 'link'},
   {title: 'Ngày tạo', key: 'created'},
+  {title: 'Hành động', key: 'action'},
 ];
 
 const pagination = ref({
@@ -102,6 +106,13 @@ const handleShowCreate = async () => {
 const handleHideCreate = async () => {
   await reportStore.list(pagination.value);
   showCreate.value = false;
+};
+
+const handleDelete = async (id: string) => {
+  if (confirm('Bạn chắc chắn muốn xóa báo cáo này?')) {
+    await reportStore.delete(id);
+    await reportStore.list(pagination.value);
+  }
 };
 
 const downloadFile = async (item: any) => {
