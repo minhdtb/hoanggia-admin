@@ -10,13 +10,14 @@
         ></v-text-field>
       </v-col>
       <v-col>
-        <driver-status-select placeHolder="Trạng thái hồ sơ"></driver-status-select>
+        <driver-status-select placeHolder="Trạng thái hồ sơ" v-model="status"></driver-status-select>
       </v-col>
       <v-col>
-        <driver-app-status-select placeHolder="Trạng thái ứng dụng"></driver-app-status-select>
+        <driver-app-status-select placeHolder="Trạng thái ứng dụng" v-model="driveStatus"></driver-app-status-select>
       </v-col>
       <v-col>
-        <driver-active-status-select placeHolder="Trạng thái hoạt động"></driver-active-status-select>
+        <driver-active-status-select placeHolder="Trạng thái hoạt động"
+                                     v-model="activeStatus"></driver-active-status-select>
       </v-col>
     </v-row>
   </v-container>
@@ -27,7 +28,7 @@
     :items="driverList"
     :loading="loading"
     :items-length="total"
-    :search="search"
+    :search="filter"
     hover
     :items-per-page-options="[
       { value: 10, title: '10' },
@@ -86,6 +87,26 @@ definePageMeta({
   middleware: ['auth'],
 });
 
+const status = ref(undefined)
+const driveStatus = ref(undefined)
+const activeStatus = ref(undefined)
+const search = ref('');
+
+const filter = computed(() => {
+  let myFilter = `(name ~ "${search.value ?? ''}" || phone ~ "${search.value ?? ''}")`
+  if (status.value) {
+    myFilter = myFilter + ` && authStatus = "${status.value}"`
+  }
+  if (driveStatus.value) {
+    myFilter = myFilter + ` && driveStatus = "${driveStatus.value}"`
+  }
+  if (activeStatus.value) {
+    myFilter = myFilter + ` && activeStatus = "${activeStatus.value}"`
+  }
+
+  return myFilter
+})
+
 const driverStore = useDriverStore();
 const {driverList, loading, total, success} = storeToRefs(driverStore);
 const pagination = ref({
@@ -105,7 +126,6 @@ const headers = [
   {title: 'Ngày đăng ký', key: 'created'},
 ];
 
-const search = ref('');
 
 const handleLoadItems = async (options: any) => {
   await driverStore.list(
@@ -113,7 +133,7 @@ const handleLoadItems = async (options: any) => {
       limit: options.itemsPerPage,
       page: options.page,
     },
-    `name ~ "${search.value ?? ''}" || phone ~ "${search.value ?? ''}"`,
+    filter.value,
   );
 };
 
