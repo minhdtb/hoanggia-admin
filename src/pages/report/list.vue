@@ -44,7 +44,7 @@
       </template>
       <template #item.link="{ item }">
         <a v-if="item.raw.link" href="#" @click.prevent="downloadFile(item.raw)">
-          Link
+          <v-icon icon="mdi-download"></v-icon>
         </a>
       </template>
       <template #item.action="{ item }">
