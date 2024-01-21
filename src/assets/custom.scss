@@ -7,3 +7,17 @@
     font-weight: 600
   }
 }
+
+
+.v-select > .v-input__control > .v-field > .v-field__field > .v-field__input {
+  min-height: 45px !important;
+  padding-top: 0;
+  padding-bottom: 0;
+  flex-wrap: unset;
+
+  input {
+    align-self: unset;
+    position: unset;
+    flex: none;
+  }
+}

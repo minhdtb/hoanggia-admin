@@ -1,4 +1,4 @@
-import { ListOptions } from '~/utils/types';
+import {ListOptions} from '~/utils/types';
 
 export interface Driver {
   id?: string;
@@ -82,7 +82,7 @@ export const useDriverStore = defineStore('driverStore', () => {
         const res = await pb
           .collection('driver')
           .getList<Driver>(listOptions.value?.page, listOptions.value?.limit, {
-            filter: `name ~ "${search ?? ''}" || phone ~ "${search ?? ''}"`,
+            filter: search,
             sort: '-created',
           });
         driverList.value = res.items.map((it) => {

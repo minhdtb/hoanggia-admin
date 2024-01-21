@@ -1,11 +1,25 @@
 <template>
-  <v-text-field
-    v-model="search"
-    hide-details
-    placeholder="Tìm kiếm (Họ tên, Số điện thoại) ..."
-    class="ma-2"
-    density="compact"
-  ></v-text-field>
+  <v-container>
+    <v-row>
+      <v-col>
+        <v-text-field
+          v-model="search"
+          hide-details
+          placeholder="Tìm kiếm (Họ tên, Số điện thoại) ..."
+          density="compact"
+        ></v-text-field>
+      </v-col>
+      <v-col>
+        <driver-status-select placeHolder="Trạng thái hồ sơ"></driver-status-select>
+      </v-col>
+      <v-col>
+        <driver-app-status-select placeHolder="Trạng thái ứng dụng"></driver-app-status-select>
+      </v-col>
+      <v-col>
+        <driver-active-status-select placeHolder="Trạng thái hoạt động"></driver-active-status-select>
+      </v-col>
+    </v-row>
+  </v-container>
   <v-data-table-server
     v-model:page="pagination.page"
     v-model:itemsPerPage.sync="pagination.itemsPerPage"
@@ -34,17 +48,17 @@
     </template>
     <template #item.authStatus="{ item }">
       <v-chip :color="authStatusText(item.raw.authStatus)?.color"
-        >{{ authStatusText(item.raw.authStatus)?.text }}
+      >{{ authStatusText(item.raw.authStatus)?.text }}
       </v-chip>
     </template>
     <template #item.driveStatus="{ item }">
       <v-chip :color="driveStatusText(item.raw.driveStatus)?.color"
-        >{{ driveStatusText(item.raw.driveStatus)?.text }}
+      >{{ driveStatusText(item.raw.driveStatus)?.text }}
       </v-chip>
     </template>
     <template #item.activeStatus="{ item }">
       <v-chip :color="activeStatusText(item.raw.activeStatus)?.color"
-        >{{ activeStatusText(item.raw.activeStatus)?.text }}
+      >{{ activeStatusText(item.raw.activeStatus)?.text }}
       </v-chip>
     </template>
     <template #item.balance="{ item }">
@@ -60,8 +74,8 @@
   </v-snackbar>
 </template>
 <script setup lang="ts">
-import { useDriverStore } from '~/stores/driver';
-import { activeStatusText, authStatusText, driveStatusText } from '../../utils/helper';
+import {useDriverStore} from '~/stores/driver';
+import {activeStatusText, authStatusText, driveStatusText} from '~/utils/helper';
 
 useHead({
   title: `Hoang Gia Driver - Lái xe`,
@@ -73,22 +87,22 @@ definePageMeta({
 });
 
 const driverStore = useDriverStore();
-const { driverList, loading, total, success } = storeToRefs(driverStore);
+const {driverList, loading, total, success} = storeToRefs(driverStore);
 const pagination = ref({
   page: 1,
   itemsPerPage: 10,
 });
 
 const headers = [
-  { title: '#', key: 'index' },
-  { title: 'Ảnh', key: 'avatar' },
-  { title: 'Họ tên', key: 'name' },
-  { title: 'Số điện thoại', key: 'phone' },
-  { title: 'Tài khoản', key: 'balance' },
-  { title: 'Hồ sơ', key: 'authStatus' },
-  { title: 'Trạng thái ứng dụng', key: 'driveStatus' },
-  { title: 'Hoạt động', key: 'activeStatus' },
-  { title: 'Ngày đăng ký', key: 'created' },
+  {title: '#', key: 'index'},
+  {title: 'Ảnh', key: 'avatar'},
+  {title: 'Họ tên', key: 'name'},
+  {title: 'Số điện thoại', key: 'phone'},
+  {title: 'Tài khoản', key: 'balance'},
+  {title: 'Hồ sơ', key: 'authStatus'},
+  {title: 'Trạng thái ứng dụng', key: 'driveStatus'},
+  {title: 'Hoạt động', key: 'activeStatus'},
+  {title: 'Ngày đăng ký', key: 'created'},
 ];
 
 const search = ref('');
@@ -99,11 +113,11 @@ const handleLoadItems = async (options: any) => {
       limit: options.itemsPerPage,
       page: options.page,
     },
-    search.value,
+    `name ~ "${search.value ?? ''}" || phone ~ "${search.value ?? ''}"`,
   );
 };
 
-const handleClickRow = (_: Event, { item }: any) => {
+const handleClickRow = (_: Event, {item}: any) => {
   navigateTo(`${item.raw.id}`);
 };
 </script>
