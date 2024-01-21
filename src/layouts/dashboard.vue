@@ -4,8 +4,8 @@
       <template v-slot:prepend>
         <v-list nav>
           <v-list-item
-            prepend-avatar="https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=admin"
-            :title="(authUser as any)?.email"
+            :prepend-avatar="`https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${name}`"
+            :title="name"
             nav
           >
             <template v-slot:append>
@@ -18,7 +18,7 @@
           </v-list-item>
         </v-list>
       </template>
-      <v-list>
+      <v-list v-if="isAdmin || isOperator">
         <v-list-subheader class="text-white">Cuốc xe</v-list-subheader>
         <v-list-item
           prepend-icon="mdi-ray-start-arrow"
@@ -32,7 +32,7 @@
         ></v-list-item>
       </v-list>
       <v-divider></v-divider>
-      <v-list>
+      <v-list v-if="isAdmin">
         <v-list-subheader class="text-white">Khách hàng</v-list-subheader>
         <v-list-item
           prepend-icon="mdi-account"
@@ -41,7 +41,7 @@
         ></v-list-item>
       </v-list>
       <v-divider></v-divider>
-      <v-list>
+      <v-list v-if="isAdmin || isOperator">
         <v-list-subheader class="text-white">Lái xe</v-list-subheader>
         <v-list-item
           prepend-icon="mdi-account-tie-hat"
@@ -55,7 +55,7 @@
         ></v-list-item>
       </v-list>
       <v-divider></v-divider>
-      <v-list>
+      <v-list v-if="isAdmin || isAccountant">
         <v-list-subheader class="text-white">Khuyến mại</v-list-subheader>
         <v-list-item
           prepend-icon="mdi-ticket"
@@ -65,7 +65,7 @@
         <v-list-item prepend-icon="mdi-ticket" title="Đã sử dụng" to="/discount/use"></v-list-item>
       </v-list>
       <v-divider></v-divider>
-      <v-list>
+      <v-list v-if="isAdmin || isAccountant">
         <v-list-subheader class="text-white">Giao dịch</v-list-subheader>
         <v-list-item
           prepend-icon="mdi-cash"
@@ -83,8 +83,8 @@
           to="/transaction/withdrawal"
         ></v-list-item>
       </v-list>
-      <v-divider></v-divider>
-      <v-list>
+      <v-divider v-if="isAdmin || isAccountant"></v-divider>
+      <v-list v-if="isAdmin || isAccountant">
         <v-list-subheader class="text-white">Báo cáo</v-list-subheader>
         <v-list-item
           prepend-icon="mdi-table"
@@ -92,9 +92,10 @@
           to="/report/list"
         ></v-list-item>
       </v-list>
-      <v-divider></v-divider>
-      <v-list>
-        <v-list-item prepend-icon="mdi-account-multiple" title="Nhân viên" to="/staff/list"></v-list-item>
+      <v-divider v-if="isAdmin || isAccountant"></v-divider>
+      <v-list v-if="isAdmin || isAccountant">
+        <v-list-item v-if="isAdmin" prepend-icon="mdi-account-multiple" title="Nhân viên"
+                     to="/staff/list"></v-list-item>
         <v-list-item prepend-icon="mdi-cog" title="Cài đặt" to="/setting"></v-list-item>
       </v-list>
       <template v-slot:append>
@@ -114,7 +115,10 @@
 <script setup lang="ts">
 const authStore = useAuthStore();
 
-const {authUser} = storeToRefs(authStore);
+
+const {authUser, isAdmin, isOperator, isAccountant} = storeToRefs(authStore);
+
+const name = computed(() => authUser.value?.email ? authUser.value?.email : authUser.value?.username);
 
 const toggleNav = ref(false);
 

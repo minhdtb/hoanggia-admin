@@ -5,6 +5,12 @@ export const useAuthStore = defineStore('authStore', () => {
   const isError = computed(() => errorMessage.value !== undefined);
   const authUser = computed(() => pb.authStore.model);
 
+  const isAdmin = computed(() => pb.authStore.isAdmin);
+  const isOperator = computed(() => pb.authStore.isAuthRecord &&
+    pb.authStore.model?.role === 'Operator');
+  const isAccountant = computed(() => pb.authStore.isAuthRecord &&
+    pb.authStore.model?.role === 'Accountant');
+
   const actions = {
     async login(username: string, password: string) {
       loading.value = true;
@@ -41,6 +47,7 @@ export const useAuthStore = defineStore('authStore', () => {
     logout() {
       pb.authStore.clear();
       navigateTo('/login');
+      window.location.reload();
     },
   };
 
@@ -49,6 +56,9 @@ export const useAuthStore = defineStore('authStore', () => {
     loading,
     errorMessage,
     isError,
+    isAdmin,
+    isOperator,
+    isAccountant,
     ...actions,
   };
 });
