@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row class="align-center mb-2">
-      <v-btn @click="handleShowCreate" color="blue">Tạo báo cáo</v-btn>
+      <v-btn @click="handleShowCreate" color="blue">Thêm báo cáo</v-btn>
     </v-row>
     <v-data-table-server
       v-model:page="pagination.page"

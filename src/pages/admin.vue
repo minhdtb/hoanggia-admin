@@ -5,10 +5,10 @@
         <v-card class="pa-4">
           <v-form @submit="onSubmit">
             <v-card-title class="text-center font-weight-bold text-uppercase"
-            >Lái xe hoàng gia
+            >Lái xe hoàng gia - Admin
             </v-card-title>
             <v-card-item>
-              <v-text-field label="Tên đăng nhập" type="text" v-bind="username"></v-text-field>
+              <v-text-field label="Email" type="text" v-bind="email"></v-text-field>
             </v-card-item>
             <v-card-item>
               <v-text-field label="Mật khẩu" type="password" v-bind="password"></v-text-field>
@@ -16,14 +16,14 @@
             <v-col>
               <v-btn
                 block
-                color="info"
+                color="green"
                 variant="elevated"
                 type="submit"
                 :disabled="isValidating || isSubmitting"
               >Đăng nhập
               </v-btn>
               <v-spacer class="pa-2"></v-spacer>
-              <v-btn block variant="elevated" @click="handleAdmin">Admin</v-btn>
+              <v-btn block variant="elevated" @click="handleBack">Quay lại</v-btn>
             </v-col>
           </v-form>
         </v-card>
@@ -59,7 +59,7 @@ const showSnackbar = ref(false);
 const {handleSubmit, defineComponentBinds, isValidating, isSubmitting} = useForm({
   validationSchema: toTypedSchema(
     yup.object().shape({
-      username: yup.string().required('Hãy nhập tên đăng nhập'),
+      email: yup.string().required('Hãy nhập email').email('Email không hợp lệ'),
       password: yup.string().required('Hãy nhập mật khẩu'),
     }),
   ),
@@ -71,18 +71,14 @@ const validateConfig = (state: any) => ({
   },
 });
 
-const username = defineComponentBinds('username', validateConfig);
+const email = defineComponentBinds('email', validateConfig);
 const password = defineComponentBinds('password', validateConfig);
 
 const onSubmit = (e: SubmitEventPromise) => {
   e.preventDefault();
   handleSubmit((values) => {
-    authStore.login(values.username, values.password);
+    authStore.adminLogin(values.email, values.password);
   })();
-};
-
-const handleAdmin = () => {
-  navigateTo('/admin');
 };
 
 watch(
@@ -91,4 +87,8 @@ watch(
     showSnackbar.value = isError.value;
   },
 );
+
+const handleBack = () => {
+  navigateTo('/login')
+}
 </script>
