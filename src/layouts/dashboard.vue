@@ -133,12 +133,18 @@ const bookingCount = ref(0);
 const driverCount = ref(0);
 const transactionCount = ref(0);
 
-(async () => {
+const refreshCount = async () => {
   const res = await pb.collection('statistics').getOne('1');
   bookingCount.value = res.bookingCount;
   driverCount.value = res.driverCount;
   transactionCount.value = res.transactionCount;
-})();
+}
+
+refreshCount();
+
+pb.collection('transaction').subscribe('*', refreshCount);
+pb.collection('booking').subscribe('*', refreshCount);
+pb.collection('driver').subscribe('*', refreshCount);
 
 const {authUser, isAdmin, isOperator, isAccountant} = storeToRefs(authStore);
 
