@@ -22,9 +22,13 @@
         <v-list-subheader class="text-white">Cuốc xe</v-list-subheader>
         <v-list-item
           prepend-icon="mdi-ray-start-arrow"
-          title="Đang hoạt động"
           to="/booking/list"
-        ></v-list-item>
+        >
+          <v-badge v-if="bookingCount > 0" :content="bookingCount" color="red">
+            Đang hoạt động
+          </v-badge>
+          <span v-else>Đang hoạt động</span>
+        </v-list-item>
         <v-list-item
           prepend-icon="mdi-clock-start"
           title="Lịch sử"
@@ -43,11 +47,16 @@
       <v-divider></v-divider>
       <v-list v-if="isAdmin || isOperator">
         <v-list-subheader class="text-white">Lái xe</v-list-subheader>
+
         <v-list-item
           prepend-icon="mdi-account-tie-hat"
-          title="Đang chờ duyệt"
           to="/driver/waiting"
-        ></v-list-item>
+        >
+          <v-badge v-if="driverCount > 0" :content="driverCount" color="red">
+            Đang chờ duyệt
+          </v-badge>
+          <span v-else>Đang chờ duyệt</span>
+        </v-list-item>
         <v-list-item
           prepend-icon="mdi-account-tie-hat"
           title="Danh sách lái xe"
@@ -69,9 +78,13 @@
         <v-list-subheader class="text-white">Giao dịch</v-list-subheader>
         <v-list-item
           prepend-icon="mdi-cash"
-          title="Đang chờ duyệt"
           to="/transaction/waiting"
-        ></v-list-item>
+        >
+          <v-badge v-if="transactionCount > 0" :content="transactionCount" color="red">
+            Đang chờ duyệt
+          </v-badge>
+          <span v-else>Đang chờ duyệt</span>
+        </v-list-item>
         <v-list-item
           prepend-icon="mdi-cash-check"
           title="Nạp tiền"
@@ -114,7 +127,18 @@
 
 <script setup lang="ts">
 const authStore = useAuthStore();
+const pb = usePb();
 
+const bookingCount = ref(0);
+const driverCount = ref(0);
+const transactionCount = ref(0);
+
+(async () => {
+  const res = await pb.collection('statistics').getOne('1');
+  bookingCount.value = res.bookingCount;
+  driverCount.value = res.driverCount;
+  transactionCount.value = res.transactionCount;
+})();
 
 const {authUser, isAdmin, isOperator, isAccountant} = storeToRefs(authStore);
 

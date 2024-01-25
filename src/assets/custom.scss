@@ -21,3 +21,9 @@
     flex: none;
   }
 }
+
+.v-badge__badge {
+  bottom: 0 !important;
+  left: calc(100% + 10px) !important;
+}
+
