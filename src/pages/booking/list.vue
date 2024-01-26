@@ -33,7 +33,7 @@
       {{ $moment(item.raw.pickupDate).subtract(7, 'hour').format('DD/MM/YYYY HH:mm') }}
     </template>
     <template #item.distance="{ item }">
-      {{ item.raw.distance.text }}
+      {{ `${(item.raw.distance.value / 1000).toFixed(2)} km` }}
     </template>
     <template #item.fee="{ item }">
       {{ new Intl.NumberFormat('vi-VN').format(item.raw.fee ?? 0) }}
