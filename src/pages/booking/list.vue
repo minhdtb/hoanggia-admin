@@ -41,6 +41,11 @@
     <template #item.created="{ item }">
       {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
     </template>
+    <template #item.status="{ item }">
+      <v-chip :color="bookingStatusText(item.raw.status)?.color"
+      >{{ bookingStatusText(item.raw.status)?.text }}
+      </v-chip>
+    </template>
     <template #item.action="{ item }">
       <v-row>
         <v-btn
@@ -67,7 +72,8 @@
   </v-overlay>
 </template>
 <script setup lang="ts">
-import { Booking } from '~/stores/booking';
+import {Booking} from '~/stores/booking';
+import {bookingStatusText, driveStatusText} from "~/utils/helper";
 
 useHead({
   title: `Hoang Gia Driver - Cuốc xe`,
@@ -79,21 +85,21 @@ definePageMeta({
 });
 
 const bookingStore = useBookingStore();
-const { bookingList, loading, canceling, total } = storeToRefs(bookingStore);
+const {bookingList, loading, canceling, total} = storeToRefs(bookingStore);
 
 const headers = [
-  { title: '#', key: 'index' },
-  { title: 'Khách hàng', key: 'user' },
-  { title: 'Lái xe', key: 'driver' },
-  { title: 'Điểm đón', key: 'from' },
-  { title: 'Điểm đến', key: 'to' },
-  { title: 'Thời gian đón', key: 'pickupDate' },
-  { title: 'Quãng đường', key: 'distance' },
-  { title: 'Cước phí', key: 'fee' },
-  { title: 'Khuyến mại', key: 'discount' },
-  { title: 'Trạng thái', key: 'status' },
-  { title: 'Ngày tạo', key: 'created' },
-  { title: 'Hành động', key: 'action' },
+  {title: '#', key: 'index'},
+  {title: 'Khách hàng', key: 'user'},
+  {title: 'Lái xe', key: 'driver'},
+  {title: 'Điểm đón', key: 'from'},
+  {title: 'Điểm đến', key: 'to'},
+  {title: 'Thời gian đón', key: 'pickupDate'},
+  {title: 'Quãng đường', key: 'distance'},
+  {title: 'Cước phí', key: 'fee'},
+  {title: 'Khuyến mại', key: 'discount'},
+  {title: 'Trạng thái', key: 'status'},
+  {title: 'Ngày tạo', key: 'created'},
+  {title: 'Hành động', key: 'action'},
 ];
 
 const pagination = ref({

@@ -152,3 +152,59 @@ export function reportTypeText(status: number): { text: string; color: string } 
       };
   }
 }
+
+
+export function bookingStatusText(status: string): { text: string; color: string } | undefined {
+  switch (status) {
+    case 'Created':
+      return {
+        text: 'Đã tạo',
+        color: 'green',
+      };
+    case 'Manual':
+      return {
+        text: 'Cần xử lý bằng tay',
+        color: 'blue',
+      };
+    case 'Finding':
+      return {
+        text: 'Đang tìm kiếm',
+        color: 'blue',
+      };
+    case 'Waiting':
+      return {
+        text: 'Đang chờ phản hồi',
+        color: 'gray',
+      };
+    case 'Timeout':
+      return {
+        text: 'Đã hết thời gian',
+        color: 'red',
+      };
+    case 'Declined':
+      return {
+        text: 'Đã từ chối',
+        color: 'red',
+      };
+    case 'Accepted':
+      return {
+        text: 'Đã chấp nhận',
+        color: 'black',
+      };
+    case 'OnGoing':
+      return {
+        text: 'Đang di chuyển',
+        color: 'blue',
+      };
+    case 'Finished':
+      return {
+        text: 'Hoàn thành',
+        color: 'green',
+      };
+    case 'Canceled':
+      return {
+        text: 'Đã hủy',
+        color: 'red',
+      };
+  }
+}
