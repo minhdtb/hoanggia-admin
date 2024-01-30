@@ -13,13 +13,17 @@
         <template #actions>
           <v-btn variant="elevated" @click="$router.go(-1)">Quay lại</v-btn>
           <v-btn variant="elevated" color="blue" type="submit" :disabled="isValidating || isSubmitting">
-            Chấp nhận
+            Lưu
           </v-btn>
           <v-btn variant="elevated" color="error" @click="onChangePassword">Đổi mật khẩu</v-btn>
         </template>
       </custom-form>
     </v-col>
   </v-row>
+  <v-snackbar v-model="success" color="green" multi-line>
+    <v-icon icon="mdi-check-circle-outline"></v-icon>
+    Cập nhật thành công
+  </v-snackbar>
 </template>
 <script setup lang="ts">
 import * as yup from "yup";
@@ -60,6 +64,16 @@ const validateConfig = (state: any) => ({
 const fullName = defineComponentBinds('fullName', validateConfig);
 const email = defineComponentBinds('user_email', validateConfig);
 
+const success = ref(false);
+
+watch(success, (value) => {
+  if (value) {
+    setTimeout(() => {
+      success.value = false;
+    }, 2000);
+  }
+});
+
 const onSubmit = (e: SubmitEventPromise) => {
   e.preventDefault();
   handleSubmit(async (values) => {
@@ -69,6 +83,7 @@ const onSubmit = (e: SubmitEventPromise) => {
       } else {
         await pb.collection('staff').update(pb.authStore.model?.id, values)
       }
+      success.value = true;
     }
   })();
 };
