@@ -84,7 +84,7 @@ const handleHideCreate = async () => {
 };
 
 const handleDelete = async (id: string) => {
-  if (confirm('Bạn chắc chắn muốn xóa báo cáo này?')) {
+  if (confirm('Bạn chắc chắn muốn xóa nhân viên này?')) {
     await staffStore.delete(id);
     await staffStore.list(pagination.value);
   }
