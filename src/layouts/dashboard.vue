@@ -6,13 +6,14 @@
           <v-list-item
             :prepend-avatar="`https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${name}`"
             :title="name"
+            to="/profile"
             nav
           >
             <template v-slot:append>
               <v-btn
                 variant="text"
                 icon="mdi-chevron-left"
-                @click.stop="toggleNav = !toggleNav"
+                @click.prevent.stop="toggleNav = !toggleNav"
               ></v-btn>
             </template>
           </v-list-item>
@@ -148,7 +149,7 @@ pb.collection('driver').subscribe('*', refreshCount);
 
 const {authUser, isAdmin, isOperator, isAccountant} = storeToRefs(authStore);
 
-const name = computed(() => authUser.value?.email ? authUser.value?.email : authUser.value?.username);
+const name = computed(() => authUser.value?.fullName ? authUser.value?.fullName : authUser.value?.email);
 
 const toggleNav = ref(false);
 

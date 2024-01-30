@@ -53,7 +53,7 @@ const {handleSubmit, defineComponentBinds, isValidating, isSubmitting, values} =
         .oneOf([yup.ref('password')], 'Mật khẩu không trùng nhau'),
       role: yup.string().required('Hãy chọn phân quyền'),
       fullName: yup.string(),
-      email: yup.string().email(),
+      user_email: yup.string().email(),
     }),
   )
 });
@@ -69,7 +69,7 @@ const password = defineComponentBinds('password', validateConfig);
 const passwordConfirm = defineComponentBinds('passwordConfirm', validateConfig);
 const role = defineComponentBinds('role', validateConfig);
 const fullName = defineComponentBinds('fullName', validateConfig);
-const email = defineComponentBinds('email', validateConfig);
+const email = defineComponentBinds('user_email', validateConfig);
 
 const onSubmit = (e: SubmitEventPromise) => {
   e.preventDefault();

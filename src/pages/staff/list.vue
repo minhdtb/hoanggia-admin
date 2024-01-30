@@ -56,7 +56,7 @@ const headers = [
   {title: '#', key: 'index'},
   {title: 'Đăng nhập', key: 'username'},
   {title: 'Họ và tên', key: 'fullName'},
-  {title: 'Email', key: 'email'},
+  {title: 'Email', key: 'user_email'},
   {title: 'Quyền', key: 'role'},
   {title: 'Ngày tạo', key: 'created'},
   {title: 'Hành động', key: 'action'},
