@@ -208,3 +208,18 @@ export function bookingStatusText(status: string): { text: string; color: string
       };
   }
 }
+
+export function roleText(role: string): { text: string; color: string } | undefined {
+  switch (role) {
+    case 'Operator':
+      return {
+        text: 'Vận hành',
+        color: 'blue',
+      }
+    case 'Accountant':
+      return {
+        text: 'Tài chính',
+        color: 'green',
+      }
+  }
+}

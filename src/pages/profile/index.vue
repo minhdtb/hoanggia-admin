@@ -12,7 +12,7 @@
         </template>
         <template #actions>
           <v-btn variant="elevated" @click="$router.go(-1)">Quay lại</v-btn>
-          <v-btn variant="elevated" color="blue" type="submit" :disabled="isValidating || isSubmitting">
+          <v-btn variant="elevated" color="blue" type="submit" :disabled="isValidating || isSubmitting || isAdmin">
             Lưu
           </v-btn>
           <v-btn variant="elevated" color="error" @click="onChangePassword">Đổi mật khẩu</v-btn>
@@ -24,10 +24,14 @@
     <v-icon icon="mdi-check-circle-outline"></v-icon>
     Cập nhật thành công
   </v-snackbar>
+  <v-dialog v-model="showChangePassword" width="600">
+    <change-password @on-close="showChangePassword = false"></change-password>
+  </v-dialog>
 </template>
 <script setup lang="ts">
 import * as yup from "yup";
 import {SubmitEventPromise} from "vuetify";
+import DriverAvailableList from "~/components/DriverAvailableList.vue";
 
 useHead({
   title: `Hoang Gia Driver - Thông tin cá nhân`,
@@ -40,7 +44,7 @@ definePageMeta({
 
 const pb = usePb();
 const isAdmin = computed(() => pb.authStore.isAdmin);
-
+const showChangePassword = ref(false);
 
 const {handleSubmit, defineComponentBinds, isValidating, isSubmitting} = useForm({
   validationSchema: toTypedSchema(
@@ -51,7 +55,7 @@ const {handleSubmit, defineComponentBinds, isValidating, isSubmitting} = useForm
   ),
   initialValues: {
     fullName: isAdmin.value ? 'Administrator' : pb.authStore.model?.fullName,
-    user_email: pb.authStore.model?.user_email,
+    user_email: pb.authStore.model?.email ?? pb.authStore.model?.user_email,
   }
 });
 
@@ -89,7 +93,7 @@ const onSubmit = (e: SubmitEventPromise) => {
 };
 
 const onChangePassword = async () => {
-  //
+  showChangePassword.value = true;
 };
 
 </script>

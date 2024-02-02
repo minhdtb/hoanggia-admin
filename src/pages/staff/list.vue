@@ -27,6 +27,11 @@
       <template #item.action="{ item }">
         <v-btn variant="elevated" color="red" @click="handleDelete(item.raw.id)">Xóa</v-btn>
       </template>
+      <template #item.role="{ item }">
+        <v-chip :color="roleText(item.raw.role)?.color"
+        >{{ roleText(item.raw.role)?.text }}
+        </v-chip>
+      </template>
     </v-data-table-server>
     <v-dialog v-model="showCreate" width="600">
       <staff-new @on-close="handleHideCreate"></staff-new>
@@ -35,6 +40,7 @@
 </template>
 <script setup lang="ts">
 import {useStaffStore} from "~/stores/staff";
+import {bookingStatusText} from "~/utils/helper";
 
 useHead({
   title: `Hoang Gia Driver - Nhân viên`,

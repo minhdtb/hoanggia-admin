@@ -8,7 +8,7 @@ const items = [
     value: 'Operator',
   },
   {
-    name: 'Kế toán',
+    name: 'Tài chính',
     value: 'Accountant',
   }
 ];

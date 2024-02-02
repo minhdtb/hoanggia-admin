@@ -149,7 +149,8 @@ pb.collection('driver').subscribe('*', refreshCount);
 
 const {authUser, isAdmin, isOperator, isAccountant} = storeToRefs(authStore);
 
-const name = computed(() => authUser.value?.fullName ? authUser.value?.fullName : authUser.value?.email);
+const name = computed(() => authUser.value?.fullName ? authUser.value?.fullName :
+  (authUser.value?.email ? authUser.value?.email : authUser.value?.username));
 
 const toggleNav = ref(false);
 
