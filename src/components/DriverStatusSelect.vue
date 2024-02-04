@@ -1,5 +1,5 @@
 <template>
-  <v-select item-title="name" item-value="value" :items="items" v-bind="$attrs"></v-select>
+  <v-select item-title="name" item-value="value" :items="items" v-bind="$attrs" clearable></v-select>
 </template>
 <script setup lang="ts">
 const items = [
