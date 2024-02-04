@@ -23,7 +23,7 @@
               >Đăng nhập
               </v-btn>
               <v-spacer class="pa-2"></v-spacer>
-              <v-btn block variant="elevated" @click="handleAdmin">Admin</v-btn>
+              <v-btn block variant="elevated" @click="handleAdmin">Quản trị</v-btn>
             </v-col>
           </v-form>
         </v-card>

@@ -5,7 +5,7 @@
         <v-card class="pa-4">
           <v-form @submit="onSubmit">
             <v-card-title class="text-center font-weight-bold text-uppercase"
-            >Lái xe hoàng gia - Admin
+            >Lái xe hoàng gia - Quản trị
             </v-card-title>
             <v-card-item>
               <v-text-field label="Email" type="text" v-bind="email"></v-text-field>
