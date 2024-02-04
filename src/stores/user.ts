@@ -1,4 +1,4 @@
-import { ListOptions } from '~/utils/types';
+import {ListOptions} from '~/utils/types';
 
 export interface User {
   id?: string;
@@ -23,7 +23,7 @@ export const useUserStore = defineStore('userStore', () => {
   const current = ref<User | undefined>(undefined);
 
   const actions = {
-    async list(options?: ListOptions) {
+    async list(options?: ListOptions, search?: string) {
       try {
         loading.value = true;
         userList.value = [];
@@ -33,6 +33,7 @@ export const useUserStore = defineStore('userStore', () => {
         const res = await pb
           .collection('user')
           .getList<User>(listOptions.value?.page, listOptions.value?.limit, {
+            filter: search,
             sort: '-created',
           });
         userList.value = res.items.map((it) => {

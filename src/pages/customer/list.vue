@@ -1,7 +1,20 @@
 <template>
+  <v-container>
+    <v-row>
+      <v-col>
+        <v-text-field
+          v-model="search"
+          hide-details
+          placeholder="Tìm kiếm (Họ tên, Số điện thoại) ..."
+          density="compact"
+        ></v-text-field>
+      </v-col>
+    </v-row>
+  </v-container>
   <v-data-table-server
     v-model:page="pagination.page"
     v-model:items-per-page="pagination.itemsPerPage"
+    :search="filter"
     hover
     :headers="headers"
     :items="userList"
@@ -30,7 +43,7 @@
   </v-data-table-server>
 </template>
 <script setup lang="ts">
-import { useUserStore } from '~/stores/user';
+import {useUserStore} from '~/stores/user';
 
 useHead({
   title: `Hoang Gia Driver - Khách hàng`,
@@ -42,17 +55,23 @@ definePageMeta({
 });
 
 const userStore = useUserStore();
-const { userList, loading, total } = storeToRefs(userStore);
+const {userList, loading, total} = storeToRefs(userStore);
 
 const headers = [
-  { title: '#', key: 'index' },
-  { title: 'Ảnh', key: 'avatar' },
-  { title: 'Họ tên', key: 'name' },
-  { title: 'Số điện thoại', key: 'phone' },
-  { title: 'Email', key: 'user_email' },
-  { title: 'Địa chỉ', key: 'address' },
-  { title: 'Ngày tạo', key: 'created' },
+  {title: '#', key: 'index'},
+  {title: 'Ảnh', key: 'avatar'},
+  {title: 'Họ tên', key: 'name'},
+  {title: 'Số điện thoại', key: 'phone'},
+  {title: 'Email', key: 'user_email'},
+  {title: 'Địa chỉ', key: 'address'},
+  {title: 'Ngày tạo', key: 'created'},
 ];
+
+const search = ref('');
+
+const filter = computed(() => {
+  return `(name ~ "${search.value ?? ''}" || phone ~ "${search.value ?? ''}")`
+})
 
 const pagination = ref({
   page: 1,
@@ -63,10 +82,10 @@ const handleLoadItems = async (options: any) => {
   await userStore.list({
     limit: options.itemsPerPage,
     page: options.page,
-  });
+  }, filter.value);
 };
 
-const handleClickRow = (_: Event, { item }: any) => {
+const handleClickRow = (_: Event, {item}: any) => {
   navigateTo(`${item.raw.id}`);
 };
 </script>
