@@ -10,7 +10,7 @@ const authStore = useAuthStore();
 const {authUser} = storeToRefs(authStore);
 
 if (authUser.value?.role === 'Accountant') {
-  navigateTo('/discount/list');
+  navigateTo('/transaction/waiting');
 } else {
   navigateTo('/booking/list');
 }
