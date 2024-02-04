@@ -36,7 +36,7 @@
     </template>
     <template #item.amount="{ item }">
       <span class="text-red">
-        -{{ new Intl.NumberFormat('vi-VN').format(item.raw.amount ?? 0) }}
+        -{{ new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(item.raw.amount ?? 0) }}
       </span>
     </template>
     <template #item.status="{ item }">

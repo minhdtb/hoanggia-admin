@@ -34,7 +34,7 @@
       }}</a>
     </template>
     <template #item.amount="{ item }">
-      {{ new Intl.NumberFormat('vi-VN').format(item.raw.amount ?? 0) }}
+      {{ new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(item.raw.amount ?? 0) }}
     </template>
     <template #item.status="{ item }">
       <v-chip :color="transStatusText(item.raw.status)?.color"

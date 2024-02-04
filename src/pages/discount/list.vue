@@ -37,7 +37,7 @@
         {{
           item.raw.discountType === 'Percent'
             ? `- ${item.raw.discount} %`
-            : `- ${new Intl.NumberFormat('vi-VN').format(item.raw.discount ?? 0)} VNĐ`
+            : `- ${new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(item.raw.discount ?? 0)} VNĐ`
         }}
       </span>
     </template>

@@ -40,7 +40,7 @@
           {{ item.raw.distance.text }}
         </template>
         <template #item.fee="{ item }">
-          {{ new Intl.NumberFormat('vi-VN').format(item.raw.fee ?? 0) }}
+          {{ new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(item.raw.fee ?? 0) }}
         </template>
         <template #item.status="{ item }">
           <v-chip :color="item.raw.status == 'Finished' ? 'green' : 'red'">

@@ -56,7 +56,7 @@
             </div>
           </custom-form-field>
           <custom-form-field label="Tài khoản">
-            <div>{{ new Intl.NumberFormat('vi-VN').format(current?.balance ?? 0) }} VNĐ</div>
+            <div>{{ new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(current?.balance ?? 0) }} VNĐ</div>
           </custom-form-field>
           <div class="pt-14">
             <v-btn class="mr-2" variant="elevated" color="blue" @click="handleShowImages"

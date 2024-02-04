@@ -44,7 +44,7 @@
       {{ `${(item.raw.distance.value / 1000).toFixed(2)} km` }}
     </template>
     <template #item.fee="{ item }">
-      {{ new Intl.NumberFormat('vi-VN').format(item.raw.fee ?? 0) }}
+      {{ new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(item.raw.fee ?? 0) }}
     </template>
     <template #item.created="{ item }">
       {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
