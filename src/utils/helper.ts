@@ -138,7 +138,7 @@ export function reportTypeText(status: number): { text: string; color: string } 
     case 0:
       return {
         text: 'Báo cáo tài chính',
-        color: 'red',
+        color: 'orange',
       };
     case 1:
       return {

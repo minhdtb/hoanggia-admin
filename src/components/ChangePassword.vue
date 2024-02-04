@@ -12,7 +12,7 @@
       </custom-form-field>
     </template>
     <template #actions>
-      <v-btn variant="elevated" @click="emit('onClose')">Quay lại</v-btn>
+      <v-btn variant="elevated" @click="emit('onClose')">Đóng</v-btn>
       <v-btn variant="elevated" color="blue" type="submit" :disabled="isValidating || isSubmitting">
         Chấp nhận
       </v-btn>

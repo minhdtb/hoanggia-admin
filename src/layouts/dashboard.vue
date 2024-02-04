@@ -65,7 +65,7 @@
         ></v-list-item>
       </v-list>
       <v-divider></v-divider>
-      <v-list v-if="isAdmin || isAccountant">
+      <v-list v-if="isAdmin">
         <v-list-subheader class="text-white">Khuyến mại</v-list-subheader>
         <v-list-item
           prepend-icon="mdi-ticket"
@@ -97,8 +97,8 @@
           to="/transaction/withdrawal"
         ></v-list-item>
       </v-list>
-      <v-divider v-if="isAdmin || isAccountant"></v-divider>
-      <v-list v-if="isAdmin || isAccountant">
+      <v-divider></v-divider>
+      <v-list>
         <v-list-subheader class="text-white">Báo cáo</v-list-subheader>
         <v-list-item
           prepend-icon="mdi-table"
@@ -106,8 +106,8 @@
           to="/report/list"
         ></v-list-item>
       </v-list>
-      <v-divider v-if="isAdmin || isAccountant"></v-divider>
-      <v-list v-if="isAdmin || isAccountant">
+      <v-divider v-if="isAdmin"></v-divider>
+      <v-list v-if="isAdmin">
         <v-list-item v-if="isAdmin" prepend-icon="mdi-account-multiple" title="Nhân viên"
                      to="/staff/list"></v-list-item>
         <v-list-item prepend-icon="mdi-cog" title="Cài đặt" to="/setting"></v-list-item>

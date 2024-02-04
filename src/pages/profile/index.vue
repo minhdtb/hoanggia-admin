@@ -4,18 +4,18 @@
       <custom-form title="Thông tin cá nhân" @submit="onSubmit">
         <template #content>
           <custom-form-field label="Họ và tên">
-            <v-text-field v-bind="fullName" :readonly="isAdmin"></v-text-field>
+            <v-text-field v-bind="fullName" :disabled="isAdmin"></v-text-field>
           </custom-form-field>
           <custom-form-field label="Email">
-            <v-text-field v-bind="email" :readonly="isAdmin"></v-text-field>
+            <v-text-field v-bind="email" :disabled="isAdmin"></v-text-field>
           </custom-form-field>
         </template>
         <template #actions>
           <v-btn variant="elevated" @click="$router.go(-1)">Quay lại</v-btn>
-          <v-btn variant="elevated" color="blue" type="submit" :disabled="isValidating || isSubmitting || isAdmin">
+          <v-btn variant="elevated" v-if="!isAdmin" color="blue" type="submit" :disabled="isValidating || isSubmitting">
             Lưu
           </v-btn>
-          <v-btn variant="elevated" color="error" @click="onChangePassword">Đổi mật khẩu</v-btn>
+          <v-btn variant="elevated" color="orange" @click="onChangePassword">Đổi mật khẩu</v-btn>
         </template>
       </custom-form>
     </v-col>
