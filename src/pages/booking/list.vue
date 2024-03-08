@@ -1,4 +1,7 @@
 <template>
+  <div style="width: 600px">
+    <booking-new></booking-new>
+  </div>
   <v-data-table-server
     v-model:page="pagination.page"
     v-model:items-per-page="pagination.itemsPerPage"
@@ -74,6 +77,7 @@
 <script setup lang="ts">
 import {Booking} from '~/stores/booking';
 import {bookingStatusText, driveStatusText} from "~/utils/helper";
+import BookingNew from "~/components/BookingNew.vue";
 
 useHead({
   title: `Hoang Gia Driver - Cuốc xe`,

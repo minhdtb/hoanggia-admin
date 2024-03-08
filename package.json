@@ -11,6 +11,7 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxtjs/google-fonts": "^3.0.2",
+    "@types/uuid": "^9.0.8",
     "nuxt": "^3.7.0",
     "prettier": "^3.0.3",
     "sass": "^1.66.1",
@@ -24,9 +25,11 @@
     "@vee-validate/nuxt": "^4.10.6",
     "@vee-validate/rules": "^4.10.6",
     "@vee-validate/yup": "^4.10.7",
+    "axios": "^1.6.7",
     "moment": "^2.29.4",
     "pinia": "^2.1.4",
     "pocketbase": "^0.17.3",
+    "uuid": "^9.0.1",
     "vite-plugin-vuetify": "^1.0.2",
     "vuetify": "^3.3.15",
     "yup": "^1.2.0"

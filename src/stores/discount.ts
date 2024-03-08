@@ -1,5 +1,5 @@
-import { ListOptions } from '~/utils/types';
-import { User } from '~/stores/user';
+import {ListOptions} from '~/utils/types';
+import {User} from '~/stores/user';
 
 export type Discount = {
   id?: string;
@@ -28,7 +28,6 @@ export type DiscountUsage = {
 
 export const useDiscountStore = defineStore('discountStore', () => {
   const pb = usePb();
-  const appConfig = useAppConfig();
 
   const loading = ref(false);
   const errorMessage = ref<string | undefined>(undefined);
