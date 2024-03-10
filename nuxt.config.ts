@@ -22,6 +22,14 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vuetify'],
   },
+  vite: {
+    vue: {
+      script: {
+        defineModel: true,
+        propsDestructure: true,
+      },
+    },
+  },
   modules: [
     '@vee-validate/nuxt',
     '@pinia/nuxt',
