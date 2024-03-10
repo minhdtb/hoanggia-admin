@@ -1,6 +1,6 @@
-import { ListOptions } from '~/utils/types';
-import { Driver } from '~/stores/driver';
-import { User } from '~/stores/user';
+import {ListOptions} from '~/utils/types';
+import {Driver} from '~/stores/driver';
+import {User} from '~/stores/user';
 
 export interface Booking {
   id?: string;
@@ -143,6 +143,30 @@ export const useBookingStore = defineStore('bookingStore', () => {
         loading.value = false;
       }
     },
+    async getBookingFee(pickupDate: string, distance: number) {
+      try {
+        loading.value = true;
+        const data = await pb.send('/get-booking-fee', {
+          method: 'POST',
+          body: {
+            pickupDate,
+            distance: {
+              value: distance,
+            },
+          },
+        });
+
+        console.log(data)
+      } catch (err) {
+        if (typeof err === 'string') {
+          errorMessage.value = err;
+        } else if (err instanceof Error) {
+          errorMessage.value = err.message;
+        }
+      } finally {
+        loading.value = false;
+      }
+    }
   };
 
   return {

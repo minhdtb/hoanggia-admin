@@ -38,14 +38,15 @@
 import * as yup from 'yup';
 import {SubmitEventPromise} from 'vuetify';
 import {v4 as uuidv4} from 'uuid';
-import {HANOI_LOCATION} from "~/utils/types";
 
-import * as _ from 'lodash';
+import _ from 'lodash';
+import moment from "moment";
 
 const sessionToken = ref(uuidv4())
 
 const goong = useGoong()
 const appConfig = useAppConfig()
+const bookingStore = useBookingStore();
 
 const emit = defineEmits<{
   (eventName: "onClose"): void;
@@ -80,14 +81,14 @@ const distance = defineComponentBinds('distance', validateConfig);
 const cFrom = ref<string | undefined>(undefined)
 const cTo = ref<string | undefined>(undefined)
 
-watch([from, to], (newValues: Array<any>, oldValues: Array<any>): void => {
+watch([from, to], (newValues: Array<any>): void => {
   if (newValues[0]?.modelValue?.place_id && newValues[1]?.modelValue?.place_id) {
     cFrom.value = newValues[0].modelValue.place_id as string
     cTo.value = newValues[1].modelValue.place_id as string
   }
 })
 
-watch([cFrom, cTo], (newValues, oldValues): void => {
+watch([cFrom, cTo], (): void => {
   clearTimeout(timerId.value)
   timerId.value = setTimeout(() => {
     goong.get('/Direction', {
@@ -104,6 +105,19 @@ watch([cFrom, cTo], (newValues, oldValues): void => {
       })
     })
   }, 100)
+})
+
+watch(pickupDate, (value: any): void => {
+  if (value?.modelValue && (distance.value as any).modelValue) {
+    clearTimeout(timerId.value)
+    timerId.value = setTimeout(() => {
+      const values = value?.modelValue.split(':')
+      const hour = parseInt(values[0])
+      const minute = parseInt(values[1])
+      const date = moment(new Date()).set('hour', hour).set('minute', minute).local().toISOString().replaceAll('Z', '')
+      bookingStore.getBookingFee(date, (distance.value as any).modelValue * 1000)
+    }, 100)
+  }
 })
 
 const onSubmit = (e: SubmitEventPromise) => {
