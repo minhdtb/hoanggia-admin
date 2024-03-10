@@ -15,12 +15,12 @@
           <v-row>
             <v-col>
               <custom-form-field label="Quãng đường">
-                <v-text-field v-bind="distance" readonly></v-text-field>
+                <v-text-field v-bind="distance" readonly suffix="KM"></v-text-field>
               </custom-form-field>
             </v-col>
             <v-col>
               <custom-form-field label="Cước phí">
-                <v-text-field v-bind="fee"></v-text-field>
+                <v-text-field type="number" v-bind="fee" suffix="VND"></v-text-field>
               </custom-form-field>
             </v-col>
           </v-row>
@@ -57,7 +57,7 @@ const {handleSubmit, defineComponentBinds, isValidating, isSubmitting, setValues
       from: yup.object().required('Hãy nhập điểm đón'),
       to: yup.object().required('Hãy nhập điểm đến'),
       pickupDate: yup.string().required('Hãy nhập thời gian đón'),
-      fee: yup.number().required('Hãy nhập cước phí'),
+      fee: yup.number().typeError('Hãy nhập đinh dạng số').required('Hãy nhập cước phí'),
       distance: yup.number().required('Hãy nhập quãng đường')
     }),
   )
@@ -100,7 +100,7 @@ watch([cFrom, cTo], (newValues, oldValues): void => {
     }).then(res => {
       const distance = _.sumBy(res.data.routes[0].legs, (it: any) => it.distance.value)
       setValues({
-        distance
+        distance: distance / 1000
       })
     })
   }, 100)
