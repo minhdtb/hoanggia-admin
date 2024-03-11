@@ -24,6 +24,16 @@
               </custom-form-field>
             </v-col>
           </v-row>
+          <custom-form-field label="Lái xe">
+            <v-text-field v-bind="driverId" readonly class="d-none"></v-text-field>
+            <v-text-field
+              v-bind="driverName"
+              readonly
+              append-icon="mdi-plus"
+              @click="onAdd"
+              @click:append="onAdd"
+            ></v-text-field>
+          </custom-form-field>
         </v-col>
       </v-row>
     </template>
@@ -33,6 +43,9 @@
       </v-btn>
     </template>
   </custom-form>
+  <v-dialog v-model="showAvailable" width="900">
+    <driver-available-list @onAccept="handleAccept"></driver-available-list>
+  </v-dialog>
 </template>
 <script setup lang="ts">
 import * as yup from 'yup';
@@ -41,8 +54,11 @@ import {v4 as uuidv4} from 'uuid';
 
 import _ from 'lodash';
 import moment from "moment";
+import DriverAvailableList from "~/components/DriverAvailableList.vue";
+import {Driver} from "~/stores/driver";
 
 const sessionToken = ref(uuidv4())
+const showAvailable = ref(false);
 
 const goong = useGoong()
 const appConfig = useAppConfig()
@@ -52,14 +68,16 @@ const emit = defineEmits<{
   (eventName: "onClose"): void;
 }>();
 
-const {handleSubmit, defineComponentBinds, isValidating, isSubmitting, setValues} = useForm({
+const {handleSubmit, defineComponentBinds, isValidating, isSubmitting, setFieldValue} = useForm({
   validationSchema: toTypedSchema(
     yup.object().shape({
       from: yup.object().required('Hãy nhập điểm đón'),
       to: yup.object().required('Hãy nhập điểm đến'),
       pickupDate: yup.string().required('Hãy nhập thời gian đón'),
       fee: yup.number().typeError('Hãy nhập đinh dạng số').required('Hãy nhập cước phí'),
-      distance: yup.number().required('Hãy nhập quãng đường')
+      distance: yup.number().required('Hãy nhập quãng đường'),
+      driverId: yup.string(),
+      driverName: yup.string(),
     }),
   )
 });
@@ -78,6 +96,8 @@ const to = defineComponentBinds('to', validateConfig);
 const pickupDate = defineComponentBinds('pickupDate', validateConfig);
 const fee = defineComponentBinds('fee', validateConfig);
 const distance = defineComponentBinds('distance', validateConfig);
+const driverId = defineComponentBinds('driverId', validateConfig);
+const driverName = defineComponentBinds('driverName', validateConfig);
 
 const cFrom = ref<string | undefined>(undefined)
 const cTo = ref<string | undefined>(undefined)
@@ -101,9 +121,7 @@ watch([cFrom, cTo], (): void => {
       }
     }).then(res => {
       const distance = _.sumBy(res.data.routes[0].legs, (it: any) => it.distance.value)
-      setValues({
-        distance: distance / 1000
-      })
+      setFieldValue('distance', distance / 1000)
     })
   }, 200)
 })
@@ -119,12 +137,21 @@ watch(pickupDate, (newValue: any, oldValue: any): void => {
       const date = moment(new Date()).set('hour', hour).set('minute', minute)
         .format("YYYY-MM-DDTHH:mm:ss.SSS")
       const price = await bookingStore.getBookingFee(date, (distance.value as any).modelValue * 1000)
-      setValues({
-        fee: price
-      })
+      setFieldValue('fee', price)
     }, 200)
   }
 })
+
+const handleAccept = (item: Driver) => {
+  setFieldValue('driverName', `${item.name} (${item.id})`);
+  setFieldValue('driverId', item.id);
+  showAvailable.value = false;
+};
+
+const onAdd = () => {
+  showAvailable.value = true;
+};
+
 
 const onSubmit = (e: SubmitEventPromise) => {
   e.preventDefault();
