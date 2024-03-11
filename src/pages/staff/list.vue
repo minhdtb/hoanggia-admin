@@ -52,7 +52,6 @@ definePageMeta({
 });
 
 const staffStore = useStaffStore();
-const appConfig = useAppConfig();
 
 const {staffList, loading, total} = storeToRefs(staffStore);
 

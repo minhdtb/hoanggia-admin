@@ -1,16 +1,21 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row class="align-center">
       <v-col>
-        <v-text-field
-          v-model="search"
-          hide-details
-          placeholder="Tìm kiếm (Họ tên, Số điện thoại) ..."
-          density="compact"
-        ></v-text-field>
+        <v-btn @click="handleShowCreate" color="blue">Thêm khách hàng</v-btn>
       </v-col>
     </v-row>
   </v-container>
+  <v-row>
+    <v-col>
+      <v-text-field
+        v-model="search"
+        hide-details
+        placeholder="Tìm kiếm (Họ tên, Số điện thoại) ..."
+        density="compact"
+      ></v-text-field>
+    </v-col>
+  </v-row>
   <v-data-table-server
     v-model:page="pagination.page"
     v-model:items-per-page="pagination.itemsPerPage"
@@ -41,6 +46,9 @@
       {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
     </template>
   </v-data-table-server>
+  <v-dialog v-model="showCreate" width="600">
+    <customer-new @on-close="handleHideCreate"></customer-new>
+  </v-dialog>
 </template>
 <script setup lang="ts">
 import {useUserStore} from '~/stores/user';
@@ -53,6 +61,8 @@ definePageMeta({
   layout: 'dashboard',
   middleware: ['auth'],
 });
+
+const showCreate = ref(false);
 
 const userStore = useUserStore();
 const {userList, loading, total} = storeToRefs(userStore);
@@ -87,5 +97,17 @@ const handleLoadItems = async (options: any) => {
 
 const handleClickRow = (_: Event, {item}: any) => {
   navigateTo(`${item.raw.id}`);
+};
+
+const handleShowCreate = async () => {
+  showCreate.value = true;
+};
+
+const handleHideCreate = async () => {
+  await userStore.list({
+    limit: pagination.value.itemsPerPage,
+    page: pagination.value.page,
+  }, filter.value);
+  showCreate.value = false;
 };
 </script>

@@ -2,6 +2,7 @@ import {ListOptions} from '~/utils/types';
 
 export interface User {
   id?: string;
+  username?: string;
   name?: string;
   phone?: string;
   user_email?: string;
@@ -21,6 +22,7 @@ export const useUserStore = defineStore('userStore', () => {
   const userList = ref<User[]>([]);
   const total = ref<number>(0);
   const current = ref<User | undefined>(undefined);
+  const createSuccess = ref(false);
 
   const actions = {
     async list(options?: ListOptions, search?: string) {
@@ -71,6 +73,24 @@ export const useUserStore = defineStore('userStore', () => {
         loading.value = false;
       }
     },
+    async create(input: User) {
+      try {
+        errorMessage.value = '';
+        loading.value = true;
+        input.username = `user_${input.phone}`
+        await pb.collection('user').create(input);
+        createSuccess.value = true;
+      } catch (err) {
+        if (typeof err === 'string') {
+          errorMessage.value = err;
+        } else if (err instanceof Error) {
+          errorMessage.value = err.message;
+        }
+        createSuccess.value = false;
+      } finally {
+        loading.value = false;
+      }
+    },
   };
 
   return {
@@ -81,6 +101,7 @@ export const useUserStore = defineStore('userStore', () => {
     listOptions,
     current,
     errorMessage,
+    createSuccess,
     ...actions,
   };
 });

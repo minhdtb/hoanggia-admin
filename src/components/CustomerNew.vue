@@ -1,10 +1,13 @@
 <template>
-  <custom-form title="Thêm nhân viên" @submit="onSubmit">
+  <custom-form title="Thêm khách hàng" @submit="onSubmit">
     <template #content>
       <v-row>
         <v-col>
-          <custom-form-field label="Tên đăng nhập">
-            <v-text-field v-bind="username"></v-text-field>
+          <custom-form-field label="Số điện thoại">
+            <v-text-field v-bind="phone"></v-text-field>
+          </custom-form-field>
+          <custom-form-field label="Họ và tên">
+            <v-text-field v-bind="name"></v-text-field>
           </custom-form-field>
           <custom-form-field label="Mật khẩu">
             <v-text-field type="password" v-bind="password"></v-text-field>
@@ -14,12 +17,6 @@
           </custom-form-field>
           <custom-form-field label="Email">
             <v-text-field v-bind="email"></v-text-field>
-          </custom-form-field>
-          <custom-form-field label="Họ và tên">
-            <v-text-field v-bind="fullName"></v-text-field>
-          </custom-form-field>
-          <custom-form-field label="Phân quyền">
-            <staff-role-select v-bind="role"></staff-role-select>
           </custom-form-field>
         </v-col>
       </v-row>
@@ -39,22 +36,24 @@ const emit = defineEmits<{
   (eventName: 'onClose'): void;
 }>();
 
-const staffStore = useStaffStore();
+const userStore = useUserStore();
 
 const {handleSubmit, defineComponentBinds, isValidating, isSubmitting, values} = useForm({
   validationSchema: toTypedSchema(
     yup.object().shape({
-      username: yup.string().required('Hãy nhập tên đăng nhập')
+      phone: yup.string().required('Hãy nhập số điện thoại')
         .min(3, 'Tên đăng nhập quá ngắn').matches(/^[a-z0-9_-]{3,15}$/, 'Sai format'),
       password: yup.string().required('Hãy nhập mật khẩu')
         .min(8, 'Mật khẩu quá ngắn'),
       passwordConfirm: yup.string().required('Hãy nhập lại mật khẩu')
         .oneOf([yup.ref('password')], 'Mật khẩu không trùng nhau'),
-      role: yup.string().required('Hãy chọn phân quyền'),
-      fullName: yup.string(),
+      name: yup.string(),
       user_email: yup.string().email(),
     }),
-  )
+  ), initialValues: {
+    password: 'Aa123456@@',
+    passwordConfirm: 'Aa123456@@',
+  }
 });
 
 const validateConfig = (state: any) => ({
@@ -63,17 +62,16 @@ const validateConfig = (state: any) => ({
   },
 });
 
-const username = defineComponentBinds('username', validateConfig);
+const phone = defineComponentBinds('phone', validateConfig);
 const password = defineComponentBinds('password', validateConfig);
 const passwordConfirm = defineComponentBinds('passwordConfirm', validateConfig);
-const role = defineComponentBinds('role', validateConfig);
-const fullName = defineComponentBinds('fullName', validateConfig);
+const name = defineComponentBinds('name', validateConfig);
 const email = defineComponentBinds('user_email', validateConfig);
 
 const onSubmit = (e: SubmitEventPromise) => {
   e.preventDefault();
   handleSubmit(async (values) => {
-    await staffStore.create(values);
+    await userStore.create(values);
     emit('onClose');
   })();
 };
