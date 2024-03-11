@@ -70,7 +70,8 @@ const validateConfig = (state: any) => ({
   },
 });
 
-const timerId = ref<any>(undefined)
+const timer1Id = ref<any>(undefined)
+const timer2Id = ref<any>(undefined)
 
 const from = defineComponentBinds('from', validateConfig);
 const to = defineComponentBinds('to', validateConfig);
@@ -89,8 +90,8 @@ watch([from, to], (newValues: Array<any>): void => {
 })
 
 watch([cFrom, cTo], (): void => {
-  clearTimeout(timerId.value)
-  timerId.value = setTimeout(() => {
+  clearTimeout(timer1Id.value)
+  timer1Id.value = setTimeout(() => {
     goong.get('/Direction', {
       params: {
         api_key: appConfig.backend.goongAPIKey,
@@ -104,19 +105,24 @@ watch([cFrom, cTo], (): void => {
         distance: distance / 1000
       })
     })
-  }, 100)
+  }, 200)
 })
 
-watch(pickupDate, (value: any): void => {
-  if (value?.modelValue && (distance.value as any).modelValue) {
-    clearTimeout(timerId.value)
-    timerId.value = setTimeout(() => {
-      const values = value?.modelValue.split(':')
+watch(pickupDate, (newValue: any, oldValue: any): void => {
+  if (newValue?.modelValue && newValue?.modelValue !== oldValue?.modelValue
+    && newValue?.modelValue.length === 5 && (distance.value as any).modelValue) {
+    clearTimeout(timer2Id.value)
+    timer2Id.value = setTimeout(async () => {
+      const values = newValue?.modelValue.split(':')
       const hour = parseInt(values[0])
       const minute = parseInt(values[1])
-      const date = moment(new Date()).set('hour', hour).set('minute', minute).local().toISOString().replaceAll('Z', '')
-      bookingStore.getBookingFee(date, (distance.value as any).modelValue * 1000)
-    }, 100)
+      const date = moment(new Date()).set('hour', hour).set('minute', minute)
+        .format("YYYY-MM-DDTHH:mm:ss.SSS")
+      const price = await bookingStore.getBookingFee(date, (distance.value as any).modelValue * 1000)
+      setValues({
+        fee: price
+      })
+    }, 200)
   }
 })
 

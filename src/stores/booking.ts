@@ -146,7 +146,7 @@ export const useBookingStore = defineStore('bookingStore', () => {
     async getBookingFee(pickupDate: string, distance: number) {
       try {
         loading.value = true;
-        const data = await pb.send('/get-booking-fee', {
+        return await pb.send('/get-booking-fee', {
           method: 'POST',
           body: {
             pickupDate,
@@ -155,8 +155,6 @@ export const useBookingStore = defineStore('bookingStore', () => {
             },
           },
         });
-
-        console.log(data)
       } catch (err) {
         if (typeof err === 'string') {
           errorMessage.value = err;
