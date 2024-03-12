@@ -17,7 +17,6 @@ const props = defineProps<{
   sessionToken: string;
 }>();
 
-
 const timerId = ref<any>(undefined);
 
 const goong = useGoong()
