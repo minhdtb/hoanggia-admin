@@ -46,8 +46,8 @@
       {{ $moment(item.raw.created).format('DD/MM/YYYY HH:mm') }}
     </template>
   </v-data-table-server>
-  <v-dialog v-model="showCreate" width="600">
-    <customer-new @on-close="handleHideCreate"></customer-new>
+  <v-dialog v-model="showCreate" width="800">
+    <customer-new @on-submit="handleHideCreate"></customer-new>
   </v-dialog>
 </template>
 <script setup lang="ts">

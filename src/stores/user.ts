@@ -73,13 +73,23 @@ export const useUserStore = defineStore('userStore', () => {
         loading.value = false;
       }
     },
-    async create(input: User) {
+    async create(input: any) {
       try {
         errorMessage.value = '';
         loading.value = true;
         input.username = `user_${input.phone}`
-        await pb.collection('user').create(input);
+        const {vehicles, ...rest} = input;
+        const user = await pb.collection('user').create(rest);
+        for (const vehicle of vehicles) {
+          await pb.collection('vehicle').create({
+            user: user.id,
+            brand: vehicle.brand,
+            name: vehicle.brand,
+            type: vehicle.type,
+          })
+        }
         createSuccess.value = true;
+        return user;
       } catch (err) {
         if (typeof err === 'string') {
           errorMessage.value = err;
