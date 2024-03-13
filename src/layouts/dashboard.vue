@@ -141,11 +141,12 @@ const refreshCount = async () => {
   transactionCount.value = res.transactionCount;
 }
 
-refreshCount();
-
-pb.collection('transaction').subscribe('*', refreshCount);
-pb.collection('booking').subscribe('*', refreshCount);
-pb.collection('driver').subscribe('*', refreshCount);
+onMounted(() => {
+  refreshCount();
+  pb.collection('transaction').subscribe('*', refreshCount);
+  pb.collection('booking').subscribe('*', refreshCount);
+  pb.collection('driver').subscribe('*', refreshCount);
+})
 
 const {authUser, isAdmin, isOperator, isAccountant} = storeToRefs(authStore);
 

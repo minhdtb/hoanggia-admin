@@ -189,6 +189,7 @@ export const useBookingStore = defineStore('bookingStore', () => {
             directions: directions,
             vehicle: booking.vehicle.id,
             fee: booking.fee,
+            type: 'Manual',
           },
         });
       } catch (err) {

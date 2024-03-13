@@ -2,7 +2,7 @@
   <v-container>
     <v-row class="align-center">
       <v-col>
-        <v-btn @click="handleShowCreate" color="blue">Thêm cuốc</v-btn>
+        <v-btn @click="handleShowCreate" color="blue">Thêm cuốc xe</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -74,16 +74,16 @@
       </v-row>
     </template>
   </v-data-table-server>
-  <v-dialog v-model="showCreate" width="800">
-    <booking-new @on-submit="handleSubmit"></booking-new>
-  </v-dialog>
   <v-overlay persistent v-model="canceling" class="align-center justify-center">
     <v-progress-circular color="blue" indeterminate size="32"></v-progress-circular>
   </v-overlay>
+  <v-dialog v-model="showCreate" width="600">
+    <booking-new @on-close="handleClose"></booking-new>
+  </v-dialog>
 </template>
 <script setup lang="ts">
 import {Booking} from '~/stores/booking';
-import {bookingStatusText, driveStatusText} from "~/utils/helper";
+import {bookingStatusText} from "~/utils/helper";
 import BookingNew from "~/components/BookingNew.vue";
 
 useHead({
@@ -109,6 +109,7 @@ const headers = [
   {title: 'Quãng đường', key: 'distance'},
   {title: 'Cước phí', key: 'fee'},
   {title: 'Khuyến mại', key: 'discount'},
+  {title: 'Loại', key: 'type'},
   {title: 'Trạng thái', key: 'status'},
   {title: 'Ngày tạo', key: 'created'},
   {title: 'Hành động', key: 'action'},
@@ -140,12 +141,11 @@ const handleShowCreate = () => {
   showCreate.value = true;
 }
 
-const handleSubmit = async (data: any) => {
+const handleClose = async () => {
   showCreate.value = false;
-
   await bookingStore.list({
-    limit: pagination.value.page,
-    page: pagination.value.itemsPerPage,
+    page: pagination.value.page,
+    limit: pagination.value.itemsPerPage,
   });
 }
 </script>

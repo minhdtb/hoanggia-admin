@@ -85,6 +85,7 @@ const headers = [
   {title: 'Quãng đường', key: 'distance'},
   {title: 'Cước phí', key: 'fee'},
   {title: 'Khuyến mại', key: 'discount'},
+  {title: 'Loại', key: 'type'},
   {title: 'Trạng thái', key: 'status'},
   {title: 'Ngày tạo', key: 'created'},
 ];
