@@ -62,6 +62,8 @@ import _ from 'lodash';
 import moment from "moment";
 import DriverAvailableList from "~/components/DriverAvailableList.vue";
 import {Driver} from "~/stores/driver";
+//@ts-ignore
+import * as polyline from '@mapbox/polyline';
 
 const sessionToken = ref(uuidv4())
 const showAvailable = ref(false);
@@ -116,6 +118,8 @@ const cFrom = ref<string | undefined>(undefined)
 const cTo = ref<string | undefined>(undefined)
 const selectedUserId = ref<string>('')
 
+const directions = ref([])
+
 watch([from, to], (newValues: Array<any>): void => {
   if (newValues[0]?.modelValue?.place_id && newValues[1]?.modelValue?.place_id) {
     cFrom.value = newValues[0].modelValue.place_id as string
@@ -135,6 +139,11 @@ watch([cFrom, cTo], (): void => {
       }
     }).then(res => {
       const distance = _.sumBy(res.data.routes[0].legs, (it: any) => it.distance.value)
+      const points = polyline.decode(res.data.routes[0].overview_polyline?.points)
+      directions.value = points.map((arr: number[]) => ({
+        lat: arr[1],
+        lng: arr[0]
+      }))
       setFieldValue('distance', distance / 1000)
     })
   }, 200)
@@ -179,6 +188,7 @@ const onAdd = () => {
 const onSubmit = (e: SubmitEventPromise) => {
   e.preventDefault();
   handleSubmit(async (values) => {
+    await bookingStore.create(values, directions.value)
     emit('onClose');
   })();
 };

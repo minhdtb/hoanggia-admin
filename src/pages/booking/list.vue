@@ -1,7 +1,11 @@
 <template>
-  <div style="width: 600px">
-    <booking-new></booking-new>
-  </div>
+  <v-container>
+    <v-row class="align-center">
+      <v-col>
+        <v-btn @click="handleShowCreate" color="blue">Thêm cuốc</v-btn>
+      </v-col>
+    </v-row>
+  </v-container>
   <v-data-table-server
     v-model:page="pagination.page"
     v-model:items-per-page="pagination.itemsPerPage"
@@ -70,6 +74,9 @@
       </v-row>
     </template>
   </v-data-table-server>
+  <v-dialog v-model="showCreate" width="800">
+    <booking-new @on-submit="handleSubmit"></booking-new>
+  </v-dialog>
   <v-overlay persistent v-model="canceling" class="align-center justify-center">
     <v-progress-circular color="blue" indeterminate size="32"></v-progress-circular>
   </v-overlay>
@@ -90,6 +97,7 @@ definePageMeta({
 
 const bookingStore = useBookingStore();
 const {bookingList, loading, canceling, total} = storeToRefs(bookingStore);
+const showCreate = ref(false);
 
 const headers = [
   {title: '#', key: 'index'},
@@ -127,4 +135,17 @@ const handleCancel = async (item: Booking) => {
     await bookingStore.cancel(item.id ?? '');
   }
 };
+
+const handleShowCreate = () => {
+  showCreate.value = true;
+}
+
+const handleSubmit = async (data: any) => {
+  showCreate.value = false;
+
+  await bookingStore.list({
+    limit: pagination.value.page,
+    page: pagination.value.itemsPerPage,
+  });
+}
 </script>

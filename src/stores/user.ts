@@ -84,7 +84,7 @@ export const useUserStore = defineStore('userStore', () => {
           await pb.collection('vehicle').create({
             user: user.id,
             brand: vehicle.brand,
-            name: vehicle.brand,
+            name: vehicle.name,
             type: vehicle.type,
           })
         }

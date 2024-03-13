@@ -3,6 +3,9 @@
     <template #content>
       <v-row>
         <v-col>
+          <custom-form-field label="Biển số xe">
+            <v-text-field v-bind="name"></v-text-field>
+          </custom-form-field>
           <custom-form-field label="Hãng xe">
             <v-text-field v-bind="brand"></v-text-field>
           </custom-form-field>
@@ -30,6 +33,7 @@ const emit = defineEmits<{
 const {handleSubmit, defineComponentBinds, isValidating, isSubmitting, values} = useForm({
   validationSchema: toTypedSchema(
     yup.object().shape({
+      name: yup.string().required('Hãy nhập biển số xe'),
       brand: yup.string().required('Hãy nhập hãng xe'),
       type: yup.string().required('Hãy nhập loại xe'),
     }),
@@ -49,6 +53,7 @@ const validateConfig = (state: any) => {
   }
 };
 
+const name = defineComponentBinds('name', validateConfig);
 const brand = defineComponentBinds('brand', validateConfig);
 const type = defineComponentBinds('type', validateConfig);
 

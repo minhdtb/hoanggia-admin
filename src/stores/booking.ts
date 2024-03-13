@@ -1,6 +1,7 @@
 import {ListOptions} from '~/utils/types';
 import {Driver} from '~/stores/driver';
 import {User} from '~/stores/user';
+import moment from "moment/moment";
 
 export interface Booking {
   id?: string;
@@ -153,6 +154,41 @@ export const useBookingStore = defineStore('bookingStore', () => {
             distance: {
               value: distance,
             },
+          },
+        });
+      } catch (err) {
+        if (typeof err === 'string') {
+          errorMessage.value = err;
+        } else if (err instanceof Error) {
+          errorMessage.value = err.message;
+        }
+      } finally {
+        loading.value = false;
+      }
+    },
+    async create(booking: any, directions: any[]) {
+      try {
+        loading.value = true;
+        let pickupDate = booking.pickupDate
+        const v = pickupDate.split(':')
+        const hour = parseInt(v[0])
+        const minute = parseInt(v[1])
+        pickupDate = moment(new Date()).set('hour', hour).set('minute', minute)
+          .format("YYYY-MM-DDTHH:mm:ss.SSS")
+        await pb.send('/create-booking', {
+          method: 'POST',
+          body: {
+            userId: booking.user.id,
+            from: booking.from,
+            tos: [booking.to],
+            pickupDate: pickupDate,
+            distance: {
+              text: '',
+              value: booking.distance * 1000,
+            },
+            directions: directions,
+            vehicle: booking.vehicle.id,
+            fee: booking.fee,
           },
         });
       } catch (err) {
