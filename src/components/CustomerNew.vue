@@ -43,9 +43,13 @@ const emit = defineEmits<{
   (eventName: 'onSubmit', value: any): void;
 }>();
 
+const props = defineProps<{
+  initialPhone?: string,
+}>()
+
 const userStore = useUserStore();
 
-const {handleSubmit, defineComponentBinds, isValidating, isSubmitting, values} = useForm({
+const {handleSubmit, defineComponentBinds, isValidating, isSubmitting} = useForm({
   validationSchema: toTypedSchema(
     yup.object().shape({
       phone: yup.string().required('Hãy nhập số điện thoại')
@@ -65,6 +69,7 @@ const {handleSubmit, defineComponentBinds, isValidating, isSubmitting, values} =
   ), initialValues: {
     password: defaultPassword,
     passwordConfirm: defaultPassword,
+    phone: props.initialPhone,
   }
 });
 

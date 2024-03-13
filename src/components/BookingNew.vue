@@ -4,7 +4,10 @@
       <v-row>
         <v-col>
           <custom-form-field label="Khách hàng">
-            <customer-select></customer-select>
+            <customer-select v-bind="user"></customer-select>
+          </custom-form-field>
+          <custom-form-field label="Xe">
+            <vehicle-select :user-id="selectedUserId" v-bind="vehicle"></vehicle-select>
           </custom-form-field>
           <custom-form-field label="Điểm đón">
             <search-place-input :session-token="sessionToken" v-bind="from"></search-place-input>
@@ -76,6 +79,8 @@ const options = {mask: '##:##'};
 const {handleSubmit, defineComponentBinds, isValidating, isSubmitting, setFieldValue} = useForm({
   validationSchema: toTypedSchema(
     yup.object().shape({
+      user: yup.object().required('Hãy chọn khách hàng'),
+      vehicle: yup.object().required('Hãy chọn xe'),
       from: yup.object().required('Hãy nhập điểm đón'),
       to: yup.object().required('Hãy nhập điểm đến'),
       pickupDate: yup.string().required('Hãy nhập thời gian đón')
@@ -97,6 +102,8 @@ const validateConfig = (state: any) => ({
 const timer1Id = ref<any>(undefined)
 const timer2Id = ref<any>(undefined)
 
+const user = defineComponentBinds('user', validateConfig);
+const vehicle = defineComponentBinds('vehicle', validateConfig);
 const from = defineComponentBinds('from', validateConfig);
 const to = defineComponentBinds('to', validateConfig);
 const pickupDate = defineComponentBinds('pickupDate', validateConfig);
@@ -107,6 +114,7 @@ const driverName = defineComponentBinds('driverName', validateConfig);
 
 const cFrom = ref<string | undefined>(undefined)
 const cTo = ref<string | undefined>(undefined)
+const selectedUserId = ref<string>('')
 
 watch([from, to], (newValues: Array<any>): void => {
   if (newValues[0]?.modelValue?.place_id && newValues[1]?.modelValue?.place_id) {
@@ -152,6 +160,12 @@ watch(pickupDate, (newValue: any, oldValue: any): void => {
   }
 })
 
+watch(user, (value: any) => {
+  if (value?.modelValue) {
+    selectedUserId.value = value?.modelValue?.id
+  }
+})
+
 const handleAccept = (item: Driver) => {
   setFieldValue('driverName', `${item.name} (${item.id})`);
   setFieldValue('driverId', item.id);
@@ -162,11 +176,9 @@ const onAdd = () => {
   showAvailable.value = true;
 };
 
-
 const onSubmit = (e: SubmitEventPromise) => {
   e.preventDefault();
   handleSubmit(async (values) => {
-
     emit('onClose');
   })();
 };
