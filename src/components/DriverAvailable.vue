@@ -8,12 +8,11 @@
     @click:append="onAdd"
   ></v-text-field>
   <v-dialog v-model="showAvailable" width="900">
-    <driver-available-list @onAccept="handleAccept"></driver-available-list>
+    <driver-available-list @on-accept="handleAccept"></driver-available-list>
   </v-dialog>
 </template>
 <script lang="ts" setup>
 import {Driver} from "~/stores/driver";
-import DriverAvailableList from "~/components/DriverAvailableList.vue";
 
 const showAvailable = ref(false);
 const driverList = ref('');
