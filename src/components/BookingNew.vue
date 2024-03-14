@@ -9,6 +9,18 @@
           <custom-form-field label="Xe">
             <vehicle-select :user-id="selectedUserId" v-bind="vehicle"></vehicle-select>
           </custom-form-field>
+          <custom-form-field label="Lái xe">
+            <v-text-field v-bind="driverId" readonly class="d-none"></v-text-field>
+            <v-text-field
+              v-bind="driverName"
+              readonly
+              append-icon="mdi-plus"
+              @click="onAdd"
+              @click:append="onAdd"
+            ></v-text-field>
+          </custom-form-field>
+        </v-col>
+        <v-col>
           <custom-form-field label="Điểm đón">
             <search-place-input :session-token="sessionToken" v-bind="from"></search-place-input>
           </custom-form-field>
@@ -20,26 +32,16 @@
           </custom-form-field>
           <v-row>
             <v-col>
-              <custom-form-field label="Quãng đường">
-                <v-text-field v-bind="distance" readonly suffix="KM"></v-text-field>
-              </custom-form-field>
-            </v-col>
-            <v-col>
               <custom-form-field label="Cước phí">
                 <v-text-field type="number" v-bind="fee" suffix="VND"></v-text-field>
               </custom-form-field>
             </v-col>
+            <v-col>
+              <custom-form-field label="Quãng đường">
+                <v-text-field v-bind="distance" readonly suffix="KM"></v-text-field>
+              </custom-form-field>
+            </v-col>
           </v-row>
-          <custom-form-field label="Lái xe">
-            <v-text-field v-bind="driverId" readonly class="d-none"></v-text-field>
-            <v-text-field
-              v-bind="driverName"
-              readonly
-              append-icon="mdi-plus"
-              @click="onAdd"
-              @click:append="onAdd"
-            ></v-text-field>
-          </custom-form-field>
         </v-col>
       </v-row>
     </template>
@@ -88,7 +90,7 @@ const {handleSubmit, defineComponentBinds, isValidating, isSubmitting, setFieldV
       pickupDate: yup.string().required('Hãy nhập thời gian đón')
         .matches(/^(2[0-3]|[01]?[0-9]):([0-5]?[0-9])$/g, 'Sai định dạng thời gian'),
       fee: yup.number().typeError('Hãy nhập đinh dạng số').required('Hãy nhập cước phí'),
-      distance: yup.number().required('Hãy nhập quãng đường'),
+      distance: yup.number(),
       driverId: yup.string(),
       driverName: yup.string(),
     }),

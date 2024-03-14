@@ -77,7 +77,7 @@
   <v-overlay persistent v-model="canceling" class="align-center justify-center">
     <v-progress-circular color="blue" indeterminate size="32"></v-progress-circular>
   </v-overlay>
-  <v-dialog v-model="showCreate" width="600">
+  <v-dialog v-model="showCreate" width="800">
     <booking-new @on-close="handleClose"></booking-new>
   </v-dialog>
 </template>
