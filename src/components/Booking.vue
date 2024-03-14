@@ -4,14 +4,7 @@
       <v-row>
         <v-col>
           <custom-form-field label="Lái xe">
-            <v-text-field v-bind="driverId" readonly class="d-none"></v-text-field>
-            <v-text-field
-              v-bind="name"
-              readonly
-              append-icon="mdi-plus"
-              @click="onAdd"
-              @click:append="onAdd"
-            ></v-text-field>
+            <driver-available v-bind="driverIds"></driver-available>
           </custom-form-field>
           <custom-form-field label="Phí dịch vụ">
             <v-text-field v-bind="fee" type="number" suffix=" VNĐ"></v-text-field>
@@ -27,15 +20,10 @@
       </v-btn>
     </template>
   </custom-form>
-  <v-dialog v-model="showAvailable" width="900">
-    <driver-available-list @onAccept="handleAccept"></driver-available-list>
-  </v-dialog>
 </template>
 <script setup lang="ts">
 import * as yup from 'yup';
-import { SubmitEventPromise } from 'vuetify';
-import DriverAvailableList from '~/components/DriverAvailableList.vue';
-import { Driver } from '~/stores/driver';
+import {SubmitEventPromise} from 'vuetify';
 
 const emit = defineEmits<{
   (eventName: 'onClose'): void;
@@ -47,13 +35,10 @@ const props = defineProps<{
 
 const bookingStore = useBookingStore();
 
-const showAvailable = ref(false);
-
-const { handleSubmit, defineComponentBinds, isValidating, isSubmitting, setFieldValue } = useForm({
+const {handleSubmit, defineComponentBinds, isValidating, isSubmitting, setFieldValue} = useForm({
   validationSchema: toTypedSchema(
     yup.object().shape({
-      driverId: yup.string().required('Hãy chọn lái xe'),
-      name: yup.string().required('Hãy chọn lái xe'),
+      driverIds: yup.array().of(yup.string()).required('Hãy chọn lái xe'),
       fee: yup.number().required('Hãy nhập số tiền'),
     }),
   ),
@@ -65,25 +50,14 @@ const validateConfig = (state: any) => ({
   },
 });
 
-const driverId = defineComponentBinds('driverId', validateConfig);
-const name = defineComponentBinds('name', validateConfig);
+const driverIds = defineComponentBinds('driverIds', validateConfig);
 const fee = defineComponentBinds('fee', validateConfig);
 
 const onSubmit = (e: SubmitEventPromise) => {
   e.preventDefault();
   handleSubmit(async (values) => {
-    await bookingStore.manualAssignDriver(props.id, values.driverId, values.fee);
+    await bookingStore.manualAssignDriver(props.id, values.driverIds, values.fee);
     emit('onClose');
   })();
-};
-
-const onAdd = () => {
-  showAvailable.value = true;
-};
-
-const handleAccept = (item: Driver) => {
-  setFieldValue('name', `${item.name} (${item.id})`);
-  setFieldValue('driverId', item.id);
-  showAvailable.value = false;
 };
 </script>

@@ -17,7 +17,6 @@
           :items-length="total"
           v-model:page="pagination.page"
           v-model:items-per-page="pagination.itemsPerPage"
-          select-strategy="single"
           return-object
           show-select
           hover
@@ -66,8 +65,8 @@
   </v-overlay>
 </template>
 <script setup lang="ts">
-import { activeStatusText, authStatusText, driveStatusText } from '~/utils/helper';
-import { Driver } from '~/stores/driver';
+import {activeStatusText, authStatusText, driveStatusText} from '~/utils/helper';
+import {Driver} from '~/stores/driver';
 
 useHead({
   title: `Hoang Gia Driver - Lái xe`,
@@ -79,7 +78,7 @@ definePageMeta({
 });
 
 const emit = defineEmits<{
-  (eventName: 'onAccept', item: Driver): void;
+  (eventName: 'onAccept', items: Driver[]): void;
 }>();
 
 const driverStore = useDriverStore();
@@ -111,7 +110,7 @@ const handleLoadItems = async (options: any) => {
 
 const handleSubmit = () => {
   if (selected.value.length > 0) {
-    emit('onAccept', selected.value[0]);
+    emit('onAccept', selected.value);
   }
 };
 </script>

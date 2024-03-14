@@ -10,14 +10,7 @@
             <vehicle-select :user-id="selectedUserId" v-bind="vehicle"></vehicle-select>
           </custom-form-field>
           <custom-form-field label="Lái xe">
-            <v-text-field v-bind="driverId" readonly class="d-none"></v-text-field>
-            <v-text-field
-              v-bind="driverName"
-              readonly
-              append-icon="mdi-plus"
-              @click="onAdd"
-              @click:append="onAdd"
-            ></v-text-field>
+            <driver-available v-bind="driverIds"></driver-available>
           </custom-form-field>
         </v-col>
         <v-col>
@@ -51,9 +44,7 @@
       </v-btn>
     </template>
   </custom-form>
-  <v-dialog v-model="showAvailable" width="900">
-    <driver-available-list @onAccept="handleAccept"></driver-available-list>
-  </v-dialog>
+
 </template>
 <script setup lang="ts">
 import * as yup from 'yup';
@@ -62,13 +53,10 @@ import {v4 as uuidv4} from 'uuid';
 import {vMaska} from "maska"
 import _ from 'lodash';
 import moment from "moment";
-import DriverAvailableList from "~/components/DriverAvailableList.vue";
-import {Driver} from "~/stores/driver";
 //@ts-ignore
 import * as polyline from '@mapbox/polyline';
 
 const sessionToken = ref(uuidv4())
-const showAvailable = ref(false);
 
 const goong = useGoong()
 const appConfig = useAppConfig()
@@ -91,7 +79,7 @@ const {handleSubmit, defineComponentBinds, isValidating, isSubmitting, setFieldV
         .matches(/^(2[0-3]|[01]?[0-9]):([0-5]?[0-9])$/g, 'Sai định dạng thời gian'),
       fee: yup.number().typeError('Hãy nhập đinh dạng số').required('Hãy nhập cước phí'),
       distance: yup.number(),
-      driverId: yup.string(),
+      driverIds: yup.array().of(yup.string()),
       driverName: yup.string(),
     }),
   )
@@ -113,8 +101,7 @@ const to = defineComponentBinds('to', validateConfig);
 const pickupDate = defineComponentBinds('pickupDate', validateConfig);
 const fee = defineComponentBinds('fee', validateConfig);
 const distance = defineComponentBinds('distance', validateConfig);
-const driverId = defineComponentBinds('driverId', validateConfig);
-const driverName = defineComponentBinds('driverName', validateConfig);
+const driverIds = defineComponentBinds('driverIds', validateConfig);
 
 const cFrom = ref<string | undefined>(undefined)
 const cTo = ref<string | undefined>(undefined)
@@ -176,16 +163,6 @@ watch(user, (value: any) => {
     selectedUserId.value = value?.modelValue?.id
   }
 })
-
-const handleAccept = (item: Driver) => {
-  setFieldValue('driverName', `${item.name} (${item.id})`);
-  setFieldValue('driverId', item.id);
-  showAvailable.value = false;
-};
-
-const onAdd = () => {
-  showAvailable.value = true;
-};
 
 const onSubmit = (e: SubmitEventPromise) => {
   e.preventDefault();

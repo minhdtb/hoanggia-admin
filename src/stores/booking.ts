@@ -123,14 +123,14 @@ export const useBookingStore = defineStore('bookingStore', () => {
         canceling.value = false;
       }
     },
-    async manualAssignDriver(bookingId: string, driverId: string, fee: number) {
+    async manualAssignDriver(bookingId: string, driverIds: any[], fee: number) {
       try {
         loading.value = true;
         await pb.send('/manual-assign-driver', {
           method: 'POST',
           body: {
             bookingId,
-            driverId,
+            driverIds,
             fee,
           },
         });
@@ -189,6 +189,7 @@ export const useBookingStore = defineStore('bookingStore', () => {
             directions: directions,
             vehicle: booking.vehicle.id,
             fee: booking.fee,
+            driverIds: booking.driverIds,
             type: 'Manual',
           },
         });
