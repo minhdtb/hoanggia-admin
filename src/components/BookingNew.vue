@@ -103,59 +103,63 @@ const fee = defineComponentBinds('fee', validateConfig);
 const distance = defineComponentBinds('distance', validateConfig);
 const driverIds = defineComponentBinds('driverIds', validateConfig);
 
-const cFrom = ref<string | undefined>(undefined)
-const cTo = ref<string | undefined>(undefined)
+const {value: cFrom} = useField<any>('from');
+const {value: cTo} = useField<any>('to');
+const {value: cPickupDate} = useField<any>('pickupDate');
+const {value: cDistance} = useField<any>('distance');
+
 const selectedUserId = ref<string>('')
 
 const directions = ref([])
 
-watch([from, to], (newValues: Array<any>): void => {
-  if (newValues[0]?.modelValue?.place_id && newValues[1]?.modelValue?.place_id) {
-    cFrom.value = newValues[0].modelValue.place_id as string
-    cTo.value = newValues[1].modelValue.place_id as string
+const calculateDistance = (from: any, to: any) => {
+  if (from && to) {
+    clearTimeout(timer1Id.value)
+    timer1Id.value = setTimeout(() => {
+      goong.get('/Direction', {
+        params: {
+          api_key: appConfig.backend.goongAPIKey,
+          origin: from.geometry.location.lat + ',' + from.geometry.location.lng,
+          destination: to.geometry.location.lat + ',' + to.geometry.location.lng,
+          vehicle: 'car',
+        }
+      }).then(res => {
+        const distance = _.sumBy(res.data.routes[0].legs, (it: any) => it.distance.value)
+        const points = polyline.decode(res.data.routes[0].overview_polyline?.points)
+        directions.value = points.map((arr: number[]) => ({
+          lat: arr[1],
+          lng: arr[0]
+        }))
+        setFieldValue('distance', distance / 1000)
+      })
+    }, 200)
   }
-})
+}
 
-watch([cFrom, cTo], (): void => {
-  clearTimeout(timer1Id.value)
-  timer1Id.value = setTimeout(() => {
-    goong.get('/Direction', {
-      params: {
-        api_key: appConfig.backend.goongAPIKey,
-        origin: (from.value as any).modelValue.geometry.location.lat + ',' + (from.value as any).modelValue.geometry.location.lng,
-        destination: (to.value as any).modelValue.geometry.location.lat + ',' + (to.value as any).modelValue.geometry.location.lng,
-        vehicle: 'car',
-      }
-    }).then(res => {
-      const distance = _.sumBy(res.data.routes[0].legs, (it: any) => it.distance.value)
-      const points = polyline.decode(res.data.routes[0].overview_polyline?.points)
-      directions.value = points.map((arr: number[]) => ({
-        lat: arr[1],
-        lng: arr[0]
-      }))
-      setFieldValue('distance', distance / 1000)
-    })
-  }, 200)
-})
-
-watch(pickupDate, (newValue: any, oldValue: any): void => {
-  if (newValue?.modelValue && newValue?.modelValue !== oldValue?.modelValue
-    && newValue?.modelValue.length === 5 && (distance.value as any).modelValue) {
+const calculateFee = (distance?: number, pickupDate?: string) => {
+  if (distance && pickupDate) {
     clearTimeout(timer2Id.value)
     timer2Id.value = setTimeout(async () => {
-      const timeString = newValue?.modelValue
       const regex = new RegExp(/^(2[0-3]|[01]?[0-9]):([0-5]?[0-9])$/g)
-      if (regex.test(timeString)) {
-        const values = newValue?.modelValue.split(':')
+      if (regex.test(pickupDate)) {
+        const values = pickupDate.split(':')
         const hour = parseInt(values[0])
         const minute = parseInt(values[1])
         const date = moment(new Date()).set('hour', hour).set('minute', minute)
           .format("YYYY-MM-DDTHH:mm:ss.SSS")
-        const price = await bookingStore.getBookingFee(date, (distance.value as any).modelValue * 1000)
+        const price = await bookingStore.getBookingFee(date, distance * 1000)
         setFieldValue('fee', price)
       }
     }, 200)
   }
+}
+
+watch([cFrom, cTo], (values) => {
+  calculateDistance(values[0], values[1])
+})
+
+watch([cDistance, cPickupDate], (values) => {
+  calculateFee(values[0], values[1])
 })
 
 watch(user, (value: any) => {
