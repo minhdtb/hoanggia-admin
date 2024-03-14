@@ -10,7 +10,7 @@
     @click:clear="model = []"
   ></v-text-field>
   <v-dialog v-model="showAvailable" width="900">
-    <driver-available-list @on-accept="handleAccept"></driver-available-list>
+    <driver-available-list @on-accept="handleAccept" :initial-list="model"></driver-available-list>
   </v-dialog>
 </template>
 <script lang="ts" setup>

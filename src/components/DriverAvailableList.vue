@@ -62,29 +62,28 @@
     <v-progress-circular color="blue" indeterminate size="32"></v-progress-circular>
   </v-overlay>
 </template>
-<script setup lang="ts">
+<script lang="ts" setup>
 import {activeStatusText, authStatusText, driveStatusText} from '~/utils/helper';
 import {Driver} from '~/stores/driver';
 
 const pb = usePb()
 
-useHead({
-  title: `Hoang Gia Driver - Lái xe`,
-});
-
-definePageMeta({
-  layout: 'dashboard',
-  middleware: ['auth'],
-});
-
 const emit = defineEmits<{
   (eventName: 'onAccept', items: Driver[]): void;
+}>();
+
+const props = defineProps<{
+  initialList: string[]
 }>();
 
 const driverStore = useDriverStore();
 const {driverAvailableList, loading, total} = storeToRefs(driverStore);
 
 const selected = ref<string[]>([]);
+
+onMounted(() => {
+  selected.value = props.initialList;
+})
 
 const headers = [
   {title: '#', key: 'index'},
