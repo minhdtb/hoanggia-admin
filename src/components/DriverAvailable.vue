@@ -6,6 +6,8 @@
     append-icon="mdi-plus"
     @click="onAdd"
     @click:append="onAdd"
+    clearable
+    @click:clear="model = []"
   ></v-text-field>
   <v-dialog v-model="showAvailable" width="900">
     <driver-available-list @on-accept="handleAccept"></driver-available-list>
