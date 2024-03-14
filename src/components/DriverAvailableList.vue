@@ -17,9 +17,7 @@
           :items-length="total"
           v-model:page="pagination.page"
           v-model:items-per-page="pagination.itemsPerPage"
-          return-object
           show-select
-          hover
           @update:options="handleLoadItems"
           v-model="selected"
         >
@@ -34,17 +32,17 @@
           </template>
           <template #item.authStatus="{ item }">
             <v-chip :color="authStatusText(item.raw.authStatus)?.color"
-              >{{ authStatusText(item.raw.authStatus)?.text }}
+            >{{ authStatusText(item.raw.authStatus)?.text }}
             </v-chip>
           </template>
           <template #item.driveStatus="{ item }">
             <v-chip :color="driveStatusText(item.raw.driveStatus)?.color"
-              >{{ driveStatusText(item.raw.driveStatus)?.text }}
+            >{{ driveStatusText(item.raw.driveStatus)?.text }}
             </v-chip>
           </template>
           <template #item.activeStatus="{ item }">
             <v-chip :color="activeStatusText(item.raw.activeStatus)?.color"
-              >{{ activeStatusText(item.raw.activeStatus)?.text }}
+            >{{ activeStatusText(item.raw.activeStatus)?.text }}
             </v-chip>
           </template>
           <template #item.balance="{ item }">
@@ -68,6 +66,8 @@
 import {activeStatusText, authStatusText, driveStatusText} from '~/utils/helper';
 import {Driver} from '~/stores/driver';
 
+const pb = usePb()
+
 useHead({
   title: `Hoang Gia Driver - Lái xe`,
 });
@@ -82,16 +82,16 @@ const emit = defineEmits<{
 }>();
 
 const driverStore = useDriverStore();
-const { driverAvailableList, loading, total } = storeToRefs(driverStore);
+const {driverAvailableList, loading, total} = storeToRefs(driverStore);
 
-const selected = ref([]);
+const selected = ref<string[]>([]);
 
 const headers = [
-  { title: '#', key: 'index' },
-  { title: 'Ảnh', key: 'avatar' },
-  { title: 'Họ tên', key: 'name' },
-  { title: 'Số điện thoại', key: 'phone' },
-  { title: 'Tài khoản', key: 'balance' },
+  {title: '#', key: 'index'},
+  {title: 'Ảnh', key: 'avatar'},
+  {title: 'Họ tên', key: 'name'},
+  {title: 'Số điện thoại', key: 'phone'},
+  {title: 'Tài khoản', key: 'balance'},
 ];
 
 const search = ref('');
@@ -108,9 +108,15 @@ const handleLoadItems = async (options: any) => {
   });
 };
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
   if (selected.value.length > 0) {
-    emit('onAccept', selected.value);
+    const res = await pb
+      .collection('driver')
+      .getFullList<Driver>({
+        filter: selected.value.map((id) => `id="${id}"`).join("||"),
+      });
+
+    emit('onAccept', res);
   }
 };
 </script>
