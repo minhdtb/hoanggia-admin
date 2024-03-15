@@ -62,9 +62,9 @@ const {handleSubmit, defineComponentBinds, isValidating, isSubmitting} = useForm
       name: yup.string().required('Hãy nhập tên khách hàng'),
       user_email: yup.string().email(),
       vehicles: yup.array().of(yup.object().shape({
-        brand: yup.string().required('Hãng xe'),
-        type: yup.string().required('Loại xe')
-      })).min(1, 'Khách hàng cần có ít nhất 1 xe').default([])
+        brand: yup.string(),
+        type: yup.string()
+      })).default([])
     }),
   ), initialValues: {
     password: defaultPassword,
