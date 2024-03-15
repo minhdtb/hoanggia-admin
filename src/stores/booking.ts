@@ -173,8 +173,12 @@ export const useBookingStore = defineStore('bookingStore', () => {
         const v = pickupDate.split(':')
         const hour = parseInt(v[0])
         const minute = parseInt(v[1])
-        pickupDate = moment(new Date()).set('hour', hour).set('minute', minute)
-          .format("YYYY-MM-DDTHH:mm:ss.SSS")
+        const now = moment(new Date())
+        let pickup = now.set('hour', hour).set('minute', minute)
+        if (pickup.isBefore(now)) {
+          pickup = pickup.add(1, 'days')
+        }
+        pickupDate = pickup.format("YYYY-MM-DDTHH:mm:ss.SSS")
         await pb.send('/create-booking', {
           method: 'POST',
           body: {
