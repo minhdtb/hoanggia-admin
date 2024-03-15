@@ -53,6 +53,11 @@
       >{{ bookingStatusText(item.raw.status)?.text }}
       </v-chip>
     </template>
+    <template #item.type="{ item }">
+      <v-chip :color="bookingTypeText(item.raw.type)?.color"
+      >{{ bookingTypeText(item.raw.type)?.text }}
+      </v-chip>
+    </template>
     <template #item.action="{ item }">
       <v-row>
         <v-btn
@@ -83,7 +88,7 @@
 </template>
 <script setup lang="ts">
 import {Booking} from '~/stores/booking';
-import {bookingStatusText} from "~/utils/helper";
+import {bookingStatusText, bookingTypeText} from "~/utils/helper";
 import BookingNew from "~/components/BookingNew.vue";
 
 useHead({

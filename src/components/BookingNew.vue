@@ -127,8 +127,8 @@ const calculateDistance = (from: any, to: any) => {
         const distance = _.sumBy(res.data.routes[0].legs, (it: any) => it.distance.value)
         const points = polyline.decode(res.data.routes[0].overview_polyline?.points)
         directions.value = points.map((arr: number[]) => ({
-          lat: arr[1],
-          lng: arr[0]
+          lat: arr[0],
+          lng: arr[1]
         }))
         setFieldValue('distance', distance / 1000)
       })

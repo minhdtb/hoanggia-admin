@@ -223,3 +223,18 @@ export function roleText(role: string): { text: string; color: string } | undefi
       }
   }
 }
+
+export function bookingTypeText(status: string): { text: string; color: string } | undefined {
+  switch (status) {
+    case 'Automatic':
+      return {
+        text: 'Tự động',
+        color: 'blue',
+      };
+    case 'Manual':
+      return {
+        text: 'Bằng tay',
+        color: 'orange',
+      };
+  }
+}
