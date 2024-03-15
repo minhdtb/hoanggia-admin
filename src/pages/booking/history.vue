@@ -54,13 +54,18 @@
       >{{ bookingStatusText(item.raw.status)?.text }}
       </v-chip>
     </template>
+    <template #item.type="{ item }">
+      <v-chip :color="bookingTypeText(item.raw.type)?.color"
+      >{{ bookingTypeText(item.raw.type)?.text }}
+      </v-chip>
+    </template>
   </v-data-table-server>
   <v-overlay persistent v-model="canceling" class="align-center justify-center">
     <v-progress-circular color="blue" indeterminate size="32"></v-progress-circular>
   </v-overlay>
 </template>
 <script setup lang="ts">
-import {bookingStatusText} from "~/utils/helper";
+import {bookingStatusText, bookingTypeText} from "~/utils/helper";
 
 useHead({
   title: `Hoang Gia Driver - Cuốc xe`,
