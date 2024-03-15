@@ -145,8 +145,12 @@ const calculateFee = (distance?: number, pickupDate?: string) => {
         const values = pickupDate.split(':')
         const hour = parseInt(values[0])
         const minute = parseInt(values[1])
-        const date = moment(new Date()).set('hour', hour).set('minute', minute)
-          .format("YYYY-MM-DDTHH:mm:ss.SSS")
+        const now = moment(new Date())
+        let pickup = now.set('hour', hour).set('minute', minute)
+        if (pickup.isBefore(now)) {
+          pickup = pickup.add(1, 'days')
+        }
+        const date = pickup.format("YYYY-MM-DDTHH:mm:ss.SSS")
         const price = await bookingStore.getBookingFee(date, distance * 1000)
         setFieldValue('fee', price)
       }

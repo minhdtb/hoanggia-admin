@@ -146,7 +146,6 @@ export const useBookingStore = defineStore('bookingStore', () => {
     },
     async getBookingFee(pickupDate: string, distance: number) {
       try {
-        loading.value = true;
         return await pb.send('/get-booking-fee', {
           method: 'POST',
           body: {
@@ -163,7 +162,6 @@ export const useBookingStore = defineStore('bookingStore', () => {
           errorMessage.value = err.message;
         }
       } finally {
-        loading.value = false;
       }
     },
     async create(booking: any, directions: any[]) {
