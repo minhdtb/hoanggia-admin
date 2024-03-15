@@ -1,8 +1,12 @@
 <template>
-  <v-select v-bind="$attrs" v-model="selected" :items="items" item-value="id" item-title="brand" return-object>
+  <v-select v-bind="$attrs" v-model="selected" :items="items"
+            :item-title="(item) => (`${item.brand} (${item.name})`)" return-object>
     <template v-slot:no-data>
       <v-list-item v-if="userId" title="Tạo xe" @click="newVehicle">
       </v-list-item>
+    </template>
+    <template v-slot:item="{item, props}">
+      <v-list-item v-bind="props" :title="`${item.raw.brand} (${item.raw.name})`"></v-list-item>
     </template>
   </v-select>
   <v-dialog v-model="showCreateVehicle" width="400">
