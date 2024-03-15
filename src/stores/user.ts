@@ -55,6 +55,33 @@ export const useUserStore = defineStore('userStore', () => {
         loading.value = false;
       }
     },
+    async listAll(search?: string) {
+      try {
+        loading.value = true;
+        userList.value = [];
+        const res = await pb
+          .collection('user')
+          .getFullList<User>({
+            filter: search,
+            sort: '-created',
+          });
+        userList.value = res.map((it) => {
+          if (it.avatar) {
+            it.avatar = `${appConfig.backend.url}/api/files/user/${it.id}/${it.avatar}`;
+          }
+          return it;
+        });
+        total.value = res.length;
+      } catch (err) {
+        if (typeof err === 'string') {
+          errorMessage.value = err;
+        } else if (err instanceof Error) {
+          errorMessage.value = err.message;
+        }
+      } finally {
+        loading.value = false;
+      }
+    },
     async getUserById(id: string) {
       try {
         loading.value = true;

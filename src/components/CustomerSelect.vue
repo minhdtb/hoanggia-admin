@@ -47,7 +47,7 @@ watch(selectUser, (value) => {
 
 const searchTerm = async (value: string) => {
   searchValue.value = value
-  await userStore.list(undefined, `(name ~ "${value ?? ''}" || phone ~ "${value ?? ''}")`)
+  await userStore.listAll(`(name ~ "${value ?? ''}" || phone ~ "${value ?? ''}")`)
 }
 
 const newCustomer = () => {
