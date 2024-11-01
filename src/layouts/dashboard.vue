@@ -75,6 +75,11 @@
         <v-list-item prepend-icon="mdi-ticket" title="Đã sử dụng" to="/discount/use"></v-list-item>
       </v-list>
       <v-divider></v-divider>
+      <v-list v-if="isAdmin">
+        <v-list-subheader class="text-white">Thông báo</v-list-subheader>
+        <v-list-item prepend-icon="mdi-ticket" title="Gửi thông báo" to="/notification"></v-list-item>
+      </v-list>
+      <v-divider></v-divider>
       <v-list v-if="isAdmin || isAccountant">
         <v-list-subheader class="text-white">Giao dịch</v-list-subheader>
         <v-list-item

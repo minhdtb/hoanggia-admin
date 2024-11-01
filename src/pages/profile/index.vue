@@ -31,7 +31,6 @@
 <script setup lang="ts">
 import * as yup from "yup";
 import {SubmitEventPromise} from "vuetify";
-import DriverAvailableList from "~/components/DriverAvailableList.vue";
 
 useHead({
   title: `Hoang Gia Driver - Thông tin cá nhân`,
