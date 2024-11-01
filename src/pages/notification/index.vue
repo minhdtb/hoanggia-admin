@@ -10,7 +10,7 @@
             <v-text-field v-bind="title"></v-text-field>
           </custom-form-field>
           <custom-form-field label="Nội dung">
-            <v-textarea v-bind="message"></v-textarea>
+            <v-textarea v-bind="message" :maxlength="1000"></v-textarea>
           </custom-form-field>
         </template>
         <template #actions>
