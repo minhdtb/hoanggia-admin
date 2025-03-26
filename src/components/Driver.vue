@@ -214,7 +214,13 @@ watch(
 const onSubmit = (e: SubmitEventPromise) => {
   e.preventDefault();
   handleSubmit(async (values) => {
-    await driverStore.updateDriver(props.id, values);
+    
+    await driverStore.updateDriver(props.id, {
+      name: values.name,
+      phone: values.phone,
+      address: values.address,
+      authStatus: values.authStatus,
+    });
     emit('onClose');
   })();
 };
