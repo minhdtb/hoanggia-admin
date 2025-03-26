@@ -148,6 +148,10 @@
     <v-icon icon="mdi-check-circle-outline"></v-icon>
     Tạo giao dịch nạp tiền thành công
   </v-snackbar>
+  <v-snackbar v-model="success" color="green" multi-line>
+    <v-icon icon="mdi-check-circle-outline"></v-icon>
+    Cập nhật thành công
+  </v-snackbar>
 </template>
 <script setup lang="ts">
 import * as yup from 'yup';
@@ -164,7 +168,7 @@ const props = defineProps<{
 }>();
 
 const driverStore = useDriverStore();
-const { current } = storeToRefs(driverStore);
+const { current, success } = storeToRefs(driverStore);
 const transactionStore = useTransactionStore();
 const { createTransactionSuccess } = storeToRefs(transactionStore);
 
